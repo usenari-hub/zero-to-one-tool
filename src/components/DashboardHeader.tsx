@@ -142,7 +142,7 @@ export const DashboardHeader = ({
             <div className="stat-card">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-[hsl(var(--muted-foreground))]">Referral Chains</p>
+                  <p className="text-sm text-[hsl(var(--muted-foreground))]">Active Chains</p>
                   <p className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
                     {stats.referralChains}
                   </p>

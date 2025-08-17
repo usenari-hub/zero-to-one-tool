@@ -1153,7 +1153,8 @@ const Account = () => {
     totalReferrals: 0,
     activeChains: 0,
     conversionRate: 0,
-    avgDegree: 0
+    avgDegree: 0,
+    shareLinksCount: 0
   });
   const [user, setUser] = useState<any>(null);
 
@@ -1177,20 +1178,27 @@ const Account = () => {
           setBalance(0); // No transactions = $0 balance
         }
 
-        // Fetch real referral stats
+        // Fetch real referral stats and share links
         const { data: referralData } = await supabase
           .from('referrals')
           .select('*')
           .eq('referrer_id', user.id);
+
+        // Fetch share links count
+        const { data: shareLinksData } = await supabase
+          .from('share_links')
+          .select('id')
+          .eq('user_id', user.id);
 
         if (referralData) {
           const avgDegree = referralData.length > 0 ? referralData.reduce((sum, r) => sum + (r.degree || 0), 0) / referralData.length : 0;
 
           setStats({
             totalReferrals: referralData.length,
-            activeChains: 0, // Set to 0 since referral_chains table has wrong column structure
+            activeChains: 0, // Will be used in header now
             conversionRate: 0, // Can be calculated when we have conversion data
-            avgDegree: Math.round(avgDegree * 10) / 10 // Round to 1 decimal
+            avgDegree: Math.round(avgDegree * 10) / 10, // Round to 1 decimal
+            shareLinksCount: shareLinksData?.length || 0
           });
         }
       }
@@ -1210,8 +1218,8 @@ const Account = () => {
               stats={{
                 totalEarnings: balance,
                 activeListings: listings.length,
-                referralChains: stats.totalReferrals,
-                recentActivity: stats.activeChains
+                referralChains: stats.activeChains, // Active chains for header
+                recentActivity: stats.totalReferrals // Recent activity
               }}
             />
             
@@ -1242,9 +1250,9 @@ const Account = () => {
                   </div>
                   
                   <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">⛓️</div>
-                    <div className="text-2xl font-bold">{stats.activeChains}</div>
-                    <div className="text-sm text-muted-foreground">Active Chains</div>
+                    <div className="text-2xl mb-2">🔗</div>
+                    <div className="text-2xl font-bold">{stats.shareLinksCount}</div>
+                    <div className="text-sm text-muted-foreground">Share Links</div>
                   </div>
                   
                   <div className="text-center p-4 border rounded-lg">
