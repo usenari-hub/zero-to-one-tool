@@ -1348,7 +1348,6 @@ const Account = () => {
               </h1>
               <nav className="flex items-center space-x-6 text-sm font-medium">
                 <a href="/listings" className="text-muted-foreground hover:text-foreground">Browse</a>
-                <a href="/sharing-demo" className="text-muted-foreground hover:text-foreground">Share Tools</a>
                 <a href="/" className="text-muted-foreground hover:text-foreground">Home</a>
               </nav>
             </div>
