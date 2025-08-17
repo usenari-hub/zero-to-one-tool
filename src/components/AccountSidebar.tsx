@@ -17,30 +17,6 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
           label: "Dashboard",
           icon: BarChart3,
           description: "Overview of your account"
-        },
-        {
-          id: "listings",
-          label: "My Listings",
-          icon: FileText,
-          description: "Manage your items"
-        }
-      ]
-    },
-    {
-      title: "Sharing & Earning",
-      items: [
-        {
-          id: "share-links",
-          label: "Share Links",
-          icon: Link2,
-          description: "Create and track share links",
-          badge: "New"
-        },
-        {
-          id: "referral-dashboard",
-          label: "Referral Chains",
-          icon: TrendingUp,
-          description: "Track your referral network"
         }
       ]
     },
@@ -116,11 +92,6 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
                       <div className="flex-1 text-left">
                         <div className="flex items-center justify-between">
                           <span className="font-medium">{item.label}</span>
-                          {item.badge && (
-                            <span className="px-2 py-1 text-xs bg-orange-100 text-orange-600 rounded-full">
-                              {item.badge}
-                            </span>
-                          )}
                         </div>
                         <div className="text-xs opacity-70 mt-1">{item.description}</div>
                       </div>

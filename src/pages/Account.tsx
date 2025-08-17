@@ -1148,29 +1148,85 @@ const Account = () => {
     return map;
   }, [referrals]);
 
-  const renderTabContent = () => {
-    const dashboardStats = {
-      totalEarnings: 2450,
-      activeListings: listings.length,
-      referralChains: Object.keys(statsByListing).length,
-      recentActivity: 5
-    };
+  const [balance, setBalance] = useState(0);
+  const [stats, setStats] = useState({
+    totalReferrals: 0,
+    activeChains: 0,
+    conversionRate: 0,
+    avgDegree: 0
+  });
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    const fetchUserAndBalance = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      
+      if (user) {
+        // Mock bacon balance for now
+        setBalance(247.50);
+      }
+    };
+    
+    fetchUserAndBalance();
+  }, []);
+
+  const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
         return (
-          <DashboardHeader 
-            userName="Professor Bacon"
-            userLevel="Senior"
-            stats={dashboardStats}
-          />
+          <div className="space-y-6">
+            <DashboardHeader />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Bacon Balance</CardTitle>
+                  <span className="text-2xl">🥓</span>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${balance.toFixed(2)}</div>
+                  <p className="text-xs text-muted-foreground">Available for withdrawal</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Listings</CardTitle>
+                  <span className="text-2xl">📝</span>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{listings.length}</div>
+                  <p className="text-xs text-muted-foreground">Currently listed</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Referrals Made</CardTitle>
+                  <span className="text-2xl">🔗</span>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.totalReferrals}</div>
+                  <p className="text-xs text-muted-foreground">Total connections</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* My Listings Section */}
+            <ListingsSection
+              userId={user?.id || null}
+              listings={listings}
+              setListings={setListings}
+              statsByListing={statsByListing}
+              loading={loading}
+            />
+
+            {/* Referral Dashboard Section */}
+            <ReferralDashboard />
+          </div>
         );
       case "bacon-bank":
         return <BaconBank />;
-      case "referral-dashboard":
-        return <ReferralDashboard />;
-      case "share-links":
-        return <ShareLinksSection userId={userId} />;
       case "payment-methods":
         return <PaymentMethods />;
       case "payment-history":
@@ -1179,16 +1235,6 @@ const Account = () => {
         return <SecurityDashboard />;
       case "verification":
         return <VerificationSection />;
-      case "listings":
-        return (
-          <EnhancedListingsSection
-            userId={userId}
-            listings={listings}
-            setListings={setListings}
-            statsByListing={statsByListing}
-            loading={loading}
-          />
-        );
       default:
         return <div>Select a tab from the sidebar</div>;
     }
@@ -1227,7 +1273,7 @@ const Account = () => {
             </section>
 
             <section className="container py-8">
-              {renderTabContent()}
+              {renderContent()}
             </section>
           </main>
         </div>
