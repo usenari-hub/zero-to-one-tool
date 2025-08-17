@@ -12,6 +12,8 @@ import { SharedLayout } from "@/components/SharedLayout";
 import { ImageGallery } from "@/components/ImageGallery";
 import { CoursePageWithTracking } from "@/components/CoursePageWithTracking";
 import { ReferralChainBuilder } from "@/components/ReferralChainBuilder";
+import { ListingChatBoard } from "@/components/ListingChatBoard";
+import { DirectMessaging } from "@/components/DirectMessaging";
 
 function formatMoney(value?: number | null) {
   if (value == null || isNaN(value)) return "—";
@@ -34,6 +36,8 @@ export default function ListingDetailsPage() {
 
   const [listing, setListing] = useState<Listing | null>(null);
   const [similar, setSimilar] = useState<Listing[]>([]);
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const referralId = searchParams.get("rid");
   const degreeParam = Number(searchParams.get("d") || "1");
 
@@ -75,7 +79,28 @@ export default function ListingDetailsPage() {
 
   useEffect(() => {
     load();
+    checkCurrentUser();
   }, [load]);
+
+  const checkCurrentUser = async () => {
+    const { data: session } = await supabase.auth.getSession();
+    if (session.session?.user) {
+      setCurrentUserId(session.session.user.id);
+      
+      // Check if user has purchased this listing
+      if (id) {
+        const { data: purchase } = await supabase
+          .from('purchases')
+          .select('id')
+          .eq('listing_id', id)
+          .eq('buyer_id', session.session.user.id)
+          .eq('status', 'completed')
+          .single();
+        
+        setHasPurchased(!!purchase);
+      }
+    }
+  };
 
   useEffect(() => {
     if (id) recordEvent(id, "view");
@@ -281,6 +306,25 @@ export default function ListingDetailsPage() {
                 ))}
               </div>
             </section>
+          )}
+
+          {/* Chat Board and Direct Messaging */}
+          {listing && (
+            <div className="mt-8 space-y-6">
+              <ListingChatBoard 
+                listingId={listing.id}
+                isOwner={currentUserId === (listing as any).user_id}
+                hasPurchased={hasPurchased}
+              />
+              
+              {hasPurchased && (
+                <DirectMessaging
+                  listingId={listing.id}
+                  sellerId={(listing as any).user_id}
+                  hasPurchased={hasPurchased}
+                />
+              )}
+            </div>
           )}
 
           {/* Referral Chain Visualization */}
