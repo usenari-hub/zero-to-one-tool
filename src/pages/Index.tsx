@@ -9,7 +9,7 @@ import heroIvy from "@/assets/hero-bacon-ivy.jpg";
 import { SharedLayout } from "@/components/SharedLayout";
 import { AcademicTimeline } from "@/components/AcademicTimeline";
 import { Footer } from "@/components/Footer";
-import { Clapperboard } from "lucide-react";
+import { Clapperboard, Heart } from "lucide-react";
 
 const MotionButton = motion(Button);
 
@@ -476,6 +476,42 @@ return (
                 Join Alumni Portal
               </MotionButton>
             </div>
+          </div>
+        </section>
+
+        {/* Charity Impact Fund Section */}
+        <section className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--brand-academic-dark))] text-white py-8 sm:py-12 md:py-16">
+          <div className="container">
+            <Card className="bg-white/10 backdrop-blur border-white/20">
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-display text-accent mb-2 flex items-center justify-center gap-2">
+                  <Heart className="w-5 h-5 text-red-400" />
+                  Charity Impact Fund
+                </h3>
+                <p className="text-white/90 text-sm mb-4 max-w-2xl mx-auto">
+                  Every time an item sells before all 6 referral degrees are filled, unclaimed funds automatically support student financial aid and educational initiatives.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-accent">$12,847</div>
+                    <div className="text-xs text-white/80">Total Donated</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-accent">3</div>
+                    <div className="text-xs text-white/80">Charity Partners</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-accent">156</div>
+                    <div className="text-xs text-white/80">Students Helped</div>
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+                  <span className="px-2 py-1 bg-white/20 rounded">Student Emergency Fund</span>
+                  <span className="px-2 py-1 bg-white/20 rounded">Textbook Assistance Program</span>
+                  <span className="px-2 py-1 bg-white/20 rounded">Digital Access Initiative</span>
+                </div>
+              </div>
+            </Card>
           </div>
         </section>
       </main>

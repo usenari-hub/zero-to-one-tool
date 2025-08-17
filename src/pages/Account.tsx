@@ -1375,7 +1375,6 @@ const Account = () => {
           </main>
         </div>
       </div>
-      <Footer />
     </SidebarProvider>
   );
 };
