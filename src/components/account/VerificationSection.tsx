@@ -103,7 +103,7 @@ export const VerificationSection = () => {
     <Card>
       <CardHeader>
         <CardTitle>Verification Levels</CardTitle>
-        <CardDescription>Higher trust unlocks hotter bacon. Verify your identity to increase your credibility.</CardDescription>
+        <CardDescription>Building trust throughout the University of Bacon network. Level 1 enables sharing listings, Level 2 unlocks purchases and bacon redemption, Level 3 maximizes earnings and grants access to premium features.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Current Verification Requests */}
