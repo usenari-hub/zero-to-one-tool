@@ -9,7 +9,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      // A frosted glass card: use a more generous radius, translucent background and
+      // subtle blur with a deeper shadow. The opacity on bg-card lets the
+      // underlying gradients show through for a modern, fresh feel.
+      "rounded-xl border bg-card/70 backdrop-blur-md text-card-foreground shadow-lg",
       className
     )}
     {...props}
