@@ -1163,14 +1163,36 @@ const Account = () => {
       setUser(user);
       
       if (user) {
-        // Set mock data for now - can be connected to real database later
-        setBalance(247.50);
-        setStats({
-          totalReferrals: 12,
-          activeChains: 3,
-          conversionRate: 75,
-          avgDegree: 2.4
-        });
+        // Fetch real bacon balance from bacon_transactions
+        const { data: transactionData } = await supabase
+          .from('bacon_transactions')
+          .select('running_balance')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1);
+        
+        if (transactionData && transactionData.length > 0) {
+          setBalance(transactionData[0].running_balance || 0);
+        } else {
+          setBalance(0); // No transactions = $0 balance
+        }
+
+        // Fetch real referral stats
+        const { data: referralData } = await supabase
+          .from('referrals')
+          .select('*')
+          .eq('referrer_id', user.id);
+
+        if (referralData) {
+          const avgDegree = referralData.length > 0 ? referralData.reduce((sum, r) => sum + (r.degree || 0), 0) / referralData.length : 0;
+
+          setStats({
+            totalReferrals: referralData.length,
+            activeChains: 0, // Set to 0 since referral_chains table has wrong column structure
+            conversionRate: 0, // Can be calculated when we have conversion data
+            avgDegree: Math.round(avgDegree * 10) / 10 // Round to 1 decimal
+          });
+        }
       }
     };
     
@@ -1182,7 +1204,16 @@ const Account = () => {
       case "dashboard":
         return (
           <div className="space-y-6">
-            <DashboardHeader />
+            <DashboardHeader 
+              userName={user?.email?.split('@')[0] || "Student"}
+              userLevel="Freshman"
+              stats={{
+                totalEarnings: balance,
+                activeListings: listings.length,
+                referralChains: stats.totalReferrals,
+                recentActivity: stats.activeChains
+              }}
+            />
             
             {/* Comprehensive Stats Section */}
             <Card>
