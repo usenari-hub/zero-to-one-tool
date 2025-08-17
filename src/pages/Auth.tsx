@@ -1,0 +1,232 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/components/AuthProvider";
+import { SharedLayout } from "@/components/SharedLayout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+
+export default function Auth() {
+  const { user, signIn, signUp } = useAuth();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Login form state
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // Signup form state
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    // Redirect authenticated users to home
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    document.title = "Sign In | University of Bacon";
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginEmail || !loginPassword) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await signIn(loginEmail, loginPassword);
+      
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          toast.error("Invalid email or password. Please check your credentials and try again.");
+        } else if (error.message.includes('Email not confirmed')) {
+          toast.error("Please check your email and click the verification link before logging in.");
+        } else {
+          toast.error(`Login failed: ${error.message}`);
+        }
+      } else {
+        toast.success("Welcome back!");
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!signupEmail || !signupPassword || !confirmPassword) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (signupPassword !== confirmPassword) {
+      toast.error("Passwords don't match");
+      return;
+    }
+
+    if (signupPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await signUp(signupEmail, signupPassword);
+      
+      if (error) {
+        if (error.message.includes('already registered')) {
+          toast.error("An account with this email already exists. Please try logging in instead.");
+        } else {
+          toast.error(`Signup failed: ${error.message}`);
+        }
+      } else {
+        toast.success("Account created! Please check your email to verify your account before logging in.");
+        // Switch to login tab
+        setLoginEmail(signupEmail);
+        setSignupEmail("");
+        setSignupPassword("");
+        setConfirmPassword("");
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error('Signup error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (user) {
+    return null; // Will redirect
+  }
+
+  return (
+    <SharedLayout showSidebar={false}>
+      <main className="container max-w-md mx-auto py-16">
+        <div className="text-center mb-8">
+          <h1 className="font-display text-3xl text-[hsl(var(--brand-academic))] mb-4">
+            University of Bacon
+          </h1>
+          <p className="text-muted-foreground">
+            Access your student account or create a new one
+          </p>
+        </div>
+
+        <Card className="shadow-elegant">
+          <CardHeader>
+            <CardTitle className="text-center text-[hsl(var(--brand-academic))]">
+              Student Portal
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="login" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">Sign In</TabsTrigger>
+                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="login" className="space-y-4">
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <Label htmlFor="loginEmail">Email</Label>
+                    <Input
+                      id="loginEmail"
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="loginPassword">Password</Label>
+                    <Input
+                      id="loginPassword"
+                      type="password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      required
+                    />
+                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Signing In..." : "Sign In"}
+                  </Button>
+                </form>
+              </TabsContent>
+              
+              <TabsContent value="signup" className="space-y-4">
+                <form onSubmit={handleSignup} className="space-y-4">
+                  <div>
+                    <Label htmlFor="signupEmail">Email</Label>
+                    <Input
+                      id="signupEmail"
+                      type="email"
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="signupPassword">Password</Label>
+                    <Input
+                      id="signupPassword"
+                      type="password"
+                      value={signupPassword}
+                      onChange={(e) => setSignupPassword(e.target.value)}
+                      placeholder="Create a password (min 6 characters)"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm your password"
+                      required
+                    />
+                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Creating Account..." : "Create Account"}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+            
+            <div className="mt-6 text-center">
+              <p className="text-sm text-muted-foreground">
+                Want the full registration experience?{" "}
+                <a href="/admissions" className="text-[hsl(var(--brand-academic))] hover:underline">
+                  Visit Admissions
+                </a>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </SharedLayout>
+  );
+}

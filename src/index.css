@@ -8,98 +8,415 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand Palette - all HSL values */
+    /* Updated brand palette for a fresh look. We chose a lighter cream base, a rich
+       espresso foreground and warmer bacon‑inspired hues. The primary colour
+       remains bacon orange but is slightly brighter. The accent leans into
+       golden honey to add vibrancy.  The academic brand blue was shifted to
+       a more saturated navy to harmonise with the warmer palette.  All
+       colours remain HSL so they can be manipulated consistently via Tailwind. */
+    --background: 50 100% 96%; /* Light cream */
+    --foreground: 24 60% 20%;  /* Espresso brown */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 50 100% 98%;
+    --card-foreground: 24 60% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 50 100% 98%;
+    --popover-foreground: 24 60% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 17 100% 60%; /* Vibrant bacon orange */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 200 15% 95%; /* Whisper grey */
+    --secondary-foreground: 24 60% 20%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 200 15% 92%;
+    --muted-foreground: 200 15% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 35 100% 55%; /* Honey gold */
+    --accent-foreground: 24 60% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 85% 35%; /* Rich red */
+    --destructive-foreground: 50 100% 96%;
+    
+    --success: 142 70% 40%; /* Trust green */
+    --success-foreground: 50 100% 96%;
+    
+    --warning: 38 92% 50%; /* Warning orange */
+    --warning-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 24 20% 80%;
+    --input: 24 20% 80%;
+    --ring: 17 100% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Brand extensions */
+    --brand-academic: 210 70% 40%; /* Deep navy for academic sections */
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Sidebar */
+    --sidebar-background: 50 100% 97%;
+    --sidebar-foreground: 24 60% 20%;
+    --sidebar-primary: 17 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 200 15% 93%;
+    --sidebar-accent-foreground: 24 60% 20%;
+    --sidebar-border: 24 20% 80%;
+    --sidebar-ring: 17 100% 60%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Design tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted) / 0.3));
+    --gradient-elegant: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --shadow-elegant: 0 15px 35px -10px hsl(var(--primary) / 0.4);
+    --shadow-glow: 0 0 45px hsl(var(--accent) / 0.4);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Additional gradients and effects for extra flair */
+    --gradient-neon: linear-gradient(130deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 50%, hsl(var(--success)) 100%);
+    --glow-color: hsla(var(--accent) / 0.4);
+    --glow-animation-duration: 6s;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode variant tuned to complement the new palette. The base shifts
+       towards espresso and navy tones while retaining high contrast text.
+       Primary and accent colours are reused for consistency. */
+    --background: 24 60% 10%;
+    --foreground: 50 100% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 24 60% 12%;
+    --card-foreground: 50 100% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 24 60% 12%;
+    --popover-foreground: 50 100% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 17 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 15% 18%;
+    --secondary-foreground: 50 100% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 210 15% 18%;
+    --muted-foreground: 210 15% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 35 100% 55%;
+    --accent-foreground: 24 60% 20%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 85% 35%;
+    --destructive-foreground: 50 100% 96%;
+    
+    --success: 142 70% 40%;
+    --success-foreground: 50 100% 96%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 24 20% 25%;
+    --input: 24 20% 25%;
+    --ring: 17 100% 60%;
+
+    --sidebar-background: 24 60% 8%;
+    --sidebar-foreground: 50 100% 96%;
+    --sidebar-primary: 17 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 210 15% 18%;
+    --sidebar-accent-foreground: 50 100% 96%;
+    --sidebar-border: 24 20% 25%;
+    --sidebar-ring: 17 100% 60%;
   }
 }
+
 
 @layer base {
   * {
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
   }
 }
+
+@layer utilities {
+  .story-link {
+    position: relative;
+    display: inline-block;
+  }
+  .story-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 300ms var(--transition-smooth);
+  }
+  .story-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  .hover-scale {
+    transition: transform 200ms ease;
+  }
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  /* Neon glow effect for call‑to‑actions and highlights */
+  .neon-glow {
+    position: relative;
+    z-index: 0;
+  }
+  .neon-glow::before {
+    content: "";
+    position: absolute;
+    inset: -0.15rem;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--gradient-neon);
+    filter: blur(20px);
+    opacity: 0.5;
+    animation: neon-pulse var(--glow-animation-duration) ease-in-out infinite;
+  }
+
+  @keyframes neon-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  /* Recolor raster logos to brand bacon orange using CSS filters */
+  .logo-bacon {
+    filter: sepia(1) saturate(700%) hue-rotate(-10deg) brightness(0.98) contrast(1.05);
+  }
+
+  /* Hero section background with academic aura */
+  .campus-hero {
+    min-height: 70vh;
+    /* Upgraded hero with a vivid neon gradient that shifts as you scroll. */
+    background: var(--gradient-neon);
+    position: relative;
+  }
+  .campus-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Add additional floating orbs for depth */
+    background-image:
+      radial-gradient(circle at 20% 80%, hsl(var(--accent) / 0.25) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, hsl(var(--primary) / 0.3) 0%, transparent 60%),
+      radial-gradient(circle at 40% 40%, hsl(var(--brand-academic) / 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 60% 60%, hsl(var(--success) / 0.2) 0%, transparent 60%);
+    animation: academic-float 12s ease-in-out infinite;
+  }
+
+  @keyframes academic-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(-15px) rotate(-1deg); }
+  }
+
+  @keyframes graduation-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(5deg); }
+  }
+
+  /* Gold embossed text utility */
+  .text-gold-emboss {
+    background-image: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.9), hsl(var(--foreground) / 0.2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 1px 0 hsl(var(--accent) / 0.8), 0 2px 6px hsl(var(--accent) / 0.35);
+  }
+
+  /* Subtle lift on hover */
+  .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -10px hsl(var(--brand-academic) / 0.25); }
+  .lift { transition: var(--transition-smooth); }
+
+  /* Dashboard Components */
+  .dashboard-header {
+    @apply mb-6;
+  }
+
+  .stat-card {
+    @apply p-4 rounded-lg bg-background border hover:shadow-md transition-all duration-200;
+  }
+
+  .security-item {
+    @apply transition-all duration-200;
+  }
+
+  .privacy-item {
+    @apply py-4 border-b border-border last:border-b-0;
+  }
+
+  .activity-item {
+    @apply transition-all duration-200;
+  }
+
+  /* Responsive Design Breakpoints */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      @apply px-4;
+    }
+    
+    .stat-card {
+      @apply p-3;
+    }
+    
+    .security-item {
+      @apply flex-col items-start gap-3 p-3;
+    }
+    
+    .privacy-item {
+      @apply flex-col items-start gap-3;
+    }
+    
+    .activity-item {
+      @apply flex-col items-start gap-2 p-2;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .dashboard-header .grid {
+      @apply grid-cols-2;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .dashboard-header .grid {
+      @apply grid-cols-4;
+    }
+  }
+}
+
+/* Mobile-first responsive design utilities */
+.container {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Mobile navigation improvements */
+.mobile-nav-item {
+  @apply block px-4 py-2 text-sm text-background hover:bg-white/10 rounded-md transition-colors;
+}
+
+/* Mobile-optimized cards */
+.mobile-card {
+  @apply p-3 sm:p-4 lg:p-6;
+}
+
+.mobile-button {
+  @apply px-3 py-2 text-sm sm:px-4 sm:py-2.5 sm:text-base;
+}
+
+/* Touch-friendly interactive elements */
+.touch-target {
+  @apply min-h-[44px] min-w-[44px];
+}
+
+/* Mobile typography scale */
+.mobile-h1 {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+}
+
+.mobile-h2 {
+  @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+}
+
+.mobile-h3 {
+  @apply text-lg sm:text-xl md:text-2xl;
+}
+
+/* Mobile spacing utilities */
+.mobile-section-padding {
+  @apply py-8 sm:py-12 lg:py-16;
+}
+
+.mobile-element-spacing {
+  @apply space-y-4 sm:space-y-6 lg:space-y-8;
+}
+
+/* Mobile grid improvements */
+.mobile-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+}
+
+.mobile-grid-responsive {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+/* Mobile form improvements */
+.mobile-form-group {
+  @apply space-y-3 sm:space-y-4;
+}
+
+.mobile-input {
+  @apply text-base sm:text-sm; /* Prevent zoom on iOS */
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 768px) {
+  /* Mobile-specific adjustments */
+  .sidebar-content {
+    @apply text-sm;
+  }
+  
+  .hero-section {
+    @apply min-h-[50vh] py-8;
+  }
+  
+  .campus-hero {
+    @apply py-8 min-h-[40vh];
+  }
+  
+  .course-card {
+    @apply p-3;
+  }
+  
+  .listing-card {
+    @apply p-3;
+  }
+}
+
+/* iPhone and small screens */
+@media (max-width: 480px) {
+  .container {
+    @apply px-3;
+  }
+  
+  .mobile-grid {
+    @apply grid-cols-1 gap-3;
+  }
+  
+  .mobile-section-padding {
+    @apply py-6;
+  }
+  
+  .hero-buttons {
+    @apply flex-col w-full;
+  }
+  
+  .hero-buttons .button {
+    @apply w-full;
+  }
+}
+
+/* iPad and tablet improvements */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tablet-grid {
+    @apply grid-cols-2 gap-6;
+  }
+  
+  .sidebar-collapsed {
+    @apply w-16;
+  }
+}
+
