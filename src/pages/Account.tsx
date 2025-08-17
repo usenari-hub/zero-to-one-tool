@@ -1302,11 +1302,6 @@ const Account = () => {
                     <div className="text-sm text-muted-foreground">Avg Degree</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">💰</div>
-                    <div className="text-2xl font-bold">${stats.potentialEarnings.toFixed(2)}</div>
-                    <div className="text-sm text-muted-foreground">Potential Earnings</div>
-                  </div>
                 </div>
               </CardContent>
             </Card>
