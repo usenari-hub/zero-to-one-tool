@@ -480,35 +480,35 @@ return (
         </section>
 
         {/* Charity Impact Fund Section */}
-        <section className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--brand-academic-dark))] text-white py-8 sm:py-12 md:py-16">
+        <section className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--brand-academic-dark))] text-background py-8 sm:py-12 md:py-16">
           <div className="container">
-            <Card className="bg-white/10 backdrop-blur border-white/20">
+            <Card className="bg-white/95 backdrop-blur border-white/20">
               <div className="p-6 text-center">
-                <h3 className="text-xl font-display text-accent mb-2 flex items-center justify-center gap-2">
-                  <Heart className="w-5 h-5 text-red-400" />
+                <h3 className="text-xl font-display text-[hsl(var(--brand-academic))] mb-2 flex items-center justify-center gap-2">
+                  <Heart className="w-5 h-5 text-red-500" />
                   Charity Impact Fund
                 </h3>
-                <p className="text-white/90 text-sm mb-4 max-w-2xl mx-auto">
+                <p className="text-muted-foreground text-sm mb-4 max-w-2xl mx-auto">
                   Every time an item sells before all 6 referral degrees are filled, unclaimed funds automatically support student financial aid and educational initiatives.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-bold text-accent">$12,847</div>
-                    <div className="text-xs text-white/80">Total Donated</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">$12,847</div>
+                    <div className="text-xs text-muted-foreground">Total Donated</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-accent">3</div>
-                    <div className="text-xs text-white/80">Charity Partners</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">3</div>
+                    <div className="text-xs text-muted-foreground">Charity Partners</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-accent">156</div>
-                    <div className="text-xs text-white/80">Students Helped</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">156</div>
+                    <div className="text-xs text-muted-foreground">Students Helped</div>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
-                  <span className="px-2 py-1 bg-white/20 rounded">Student Emergency Fund</span>
-                  <span className="px-2 py-1 bg-white/20 rounded">Textbook Assistance Program</span>
-                  <span className="px-2 py-1 bg-white/20 rounded">Digital Access Initiative</span>
+                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Student Emergency Fund</span>
+                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Textbook Assistance Program</span>
+                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Digital Access Initiative</span>
                 </div>
               </div>
             </Card>
