@@ -211,49 +211,6 @@ export const ReferralDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Referral Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-primary" />
-              <span className="text-sm font-medium text-muted-foreground">Total Referrals</span>
-            </div>
-            <div className="text-3xl font-bold text-foreground mt-2">{referralStats.totalReferrals}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-2">
-              <Link className="h-5 w-5 text-accent" />
-              <span className="text-sm font-medium text-muted-foreground">Active Chains</span>
-            </div>
-            <div className="text-3xl font-bold text-foreground mt-2">{referralStats.activeChains}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5 text-secondary" />
-              <span className="text-sm font-medium text-muted-foreground">Conversion Rate</span>
-            </div>
-            <div className="text-3xl font-bold text-foreground mt-2">{referralStats.conversionRate}%</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-2">
-              <Share2 className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium text-muted-foreground">Avg Degree</span>
-            </div>
-            <div className="text-3xl font-bold text-foreground mt-2">{referralStats.avgDegree}</div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Referral Dashboard */}
       <Card>
         <CardHeader>
