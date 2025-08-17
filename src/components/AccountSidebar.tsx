@@ -15,8 +15,7 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
         {
           id: "dashboard",
           label: "Dashboard",
-          icon: BarChart3,
-          description: "Overview of your account"
+          icon: BarChart3
         }
       ]
     },
@@ -26,20 +25,17 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
         {
           id: "bacon-bank",
           label: "Bacon Bank",
-          icon: Wallet,
-          description: "Your earnings & withdrawals"
+          icon: Wallet
         },
         {
           id: "payment-methods",
           label: "Payment Methods",
-          icon: CreditCard,
-          description: "Manage payout methods"
+          icon: CreditCard
         },
         {
           id: "payment-history",
-          label: "Payment History",
-          icon: History,
-          description: "Transaction history"
+          label: "Transaction History",
+          icon: History
         }
       ]
     },
@@ -49,14 +45,12 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
         {
           id: "verification",
           label: "Verification",
-          icon: UserCheck,
-          description: "Verify your identity"
+          icon: UserCheck
         },
         {
           id: "security",
           label: "Security",
-          icon: Shield,
-          description: "Security & privacy settings"
+          icon: Shield
         }
       ]
     }
@@ -90,10 +84,7 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
                     >
                       <item.icon className="w-5 h-5 mr-3" />
                       <div className="flex-1 text-left">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium">{item.label}</span>
-                        </div>
-                        <div className="text-xs opacity-70 mt-1">{item.description}</div>
+                        <span className="font-medium">{item.label}</span>
                       </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

@@ -1158,17 +1158,23 @@ const Account = () => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const fetchUserAndBalance = async () => {
+    const fetchUserAndData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
       
       if (user) {
-        // Mock bacon balance for now
+        // Set mock data for now - can be connected to real database later
         setBalance(247.50);
+        setStats({
+          totalReferrals: 12,
+          activeChains: 3,
+          conversionRate: 75,
+          avgDegree: 2.4
+        });
       }
     };
     
-    fetchUserAndBalance();
+    fetchUserAndData();
   }, []);
 
   const renderContent = () => {
