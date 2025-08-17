@@ -1177,40 +1177,6 @@ const Account = () => {
         return (
           <div className="space-y-6">
             <DashboardHeader />
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Bacon Balance</CardTitle>
-                  <span className="text-2xl">🥓</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">${balance.toFixed(2)}</div>
-                  <p className="text-xs text-muted-foreground">Available for withdrawal</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Active Listings</CardTitle>
-                  <span className="text-2xl">📝</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{listings.length}</div>
-                  <p className="text-xs text-muted-foreground">Currently listed</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Referrals Made</CardTitle>
-                  <span className="text-2xl">🔗</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalReferrals}</div>
-                  <p className="text-xs text-muted-foreground">Total connections</p>
-                </CardContent>
-              </Card>
-            </div>
 
             {/* My Listings Section */}
             <ListingsSection
