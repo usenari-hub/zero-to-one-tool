@@ -1154,7 +1154,8 @@ const Account = () => {
     activeChains: 0,
     conversionRate: 0,
     avgDegree: 0,
-    shareLinksCount: 0
+    shareLinksCount: 0,
+    potentialEarnings: 0
   });
   const [user, setUser] = useState<any>(null);
 
@@ -1190,6 +1191,39 @@ const Account = () => {
           .select('id')
           .eq('user_id', user.id);
 
+        // Calculate potential earnings from active referrals
+        let potentialEarnings = 0;
+        if (referralData) {
+          // Get listings with reward percentages for referrals
+          const listingIds = [...new Set(referralData.map(r => r.listing_id))];
+          const { data: listingsWithRewards } = await supabase
+            .from('listings')
+            .select('id, asking_price, reward_percentage')
+            .in('id', listingIds);
+
+          if (listingsWithRewards) {
+            // Calculate earnings based on degree percentages from share-tracking function
+            const degreePercentages: { [key: number]: number } = {
+              1: 50,  // 50% for 1st degree
+              2: 25,  // 25% for 2nd degree  
+              3: 10,  // 10% for 3rd degree
+              4: 7.5, // 7.5% for 4th degree
+              5: 5,   // 5% for 5th degree
+              6: 2.5  // 2.5% for 6th degree
+            };
+
+            referralData.forEach(referral => {
+              const listing = listingsWithRewards.find(l => l.id === referral.listing_id);
+              if (listing && listing.asking_price && listing.reward_percentage) {
+                const totalReward = listing.asking_price * (listing.reward_percentage / 100);
+                const degreePercentage = degreePercentages[referral.degree] || 0;
+                const userEarning = totalReward * (degreePercentage / 100);
+                potentialEarnings += userEarning;
+              }
+            });
+          }
+        }
+
         if (referralData) {
           const avgDegree = referralData.length > 0 ? referralData.reduce((sum, r) => sum + (r.degree || 0), 0) / referralData.length : 0;
 
@@ -1198,7 +1232,8 @@ const Account = () => {
             activeChains: 0, // Will be used in header now
             conversionRate: 0, // Can be calculated when we have conversion data
             avgDegree: Math.round(avgDegree * 10) / 10, // Round to 1 decimal
-            shareLinksCount: shareLinksData?.length || 0
+            shareLinksCount: shareLinksData?.length || 0,
+            potentialEarnings: Math.round(potentialEarnings * 100) / 100 // Round to 2 decimals
           });
         }
       }
@@ -1265,6 +1300,12 @@ const Account = () => {
                     <div className="text-2xl mb-2">🎯</div>
                     <div className="text-2xl font-bold">{stats.avgDegree.toFixed(1)}</div>
                     <div className="text-sm text-muted-foreground">Avg Degree</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">💰</div>
+                    <div className="text-2xl font-bold">${stats.potentialEarnings.toFixed(2)}</div>
+                    <div className="text-sm text-muted-foreground">Potential Earnings</div>
                   </div>
                 </div>
               </CardContent>

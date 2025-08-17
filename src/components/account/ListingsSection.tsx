@@ -161,6 +161,18 @@ export const ListingsSection = ({
           </Table>
         )}
       </CardContent>
+      
+      {/* Total Section */}
+      {userId && listings.length > 0 && (
+        <div className="border-t p-4 bg-muted/30">
+          <div className="flex justify-between items-center font-semibold">
+            <span>Total Value of All Listings:</span>
+            <span className="text-lg text-[hsl(var(--brand-academic))]">
+              ${listings.reduce((total, listing) => total + (listing.asking_price || 0), 0).toFixed(0)}
+            </span>
+          </div>
+        </div>
+      )}
     </Card>
     </div>
   );
