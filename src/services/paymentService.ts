@@ -1,5 +1,11 @@
 import { supabase } from '@/integrations/supabase/client'
 
+// PayPal configuration
+export const PAYPAL_CONFIG = {
+  CLIENT_ID: 'AcJGjyyeMjPeo8OO9xGmKPzTWgDx-m-1x_mkH5v8PGoevBHMeUtjytXVh93IPELR_9mUwvY0IwB07qKj',
+  SANDBOX: true // Set to false for production
+}
+
 export interface PaymentMethod {
   id: string
   type: 'stripe_card' | 'paypal' | 'venmo' | 'bank_account'
