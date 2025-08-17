@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { BarChart3, CreditCard, FileText, History, Link2, Settings, Shield, UserCheck, Wallet, Share2, TrendingUp } from 'lucide-react';
+import { BarChart3, CreditCard, FileText, History, Link2, Settings, Shield, UserCheck, Wallet, Share2, TrendingUp, ShoppingBag } from 'lucide-react';
 
 interface AccountSidebarProps {
   activeTab: string;
@@ -93,6 +94,14 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        
+        {/* Quick Links at the bottom */}
+        <div className="mt-auto pt-4 border-t">
+          <Link to="/listings" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition-all">
+            <ShoppingBag className="w-5 h-5" />
+            <span className="font-medium">Browse Listings</span>
+          </Link>
+        </div>
       </SidebarContent>
     </Sidebar>
   );
