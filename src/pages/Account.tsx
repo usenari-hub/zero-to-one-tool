@@ -11,7 +11,7 @@ import { VerificationSection } from "@/components/account/VerificationSection";
 import { ListingsSection } from "@/components/account/ListingsSection";
 import { PaymentHistorySection } from "@/components/account/PaymentHistorySection";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
@@ -1176,40 +1176,54 @@ const Account = () => {
       case "dashboard":
         return (
           <div className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Bacon Balance</CardTitle>
-                  <span className="text-2xl">🥓</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">${balance.toFixed(2)}</div>
-                  <p className="text-xs text-muted-foreground">Available for withdrawal</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Active Listings</CardTitle>
-                  <span className="text-2xl">📝</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{listings.length}</div>
-                  <p className="text-xs text-muted-foreground">Currently listed</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Referrals Made</CardTitle>
-                  <span className="text-2xl">🔗</span>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalReferrals}</div>
-                  <p className="text-xs text-muted-foreground">Total connections</p>
-                </CardContent>
-              </Card>
-            </div>
+            <DashboardHeader />
+            
+            {/* Comprehensive Stats Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Account Overview</CardTitle>
+                <CardDescription>Your earnings, listings, and referral performance</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">🥓</div>
+                    <div className="text-2xl font-bold">${balance.toFixed(2)}</div>
+                    <div className="text-sm text-muted-foreground">Bacon Balance</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">📝</div>
+                    <div className="text-2xl font-bold">{listings.length}</div>
+                    <div className="text-sm text-muted-foreground">Active Listings</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">🔗</div>
+                    <div className="text-2xl font-bold">{stats.totalReferrals}</div>
+                    <div className="text-sm text-muted-foreground">Total Referrals</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">⛓️</div>
+                    <div className="text-2xl font-bold">{stats.activeChains}</div>
+                    <div className="text-sm text-muted-foreground">Active Chains</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">📈</div>
+                    <div className="text-2xl font-bold">{stats.conversionRate}%</div>
+                    <div className="text-sm text-muted-foreground">Conversion Rate</div>
+                  </div>
+                  
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl mb-2">🎯</div>
+                    <div className="text-2xl font-bold">{stats.avgDegree.toFixed(1)}</div>
+                    <div className="text-sm text-muted-foreground">Avg Degree</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* My Listings Section */}
             <ListingsSection
