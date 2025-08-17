@@ -56,9 +56,26 @@ export const DirectMessaging = ({ listingId, sellerId, hasPurchased }: DirectMes
     if (!currentUserId) return;
 
     try {
-      // Placeholder implementation - will work once database tables are created
-      // For now, show empty state
-      setMessages([]);
+      const { data, error } = await (supabase as any)
+        .from('direct_messages')
+        .select(`
+          id,
+          listing_id,
+          sender_id,
+          recipient_id,
+          content,
+          created_at,
+          sender_profile:profiles!sender_id (
+            display_name,
+            avatar_url
+          )
+        `)
+        .eq('listing_id', listingId)
+        .or(`sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}`)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      setMessages(data || []);
     } catch (error) {
       console.error('Error fetching direct messages:', error);
     }
@@ -69,13 +86,16 @@ export const DirectMessaging = ({ listingId, sellerId, hasPurchased }: DirectMes
 
     setLoading(true);
     try {
-      // Placeholder implementation - will work once database tables are created
-      console.log('Would send direct message:', {
-        listing_id: listingId,
-        sender_id: currentUserId,
-        recipient_id: sellerId,
-        content: newMessage
-      });
+      const { error } = await (supabase as any)
+        .from('direct_messages')
+        .insert({
+          listing_id: listingId,
+          sender_id: currentUserId,
+          recipient_id: sellerId,
+          content: newMessage
+        });
+
+      if (error) throw error;
 
       toast({
         title: "Message Sent",

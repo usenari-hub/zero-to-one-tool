@@ -82,9 +82,45 @@ export const ListingChatBoard = ({ listingId, isOwner, hasPurchased }: ListingCh
 
   const fetchMessages = async () => {
     try {
-      // Placeholder implementation - will work once database tables are created
-      // For now, show empty state
-      setMessages([]);
+      const { data, error } = await (supabase as any)
+        .from('listing_chat_messages')
+        .select(`
+          id,
+          listing_id,
+          sender_id,
+          message_type,
+          content,
+          filtered_content,
+          status,
+          created_at,
+          sender_profile:profiles!sender_id (
+            display_name,
+            avatar_url,
+            verification_level
+          )
+        `)
+        .eq('listing_id', listingId)
+        .eq('status', 'approved')
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+
+      // Add is_seller flag to sender profiles
+      const { data: listing } = await supabase
+        .from('listings')
+        .select('user_id')
+        .eq('id', listingId)
+        .single();
+
+      const messagesWithSellerFlag = data?.map(msg => ({
+        ...msg,
+        sender_profile: {
+          ...msg.sender_profile,
+          is_seller: msg.sender_id === listing?.user_id
+        }
+      })) || [];
+
+      setMessages(messagesWithSellerFlag);
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -116,14 +152,20 @@ export const ListingChatBoard = ({ listingId, isOwner, hasPurchased }: ListingCh
 
     setLoading(true);
     try {
-      // Placeholder implementation - will work once database tables are created
-      console.log('Would send message:', {
-        listing_id: listingId,
-        sender_id: session.session.user.id,
-        message_type: isOwner ? 'answer' : 'question',
-        content: newMessage,
-        filtered_content: filtered
-      });
+      const messageType = isOwner ? 'answer' : 'question';
+      
+      const { error } = await (supabase as any)
+        .from('listing_chat_messages')
+        .insert({
+          listing_id: listingId,
+          sender_id: session.session.user.id,
+          message_type: messageType,
+          content: newMessage,
+          filtered_content: filtered,
+          status: hasViolations ? 'flagged' : 'pending'
+        });
+
+      if (error) throw error;
 
       if (hasViolations) {
         toast({

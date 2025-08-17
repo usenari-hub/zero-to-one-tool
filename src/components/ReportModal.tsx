@@ -72,8 +72,11 @@ export const ReportModal = ({ open, onOpenChange, messageId, reportedUserId, lis
         status: 'pending'
       };
 
-      // Placeholder implementation - will work once database tables are created
-      console.log('Would submit report:', reportData);
+      const { error } = await (supabase as any)
+        .from('user_reports')
+        .insert(reportData);
+
+      if (error) throw error;
 
       toast({
         title: "Report Submitted",
