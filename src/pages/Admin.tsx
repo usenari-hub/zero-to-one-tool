@@ -13,11 +13,13 @@ import {
   Shield, Palette, Image, Mail, Flag, DollarSign, Activity,
   Search, Filter, Download, Upload, Eye, Ban, Check, X,
   TrendingUp, MousePointerClick, Banknote, UserCheck,
-  Bell, Calendar, Globe, Lock, Zap, RefreshCw
+  Bell, Calendar, Globe, Lock, Zap, RefreshCw, MessageSquare,
+  Clock, Send, CheckCircle, Heart
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import adminService from '@/services/adminService';
+import { Footer } from '@/components/Footer';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -26,6 +28,7 @@ const AdminDashboard = () => {
   const [listings, setListings] = useState([]);
   const [shareLinks, setShareLinks] = useState([]);
   const [recentActions, setRecentActions] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentAdminId, setCurrentAdminId] = useState('');
   const { toast } = useToast();
@@ -38,6 +41,7 @@ const AdminDashboard = () => {
     loadListings();
     loadShareLinks();
     loadRecentActions();
+    loadMessages();
   }, []);
 
   const checkAdminAccess = async () => {
@@ -148,6 +152,37 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       console.error('Error loading recent actions:', error);
+    }
+  };
+
+  const loadMessages = async () => {
+    try {
+      // Mock data for now - would be replaced with actual admin service call
+      const mockMessages = [
+        {
+          id: '1',
+          sender_id: 'user-123',
+          message_type: 'help_desk',
+          subject: 'Account verification issue',
+          content: 'I need help with my account verification process.',
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        },
+        {
+          id: '2',
+          sender_id: 'user-456',
+          message_type: 'buyer_to_seller',
+          subject: 'Product inquiry',
+          content: 'Is this laptop still available?',
+          status: 'responded',
+          created_at: new Date().toISOString(),
+          response: 'Yes, it is still available!',
+          responded_at: new Date().toISOString(),
+        }
+      ];
+      setMessages(mockMessages);
+    } catch (error) {
+      console.error('Error loading messages:', error);
     }
   };
 
@@ -529,6 +564,237 @@ const AdminDashboard = () => {
     </div>
   );
 
+  // Messaging Management Component
+  const MessagingManagement = () => {
+    const [newResponse, setNewResponse] = useState('');
+    const [selectedMessage, setSelectedMessage] = useState(null);
+
+    const handleRespondToMessage = async (messageId: string, response: string) => {
+      try {
+        // This would call the actual messaging service
+        toast({
+          title: "Response sent",
+          description: "Your response has been sent to the user.",
+        });
+        setNewResponse('');
+        setSelectedMessage(null);
+        loadMessages(); // Refresh messages
+      } catch (error) {
+        console.error('Error responding to message:', error);
+        toast({
+          title: "Error",
+          description: "Failed to send response.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    const handleApproveMessage = async (messageId: string) => {
+      try {
+        // This would call the actual messaging service
+        toast({
+          title: "Message approved",
+          description: "The message has been approved.",
+        });
+        loadMessages(); // Refresh messages
+      } catch (error) {
+        console.error('Error approving message:', error);
+      }
+    };
+
+    const handleFlagMessage = async (messageId: string) => {
+      try {
+        // This would call the actual messaging service
+        toast({
+          title: "Message flagged",
+          description: "The message has been flagged for review.",
+        });
+        loadMessages(); // Refresh messages
+      } catch (error) {
+        console.error('Error flagging message:', error);
+      }
+    };
+
+    return (
+      <div className="space-y-6">
+        {/* Message Overview */}
+        <div className="grid grid-cols-4 gap-4">
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="text-2xl font-bold text-blue-600">{messages.filter(m => m.status === 'pending').length}</div>
+              <div className="text-sm text-muted-foreground">Pending Messages</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="text-2xl font-bold text-green-600">{messages.filter(m => m.status === 'responded').length}</div>
+              <div className="text-sm text-muted-foreground">Responded</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="text-2xl font-bold text-red-600">{messages.filter(m => m.status === 'flagged').length}</div>
+              <div className="text-sm text-muted-foreground">Flagged</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Heart className="w-5 h-5 text-red-400" />
+              </div>
+              <div className="text-2xl font-bold text-orange-600">$12,847</div>
+              <div className="text-sm text-muted-foreground">Charity Fund</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Messages Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <MessageSquare className="w-5 h-5" />
+              <span>Message Center Management</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-2">Type</th>
+                    <th className="text-left p-2">Subject</th>
+                    <th className="text-left p-2">Status</th>
+                    <th className="text-left p-2">Created</th>
+                    <th className="text-left p-2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {messages.map((message) => (
+                    <tr key={message.id} className="border-b hover:bg-muted/50">
+                      <td className="p-2">
+                        <Badge variant="outline">
+                          {message.message_type.replace(/_/g, ' ')}
+                        </Badge>
+                      </td>
+                      <td className="p-2">
+                        <div>
+                          <div className="font-medium">{message.subject}</div>
+                          <div className="text-sm text-muted-foreground line-clamp-1">
+                            {message.content}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <Badge variant={
+                          message.status === 'pending' ? 'secondary' :
+                          message.status === 'responded' ? 'default' :
+                          message.status === 'flagged' ? 'destructive' : 'outline'
+                        }>
+                          {message.status}
+                        </Badge>
+                      </td>
+                      <td className="p-2">
+                        <span className="text-sm">{new Date(message.created_at).toLocaleDateString()}</span>
+                      </td>
+                      <td className="p-2">
+                        <div className="flex space-x-2">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => setSelectedMessage(message)}
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          {message.status === 'pending' && (
+                            <>
+                              <Button 
+                                size="sm" 
+                                variant="default"
+                                onClick={() => handleApproveMessage(message.id)}
+                              >
+                                <Check className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="destructive"
+                                onClick={() => handleFlagMessage(message.id)}
+                              >
+                                <Flag className="w-4 h-4" />
+                              </Button>
+                            </>
+                          )}
+                          {message.message_type === 'help_desk' && (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => setSelectedMessage(message)}
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Message Details Modal */}
+        {selectedMessage && (
+          <Card className="border-l-4 border-l-blue-500">
+            <CardHeader>
+              <CardTitle>Message Details</CardTitle>
+              <div className="flex justify-between items-center">
+                <Badge variant="outline">{selectedMessage.message_type.replace(/_/g, ' ')}</Badge>
+                <Button variant="ghost" size="sm" onClick={() => setSelectedMessage(null)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <strong>Subject:</strong> {selectedMessage.subject}
+              </div>
+              <div>
+                <strong>Content:</strong>
+                <div className="mt-1 p-3 bg-muted rounded">{selectedMessage.content}</div>
+              </div>
+              {selectedMessage.response && (
+                <div>
+                  <strong>Response:</strong>
+                  <div className="mt-1 p-3 bg-green-50 border border-green-200 rounded">
+                    {selectedMessage.response}
+                  </div>
+                </div>
+              )}
+              {selectedMessage.message_type === 'help_desk' && !selectedMessage.response && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Send Response:</label>
+                  <Textarea
+                    value={newResponse}
+                    onChange={(e) => setNewResponse(e.target.value)}
+                    placeholder="Type your response here..."
+                    rows={4}
+                  />
+                  <Button 
+                    onClick={() => handleRespondToMessage(selectedMessage.id, newResponse)}
+                    disabled={!newResponse.trim()}
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Response
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6">
@@ -540,7 +806,7 @@ const AdminDashboard = () => {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="dashboard">
               <BarChart3 className="w-4 h-4 mr-2" />
               Dashboard
@@ -552,6 +818,10 @@ const AdminDashboard = () => {
             <TabsTrigger value="listings">
               <FileText className="w-4 h-4 mr-2" />
               Listings
+            </TabsTrigger>
+            <TabsTrigger value="messaging">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Messaging
             </TabsTrigger>
           </TabsList>
 
@@ -566,8 +836,13 @@ const AdminDashboard = () => {
           <TabsContent value="listings">
             <ListingsManagement />
           </TabsContent>
+
+          <TabsContent value="messaging">
+            <MessagingManagement />
+          </TabsContent>
         </Tabs>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import { ListingCard, type Listing } from "@/components/ListingCard";
 import { SharedLayout } from "@/components/SharedLayout";
+import { Footer } from "@/components/Footer";
 import { CreateListingModal } from "@/components/CreateListingModal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -316,6 +317,7 @@ export default function ListingsPage() {
           <Share2 className="h-3 w-3" /> Pro tip: Use the Share button to generate a personalized referral link. We track your chain anonymously.
         </footer>
       </main>
+      <Footer />
     </SharedLayout>
   );
 }

@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import heroIvy from "@/assets/hero-bacon-ivy.jpg";
 import { SharedLayout } from "@/components/SharedLayout";
 import { AcademicTimeline } from "@/components/AcademicTimeline";
+import { Footer } from "@/components/Footer";
 import { Clapperboard } from "lucide-react";
 
 const MotionButton = motion(Button);
@@ -479,22 +480,7 @@ return (
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t bg-foreground text-background">
-        <div className="container grid grid-cols-1 md:grid-cols-4 gap-6 py-10">
-          {footerLinks.map((sec) => (
-            <div key={sec.title} className="space-y-2">
-              <h4 className="font-display text-accent">{sec.title}</h4>
-              {sec.links.map((l) => (
-                <a key={l} href="#" className="block text-background/80 hover:text-background">{l}</a>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div className="border-t border-background/20 py-4 text-center text-sm opacity-80">
-          © {new Date().getFullYear()} University of Bacon. All rights reserved. 🎓 Accredited by the International Bacon Board of Education.
-        </div>
-      </footer>
+      <Footer />
 
       {/* Dean's List Badge - Mobile Optimized */}
       <button onClick={showDeansListInfo} className="fixed right-3 sm:right-6 top-1/2 z-50 grid h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 -translate-y-1/2 place-items-center rounded-full bg-accent text-[hsl(var(--brand-academic))] font-bold shadow-glow transition-transform hover:scale-110 touch-target" aria-label="Learn about Dean's List benefits">

@@ -11,6 +11,7 @@ import { VerificationSection } from "@/components/account/VerificationSection";
 import { ListingsSection } from "@/components/account/ListingsSection";
 import { PaymentHistorySection } from "@/components/account/PaymentHistorySection";
 import { MessageCenter } from "@/components/MessageCenter";
+import { Footer } from "@/components/Footer";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -1374,6 +1375,7 @@ const Account = () => {
           </main>
         </div>
       </div>
+      <Footer />
     </SidebarProvider>
   );
 };
