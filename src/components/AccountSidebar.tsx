@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { BarChart3, CreditCard, FileText, History, Link2, Settings, Shield, UserCheck, Wallet, Share2, TrendingUp, ShoppingBag } from 'lucide-react';
+import { BarChart3, CreditCard, FileText, History, Link2, Settings, Shield, UserCheck, Wallet, Share2, TrendingUp, ShoppingBag, MessageSquare } from 'lucide-react';
 
 interface AccountSidebarProps {
   activeTab: string;
@@ -47,6 +47,11 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
           id: "verification",
           label: "Verification",
           icon: UserCheck
+        },
+        {
+          id: "messages",
+          label: "Message Center",
+          icon: MessageSquare
         },
         {
           id: "security",

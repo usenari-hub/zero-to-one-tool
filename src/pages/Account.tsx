@@ -10,6 +10,7 @@ import { AccountSidebar } from "@/components/AccountSidebar";
 import { VerificationSection } from "@/components/account/VerificationSection";
 import { ListingsSection } from "@/components/account/ListingsSection";
 import { PaymentHistorySection } from "@/components/account/PaymentHistorySection";
+import { MessageCenter } from "@/components/MessageCenter";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -1327,6 +1328,8 @@ const Account = () => {
         return <PaymentHistorySection />;
       case "security":
         return <SecurityDashboard />;
+      case "messages":
+        return <MessageCenter userId={user?.id} />;
       case "verification":
         return <VerificationSection />;
       default:
@@ -1385,7 +1388,8 @@ const getTabTitle = (tab: string) => {
     "payment-history": "Payment History",
     security: "Security & Privacy",
     verification: "Account Verification",
-    listings: "My Listings"
+    listings: "My Listings",
+    messages: "Message Center"
   };
   return titles[tab] || "Account Dashboard";
 };
@@ -1400,7 +1404,8 @@ const getTabDescription = (tab: string) => {
     "payment-history": "View your bacon earning history.",
     security: "Secure your account and manage privacy.",
     verification: "Increase trust levels for better opportunities.",
-    listings: "Manage your active and past listings."
+    listings: "Manage your active and past listings.",
+    messages: "Secure communication with verified users and platform support."
   };
   return descriptions[tab] || "Manage your University of Bacon account.";
 };
