@@ -221,10 +221,10 @@ export default function ChainBuilding() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum/listing-mastery">← Previous: Listing Mastery</Link>
+            <Link to="/study-guides/listing-mastery">← Previous: Listing Mastery</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum/trust-reputation">Next: Trust & Reputation →</Link>
+            <Link to="/study-guides/trust-reputation">Next: Trust & Reputation →</Link>
           </Button>
         </div>
       </div>

@@ -216,10 +216,10 @@ export default function TrustReputation() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum/chain-building">← Previous: Chain Building</Link>
+            <Link to="/study-guides/chain-building">← Previous: Chain Building</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum/profit-maximization">Next: Profit Maximization →</Link>
+            <Link to="/study-guides/profit-maximization">Next: Profit Maximization →</Link>
           </Button>
         </div>
       </div>

@@ -22,7 +22,7 @@ const Index = () => {
   const defaultSidebarOpen = typeof window !== "undefined" ? (localStorage.getItem("sidebar:open") ?? "true") === "true" : true;
   const sections = [
     { id: "admissions", label: "Admissions" },
-    { id: "curriculum", label: "Curriculum" },
+    { id: "study-guides", label: "Study Guides" },
     { id: "departments", label: "Departments" },
     { id: "transcripts", label: "Transcripts" },
     { id: "alumni", label: "Alumni" },
@@ -321,10 +321,10 @@ return (
           </div>
         </section>
 
-        {/* Curriculum - Mobile Optimized */}
-        <section id="curriculum" className="scroll-reveal scroll-mt-24 bg-[hsl(var(--brand-academic))] text-background py-8 sm:py-12 md:py-16">
+        {/* Study Guides - Mobile Optimized */}
+        <section id="study-guides" className="scroll-reveal scroll-mt-24 bg-[hsl(var(--brand-academic))] text-background py-8 sm:py-12 md:py-16">
           <div className="container">
-            <h2 className="text-center font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl text-accent">Course Curriculum</h2>
+            <h2 className="text-center font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl text-accent">Study Guides</h2>
             <p className="text-center opacity-90 italic mt-2 text-sm sm:text-base">Real courses from our growing catalog</p>
             <div className="mt-6 sm:mt-8 lg:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {coursesLoading ? (

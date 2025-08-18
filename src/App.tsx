@@ -8,19 +8,19 @@ import { AuthProvider } from "@/components/AuthProvider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admissions from "./pages/Admissions";
-import Curriculum from "./pages/Curriculum";
+import StudyGuides from "./pages/StudyGuides";
 import Departments from "./pages/Departments";
 import Alumni from "./pages/Alumni";
 import Account from "./pages/Account";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import CommunityGuidelines from "./pages/CommunityGuidelines";
-import GettingStarted from "./pages/curriculum/GettingStarted";
-import ListingMastery from "./pages/curriculum/ListingMastery";
-import ChainBuilding from "./pages/curriculum/ChainBuilding";
-import TrustReputation from "./pages/curriculum/TrustReputation";
-import ProfitMaximization from "./pages/curriculum/ProfitMaximization";
-import DataDrivenSuccess from "./pages/curriculum/DataDrivenSuccess";
+import GettingStarted from "./pages/study-guides/GettingStarted";
+import ListingMastery from "./pages/study-guides/ListingMastery";
+import ChainBuilding from "./pages/study-guides/ChainBuilding";
+import TrustReputation from "./pages/study-guides/TrustReputation";
+import ProfitMaximization from "./pages/study-guides/ProfitMaximization";
+import DataDrivenSuccess from "./pages/study-guides/DataDrivenSuccess";
 import ListingsPage from "./pages/Listings";
 import PurchaseSuccess from "./pages/PurchaseSuccess";
 import PurchaseCanceled from "./pages/PurchaseCanceled";
@@ -43,13 +43,13 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admissions" element={<Admissions />} />
-        <Route path="/curriculum" element={<Curriculum />} />
-        <Route path="/curriculum/getting-started" element={<GettingStarted />} />
-        <Route path="/curriculum/listing-mastery" element={<ListingMastery />} />
-        <Route path="/curriculum/chain-building" element={<ChainBuilding />} />
-        <Route path="/curriculum/trust-reputation" element={<TrustReputation />} />
-        <Route path="/curriculum/profit-maximization" element={<ProfitMaximization />} />
-        <Route path="/curriculum/data-driven-success" element={<DataDrivenSuccess />} />
+        <Route path="/study-guides" element={<StudyGuides />} />
+        <Route path="/study-guides/getting-started" element={<GettingStarted />} />
+        <Route path="/study-guides/listing-mastery" element={<ListingMastery />} />
+        <Route path="/study-guides/chain-building" element={<ChainBuilding />} />
+        <Route path="/study-guides/trust-reputation" element={<TrustReputation />} />
+        <Route path="/study-guides/profit-maximization" element={<ProfitMaximization />} />
+        <Route path="/study-guides/data-driven-success" element={<DataDrivenSuccess />} />
             
             <Route path="/alumni" element={<Alumni />} />
             <Route path="/account" element={<Account />} />

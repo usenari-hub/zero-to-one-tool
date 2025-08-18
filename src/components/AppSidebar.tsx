@@ -19,18 +19,18 @@ import { useTopCourses } from "@/hooks/useTopCourses";
 const SECTIONS = [
   { id: "listings", label: "Listings", icon: List, path: "/listings" },
   { id: "admissions", label: "Admissions", icon: GraduationCap, path: undefined },
-  { id: "curriculum", label: "Curriculum", icon: BookOpen, path: undefined },
+  { id: "study-guides", label: "Study Guides", icon: BookOpen, path: "/study-guides" },
   { id: "transcripts", label: "Transcripts", icon: ScrollText, path: undefined },
   { id: "alumni", label: "Alumni", icon: Users, path: undefined },
 ] as const;
 
 const STUDY_GUIDES = [
-  { label: "Getting Started", path: "/curriculum/getting-started" },
-  { label: "Listing Mastery", path: "/curriculum/listing-mastery" },
-  { label: "Chain Building", path: "/curriculum/chain-building" },
-  { label: "Trust & Reputation", path: "/curriculum/trust-reputation" },
-  { label: "Profit Maximization", path: "/curriculum/profit-maximization" },
-  { label: "Data-Driven Success", path: "/curriculum/data-driven-success" },
+  { label: "Getting Started", path: "/study-guides/getting-started" },
+  { label: "Listing Mastery", path: "/study-guides/listing-mastery" },
+  { label: "Chain Building", path: "/study-guides/chain-building" },
+  { label: "Trust & Reputation", path: "/study-guides/trust-reputation" },
+  { label: "Profit Maximization", path: "/study-guides/profit-maximization" },
+  { label: "Data-Driven Success", path: "/study-guides/data-driven-success" },
 ];
 
 export function AppSidebar() {

@@ -58,7 +58,7 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
   const sections = [
     { id: "listings", label: "Listings", path: "/listings" },
     { id: "admissions", label: "Admissions", path: "/admissions" },
-    { id: "curriculum", label: "Curriculum", path: "/curriculum" },
+    { id: "study-guides", label: "Study Guides", path: "/study-guides" },
     { id: "alumni", label: "Alumni", path: "/alumni" },
   ];
 
@@ -153,7 +153,7 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
           `}>
             <ul className="flex flex-col md:flex-row gap-3 md:gap-6 font-semibold text-background">
               <li><Link className="mobile-nav-item md:story-link" to="/listings" onClick={() => setMobileOpen(false)}>Listings</Link></li>
-              <li><Link className="mobile-nav-item md:story-link" to="/curriculum" onClick={() => setMobileOpen(false)}>Curriculum</Link></li>
+              <li><Link className="mobile-nav-item md:story-link" to="/study-guides" onClick={() => setMobileOpen(false)}>Study Guides</Link></li>
               <li><Link className="mobile-nav-item md:story-link" to="/admissions" onClick={() => setMobileOpen(false)}>Admissions</Link></li>
               <li><Link className="mobile-nav-item md:story-link" to="/alumni" onClick={() => setMobileOpen(false)}>Alumni</Link></li>
               {user && <li><Link className="mobile-nav-item md:story-link" to="/account" onClick={() => setMobileOpen(false)}>Account</Link></li>}

@@ -5,11 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, TrendingUp, Shield, Users, DollarSign, Target, ArrowRight, Star, Clock, Award } from "lucide-react";
 
-const Curriculum = () => {
+const StudyGuides = () => {
   useEffect(() => {
-    document.title = "Curriculum | University of Bacon - Master the Art of Profitable Referrals";
+    document.title = "Study Guides | University of Bacon - Master the Art of Profitable Referrals";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Complete curriculum for maximizing profits through strategic referrals. Learn listing optimization, chain building, trust systems, and advanced profit strategies.");
+    if (meta) meta.setAttribute("content", "Complete study guides for maximizing profits through strategic referrals. Learn listing optimization, chain building, trust systems, and advanced profit strategies.");
   }, []);
 
   const guides = [
@@ -187,7 +187,7 @@ const Curriculum = () => {
               </Badge>
             </div>
             <h1 className="font-display text-4xl md:text-6xl text-accent mb-4">
-              University of Bacon Curriculum
+              University of Bacon Study Guides
             </h1>
             <p className="text-xl md:text-2xl opacity-90 italic mb-6 max-w-3xl mx-auto">
               Master the art of profitable referrals. From your first listing to scaling a six-figure bacon empire.
@@ -209,30 +209,30 @@ const Curriculum = () => {
           </div>
         </section>
 
-        {/* Curriculum Overview */}
+        {/* Study Guides Overview */}
         <section className="container py-16">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">
               Your Path to Bacon Mastery
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Follow our structured curriculum to maximize your earnings through strategic referral networking. 
+              Follow our structured study guides to maximize your earnings through strategic referral networking. 
               Each guide builds upon the previous, creating a comprehensive foundation for success.
             </p>
           </div>
 
-          {/* Curriculum Grid */}
+          {/* Study Guides Grid */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {guides.map((guide, index) => {
               const getRouteFromId = (id: string) => {
                 switch (id) {
-                  case "getting-started": return "/curriculum/getting-started";
-                  case "listing-optimization": return "/curriculum/listing-mastery";
-                  case "chain-building": return "/curriculum/chain-building";
-                  case "trust-reputation": return "/curriculum/trust-reputation";
-                  case "profit-maximization": return "/curriculum/profit-maximization";
-                  case "analytics-optimization": return "/curriculum/data-driven-success";
-                  default: return "/curriculum";
+                  case "getting-started": return "/study-guides/getting-started";
+                  case "listing-optimization": return "/study-guides/listing-mastery";
+                  case "chain-building": return "/study-guides/chain-building";
+                  case "trust-reputation": return "/study-guides/trust-reputation";
+                  case "profit-maximization": return "/study-guides/profit-maximization";
+                  case "analytics-optimization": return "/study-guides/data-driven-success";
+                  default: return "/study-guides";
                 }
               };
 
@@ -387,4 +387,4 @@ const Curriculum = () => {
   );
 };
 
-export default Curriculum;
+export default StudyGuides;

@@ -268,10 +268,10 @@ export default function DataDrivenSuccess() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum/profit-maximization">← Previous: Profit Maximization</Link>
+            <Link to="/study-guides/profit-maximization">← Previous: Profit Maximization</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum">Back to Curriculum Overview →</Link>
+            <Link to="/study-guides">Back to Study Guides Overview →</Link>
           </Button>
         </div>
       </div>

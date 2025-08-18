@@ -211,10 +211,10 @@ export default function GettingStarted() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum">← Back to Curriculum</Link>
+            <Link to="/study-guides">← Back to Study Guides</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum/listing-mastery">Next: Listing Mastery →</Link>
+            <Link to="/study-guides/listing-mastery">Next: Listing Mastery →</Link>
           </Button>
         </div>
       </div>

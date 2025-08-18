@@ -17,7 +17,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-white/90">
               <li><Link to="/listings" className="hover:text-white/60 transition-colors">Browse Listings</Link></li>
               <li><Link to="/admissions" className="hover:text-white/60 transition-colors">Get Started</Link></li>
-              <li><Link to="/curriculum" className="hover:text-white/60 transition-colors">How It Works</Link></li>
+              <li><Link to="/study-guides" className="hover:text-white/60 transition-colors">How It Works</Link></li>
               <li><Link to="/departments" className="hover:text-white/60 transition-colors">Categories</Link></li>
             </ul>
           </div>
@@ -25,7 +25,7 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Academic</h4>
             <ul className="space-y-2 text-sm text-white/90">
-              <li><Link to="/curriculum" className="hover:text-white/60 transition-colors">Course Catalog</Link></li>
+              <li><Link to="/study-guides" className="hover:text-white/60 transition-colors">Study Guides</Link></li>
               <li><Link to="/alumni" className="hover:text-white/60 transition-colors">Alumni Network</Link></li>
               <li><Link to="/departments" className="hover:text-white/60 transition-colors">Departments</Link></li>
             </ul>

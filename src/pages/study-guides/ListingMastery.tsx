@@ -197,10 +197,10 @@ export default function ListingMastery() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum/getting-started">← Previous: Getting Started</Link>
+            <Link to="/study-guides/getting-started">← Previous: Getting Started</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum/chain-building">Next: Chain Building →</Link>
+            <Link to="/study-guides/chain-building">Next: Chain Building →</Link>
           </Button>
         </div>
       </div>

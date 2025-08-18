@@ -210,10 +210,10 @@ export default function ProfitMaximization() {
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8">
           <Button variant="outline" asChild>
-            <Link to="/curriculum/trust-reputation">← Previous: Trust & Reputation</Link>
+            <Link to="/study-guides/trust-reputation">← Previous: Trust & Reputation</Link>
           </Button>
           <Button asChild>
-            <Link to="/curriculum/data-driven-success">Next: Data-Driven Success →</Link>
+            <Link to="/study-guides/data-driven-success">Next: Data-Driven Success →</Link>
           </Button>
         </div>
       </div>
