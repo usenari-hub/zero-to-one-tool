@@ -82,6 +82,7 @@ export const ListingChatBoard = ({ listingId, isOwner, hasPurchased }: ListingCh
 
   const fetchMessages = async () => {
     try {
+      console.log('Fetching messages for listing:', listingId);
       const { data, error } = await (supabase as any)
         .from('listing_chat_messages')
         .select(`
@@ -103,7 +104,10 @@ export const ListingChatBoard = ({ listingId, isOwner, hasPurchased }: ListingCh
         .eq('status', 'approved')
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching messages:', error);
+        throw error;
+      }
 
       // Add is_seller flag to sender profiles
       const { data: listing } = await supabase
@@ -112,7 +116,7 @@ export const ListingChatBoard = ({ listingId, isOwner, hasPurchased }: ListingCh
         .eq('id', listingId)
         .single();
 
-      const messagesWithSellerFlag = data?.map(msg => ({
+      const messagesWithSellerFlag = data?.map((msg: any) => ({
         ...msg,
         sender_profile: {
           ...msg.sender_profile,
