@@ -7,44 +7,44 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--brand-academic-dark))] text-white">
+    <footer className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--primary))] text-white">
       <div className="container mx-auto px-4 py-8">
 
         {/* Footer Links */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h4 className="font-semibold text-accent mb-4">Platform</h4>
+            <h4 className="font-semibold text-white mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-white/90">
-              <li><Link to="/listings" className="hover:text-accent transition-colors">Browse Listings</Link></li>
-              <li><Link to="/admissions" className="hover:text-accent transition-colors">Get Started</Link></li>
-              <li><Link to="/curriculum" className="hover:text-accent transition-colors">How It Works</Link></li>
-              <li><Link to="/departments" className="hover:text-accent transition-colors">Categories</Link></li>
+              <li><Link to="/listings" className="hover:text-white/60 transition-colors">Browse Listings</Link></li>
+              <li><Link to="/admissions" className="hover:text-white/60 transition-colors">Get Started</Link></li>
+              <li><Link to="/curriculum" className="hover:text-white/60 transition-colors">How It Works</Link></li>
+              <li><Link to="/departments" className="hover:text-white/60 transition-colors">Categories</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold text-accent mb-4">Academic</h4>
+            <h4 className="font-semibold text-white mb-4">Academic</h4>
             <ul className="space-y-2 text-sm text-white/90">
-              <li><Link to="/curriculum" className="hover:text-accent transition-colors">Course Catalog</Link></li>
-              <li><Link to="/alumni" className="hover:text-accent transition-colors">Alumni Network</Link></li>
-              <li><Link to="/departments" className="hover:text-accent transition-colors">Departments</Link></li>
+              <li><Link to="/curriculum" className="hover:text-white/60 transition-colors">Course Catalog</Link></li>
+              <li><Link to="/alumni" className="hover:text-white/60 transition-colors">Alumni Network</Link></li>
+              <li><Link to="/departments" className="hover:text-white/60 transition-colors">Departments</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold text-accent mb-4">Account</h4>
+            <h4 className="font-semibold text-white mb-4">Account</h4>
             <ul className="space-y-2 text-sm text-white/90">
-              <li><Link to="/account" className="hover:text-accent transition-colors">My Dashboard</Link></li>
-              <li><Link to="/auth" className="hover:text-accent transition-colors">Sign In</Link></li>
+              <li><Link to="/account" className="hover:text-white/60 transition-colors">My Dashboard</Link></li>
+              <li><Link to="/auth" className="hover:text-white/60 transition-colors">Sign In</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold text-accent mb-4">Legal</h4>
+            <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-2 text-sm text-white/90">
-              <li><Link to="/terms" className="hover:text-accent transition-colors">Terms of Service</Link></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Community Guidelines</a></li>
+              <li><Link to="/terms" className="hover:text-white/60 transition-colors">Terms of Service</Link></li>
+              <li><a href="#" className="hover:text-white/60 transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white/60 transition-colors">Community Guidelines</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +52,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/20 pt-6 flex flex-col sm:flex-row justify-between items-center">
           <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-            <div className="font-display text-lg text-accent">University of Bacon</div>
+            <div className="font-display text-lg text-white">University of Bacon</div>
             <div className="text-sm text-white/80">© {currentYear} All rights reserved</div>
           </div>
           
