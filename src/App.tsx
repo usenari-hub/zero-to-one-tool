@@ -13,6 +13,7 @@ import Departments from "./pages/Departments";
 import Alumni from "./pages/Alumni";
 import Account from "./pages/Account";
 import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import ListingsPage from "./pages/Listings";
 import PurchaseSuccess from "./pages/PurchaseSuccess";
 import PurchaseCanceled from "./pages/PurchaseCanceled";
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/alumni" element={<Alumni />} />
             <Route path="/account" element={<Account />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/listings" element={<ListingsPage />} />
             <Route path="/listings/:id" element={<ListingDetailsPage />} />
