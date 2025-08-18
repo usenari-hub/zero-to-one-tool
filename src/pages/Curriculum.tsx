@@ -223,76 +223,97 @@ const Curriculum = () => {
 
           {/* Curriculum Grid */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {guides.map((guide, index) => (
-              <Card key={guide.id} className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      {guide.icon}
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-primary">
-                        {String(index + 1).padStart(2, '0')}
+            {guides.map((guide, index) => {
+              const getRouteFromId = (id: string) => {
+                switch (id) {
+                  case "getting-started": return "/curriculum/getting-started";
+                  case "listing-optimization": return "/curriculum/listing-mastery";
+                  case "chain-building": return "/curriculum/chain-building";
+                  case "trust-reputation": return "/curriculum/trust-reputation";
+                  case "profit-maximization": return "/curriculum/profit-maximization";
+                  case "analytics-optimization": return "/curriculum/data-driven-success";
+                  default: return "/curriculum";
+                }
+              };
+
+              return (
+                <Link key={guide.id} to={getRouteFromId(guide.id)}>
+                  <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20 h-full cursor-pointer">
+                    <CardHeader className="space-y-4">
+                      <div className="flex items-start justify-between">
+                        <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          {guide.icon}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-primary">
+                            {String(index + 1).padStart(2, '0')}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
-                      {guide.title}
-                    </CardTitle>
-                    <CardDescription className="text-sm">
-                      {guide.description}
-                    </CardDescription>
-                  </div>
+                      
+                      <div>
+                        <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
+                          {guide.title}
+                        </CardTitle>
+                        <CardDescription className="text-sm">
+                          {guide.description}
+                        </CardDescription>
+                      </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    <Badge className={getDifficultyColor(guide.difficulty)}>
-                      {guide.difficulty}
-                    </Badge>
-                    <Badge className={getCategoryColor(guide.category)}>
-                      {guide.category}
-                    </Badge>
-                  </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className={getDifficultyColor(guide.difficulty)}>
+                          {guide.difficulty}
+                        </Badge>
+                        <Badge className={getCategoryColor(guide.category)}>
+                          {guide.category}
+                        </Badge>
+                      </div>
 
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4 mr-1" />
-                    {guide.duration}
-                  </div>
-                </CardHeader>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4 mr-1" />
+                        {guide.duration}
+                      </div>
+                    </CardHeader>
 
-                <CardContent className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2 text-foreground">What You'll Learn:</h4>
-                    <ul className="space-y-1">
-                      {guide.sections.slice(0, 3).map((section, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <ArrowRight className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
-                          <span>{section}</span>
-                        </li>
-                      ))}
-                      {guide.sections.length > 3 && (
-                        <li className="text-sm text-muted-foreground font-medium">
-                          + {guide.sections.length - 3} more topics
-                        </li>
-                      )}
-                    </ul>
-                  </div>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <h4 className="font-semibold text-sm mb-2 text-foreground">What You'll Learn:</h4>
+                        <ul className="space-y-1">
+                          {guide.sections.slice(0, 3).map((section, i) => (
+                            <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                              <ArrowRight className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
+                              <span>{section}</span>
+                            </li>
+                          ))}
+                          {guide.sections.length > 3 && (
+                            <li className="text-sm text-muted-foreground font-medium">
+                              + {guide.sections.length - 3} more topics
+                            </li>
+                          )}
+                        </ul>
+                      </div>
 
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2 text-foreground">Key Takeaways:</h4>
-                    <ul className="space-y-1">
-                      {guide.keyTakeaways.slice(0, 2).map((takeaway, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <Star className="h-3 w-3 mt-0.5 text-accent flex-shrink-0" />
-                          <span>{takeaway}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      <div>
+                        <h4 className="font-semibold text-sm mb-2 text-foreground">Key Takeaways:</h4>
+                        <ul className="space-y-1">
+                          {guide.keyTakeaways.slice(0, 2).map((takeaway, i) => (
+                            <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                              <Star className="h-3 w-3 mt-0.5 text-accent flex-shrink-0" />
+                              <span>{takeaway}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="text-sm font-medium text-primary">Start Guide</span>
+                        <ArrowRight className="h-4 w-4 text-primary group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Learning Path */}
