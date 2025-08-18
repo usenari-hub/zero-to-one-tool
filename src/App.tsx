@@ -14,6 +14,7 @@ import Alumni from "./pages/Alumni";
 import Account from "./pages/Account";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import CommunityGuidelines from "./pages/CommunityGuidelines";
 import GettingStarted from "./pages/curriculum/GettingStarted";
 import ListingMastery from "./pages/curriculum/ListingMastery";
 import ChainBuilding from "./pages/curriculum/ChainBuilding";
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/account" element={<Account />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/community-guidelines" element={<CommunityGuidelines />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/listings" element={<ListingsPage />} />
             <Route path="/listings/:id" element={<ListingDetailsPage />} />
