@@ -14,7 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { Plus, Upload, X } from "lucide-react";
+import { Plus, Upload, X, ArrowLeft } from "lucide-react";
+import { PaymentSelector } from "@/components/PaymentSelector";
 
 const PRICING_TIERS = [
   { range: "Up to $500", fee: 5 },
@@ -45,6 +46,7 @@ export const CreateListingModal = ({ onListingCreated, variant = "button" }: Cre
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -111,31 +113,42 @@ export const CreateListingModal = ({ onListingCreated, variant = "button" }: Cre
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to create a listing.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const askingPrice = parseFloat(formData.askingPrice);
+
+    if (askingPrice <= 0) {
+      toast({
+        title: "Invalid Price",
+        description: "Please enter a valid asking price.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Show payment screen instead of creating listing directly
+    setShowPayment(true);
+  };
+
+  const handlePaymentSuccess = async () => {
     setLoading(true);
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast({
-          title: "Authentication Required",
-          description: "Please sign in to create a listing.",
-          variant: "destructive",
-        });
-        return;
-      }
+      if (!user) return;
 
       const askingPrice = parseFloat(formData.askingPrice);
-
-      if (askingPrice <= 0) {
-        toast({
-          title: "Invalid Price",
-          description: "Please enter a valid asking price.",
-          variant: "destructive",
-        });
-        return;
-      }
 
       const { error } = await supabase.from("listings").insert({
         user_id: user.id,
@@ -154,10 +167,11 @@ export const CreateListingModal = ({ onListingCreated, variant = "button" }: Cre
 
       toast({
         title: "Course Listed Successfully! 📚",
-        description: `Your ${formData.title} is now in the Course Catalog. Listing fee: $${calculateListingFee(askingPrice)}`,
+        description: `Your ${formData.title} is now in the Course Catalog.`,
       });
 
       setOpen(false);
+      setShowPayment(false);
       setFormData({
         title: "",
         description: "",
@@ -183,6 +197,10 @@ export const CreateListingModal = ({ onListingCreated, variant = "button" }: Cre
     }
   };
 
+  const handlePaymentCancel = () => {
+    setShowPayment(false);
+  };
+
   const TriggerComponent = variant === "card" ? (
     <div className="rounded-lg border border-dashed border-muted-foreground/25 p-4 text-center hover:border-primary transition-colors cursor-pointer">
       <Plus className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
@@ -204,154 +222,179 @@ export const CreateListingModal = ({ onListingCreated, variant = "button" }: Cre
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto">
         <DialogHeader>
           <DialogTitle className="font-display mobile-h3 text-[hsl(var(--brand-academic))]">
-            📚 Create Course Listing
+            {showPayment ? "💳 Payment Required" : "📚 Create Course Listing"}
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="mobile-form-group">
-          <div>
-            <Label htmlFor="title">Course Title *</Label>
-            <Input
-              id="title"
-              placeholder="e.g., 2019 MacBook Pro - Mint Condition"
-              value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              required
-              className="mobile-input"
+        {showPayment ? (
+          <div className="space-y-6">
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">
+                Complete payment to list your course in the catalog
+              </p>
+            </div>
+            
+            <PaymentSelector
+              amount={calculateListingFee(parseFloat(formData.askingPrice))}
+              description={`Listing fee for "${formData.title}"`}
+              paymentType="listing_fee"
+              onSuccess={handlePaymentSuccess}
+              onCancel={handlePaymentCancel}
             />
-          </div>
-
-          <div>
-            <Label htmlFor="description">Course Description</Label>
-            <Textarea
-              id="description"
-              placeholder="All the juicy details about your item..."
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              rows={3}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="images">Item Images (up to 5)</Label>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <Input
-                  id="images"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                  disabled={uploadingImage || formData.images.length >= 5}
-                  className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-                />
-                <Button type="button" variant="outline" size="sm" disabled={uploadingImage || formData.images.length >= 5}>
-                  <Upload className="h-4 w-4 mr-2" />
-                  {uploadingImage ? "Uploading..." : "Upload"}
-                </Button>
-              </div>
-              
-              {formData.images.length > 0 && (
-                <div className="grid grid-cols-3 gap-2">
-                  {formData.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img 
-                        src={image} 
-                        alt={`Upload ${index + 1}`}
-                        className="w-full h-20 object-cover rounded-md border"
-                      />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
-                        onClick={() => removeImage(index)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
+            
+            <div className="flex justify-center">
+              <Button variant="outline" onClick={() => setShowPayment(false)}>
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Form
+              </Button>
             </div>
           </div>
-
-          <div>
-            <Label htmlFor="askingPrice">Asking Price *</Label>
-            <Input
-              id="askingPrice"
-              type="number"
-              placeholder="1200"
-              value={formData.askingPrice}
-              onChange={(e) => setFormData(prev => ({ ...prev, askingPrice: e.target.value }))}
-              required
-              min="1"
-              step="0.01"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ) : (
+          <form onSubmit={handleFormSubmit} className="mobile-form-group">
             <div>
-              <Label htmlFor="location">General Location</Label>
+              <Label htmlFor="title">Course Title *</Label>
               <Input
-                id="location"
-                placeholder="e.g., San Francisco Bay Area"
-                value={formData.location}
-                onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                id="title"
+                placeholder="e.g., 2019 MacBook Pro - Mint Condition"
+                value={formData.title}
+                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                required
+                className="mobile-input"
               />
             </div>
+
             <div>
-              <Label htmlFor="department">Department *</Label>
-              <Select value={formData.department} onValueChange={(value) => setFormData(prev => ({ ...prev, department: value }))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent className="bg-background border shadow-lg">
-                  {DEPARTMENTS.map((dept) => (
-                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="description">Course Description</Label>
+              <Textarea
+                id="description"
+                placeholder="All the juicy details about your item..."
+                value={formData.description}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                rows={3}
+              />
             </div>
-          </div>
 
-          <div>
-            <Label htmlFor="rewardPercentage">Professor Rewards (% of sale)</Label>
-              <Select value={formData.rewardPercentage} onValueChange={(value) => setFormData(prev => ({ ...prev, rewardPercentage: value }))}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-background border shadow-lg">
-                  <SelectItem value="15">15%</SelectItem>
-                  <SelectItem value="20">20% (Recommended)</SelectItem>
-                  <SelectItem value="25">25%</SelectItem>
-                  <SelectItem value="30">30%</SelectItem>
-                </SelectContent>
-              </Select>
-          </div>
-
-          {formData.askingPrice && (
-            <div className="bg-muted rounded-lg p-4">
-              <div className="text-sm font-medium mb-1">Listing Fee</div>
-              <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
-                ${calculateListingFee(parseFloat(formData.askingPrice))}
-              </div>
-              <div className="text-xs text-muted-foreground mt-1">
-                6 degrees of separation • 
-                {formData.rewardPercentage}% referral pool (${((parseFloat(formData.askingPrice) || 0) * (parseFloat(formData.rewardPercentage) / 100)).toFixed(0)})
+            <div>
+              <Label htmlFor="images">Item Images (up to 5)</Label>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Input
+                    id="images"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage || formData.images.length >= 5}
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  />
+                  <Button type="button" variant="outline" size="sm" disabled={uploadingImage || formData.images.length >= 5}>
+                    <Upload className="h-4 w-4 mr-2" />
+                    {uploadingImage ? "Uploading..." : "Upload"}
+                  </Button>
+                </div>
+                
+                {formData.images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2">
+                    {formData.images.map((image, index) => (
+                      <div key={index} className="relative">
+                        <img 
+                          src={image} 
+                          alt={`Upload ${index + 1}`}
+                          className="w-full h-20 object-cover rounded-md border"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                          onClick={() => removeImage(index)}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-          )}
 
-          <div className="flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading || !formData.department}>
-              {loading ? "Creating..." : "List Course"}
-            </Button>
-          </div>
-        </form>
+            <div>
+              <Label htmlFor="askingPrice">Asking Price *</Label>
+              <Input
+                id="askingPrice"
+                type="number"
+                placeholder="1200"
+                value={formData.askingPrice}
+                onChange={(e) => setFormData(prev => ({ ...prev, askingPrice: e.target.value }))}
+                required
+                min="1"
+                step="0.01"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="location">General Location</Label>
+                <Input
+                  id="location"
+                  placeholder="e.g., San Francisco Bay Area"
+                  value={formData.location}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="department">Department *</Label>
+                <Select value={formData.department} onValueChange={(value) => setFormData(prev => ({ ...prev, department: value }))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border shadow-lg">
+                    {DEPARTMENTS.map((dept) => (
+                      <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="rewardPercentage">Professor Rewards (% of sale)</Label>
+                <Select value={formData.rewardPercentage} onValueChange={(value) => setFormData(prev => ({ ...prev, rewardPercentage: value }))}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border shadow-lg">
+                    <SelectItem value="15">15%</SelectItem>
+                    <SelectItem value="20">20% (Recommended)</SelectItem>
+                    <SelectItem value="25">25%</SelectItem>
+                    <SelectItem value="30">30%</SelectItem>
+                  </SelectContent>
+                </Select>
+            </div>
+
+            {formData.askingPrice && (
+              <div className="bg-muted rounded-lg p-4">
+                <div className="text-sm font-medium mb-1">Listing Fee</div>
+                <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
+                  ${calculateListingFee(parseFloat(formData.askingPrice))}
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  6 degrees of separation • 
+                  {formData.rewardPercentage}% referral pool (${((parseFloat(formData.askingPrice) || 0) * (parseFloat(formData.rewardPercentage) / 100)).toFixed(0)})
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3">
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading || !formData.department}>
+                {loading ? "Processing..." : "Proceed to Payment"}
+              </Button>
+            </div>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );
