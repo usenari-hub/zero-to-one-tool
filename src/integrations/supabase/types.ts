@@ -3124,6 +3124,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      is_kevin_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       record_share_conversion: {
         Args: {
           buyer_id_param: string
