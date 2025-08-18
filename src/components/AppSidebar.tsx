@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { BookOpen, GraduationCap, Users, ScrollText, Building2, List } from "lucide-react";
 import {
   Sidebar,
@@ -13,6 +14,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useScrollSpy } from "@/hooks/use-scrollspy";
+import { useTopCourses } from "@/hooks/useTopCourses";
 
 const SECTIONS = [
   { id: "listings", label: "Listings", icon: List, path: "/listings" },
@@ -23,43 +25,19 @@ const SECTIONS = [
 ] as const;
 
 const STUDY_GUIDES = [
-  "Freshman Orientation: Getting Started",
-  "Posting to the Course Catalog",
-  "Referral Chain Basics",
-];
-
-const DEPARTMENT_COURSE_PLACEHOLDERS = [
-  { department: "Automotive", headlines: [
-    "Classic Mustang Lead",
-    "Luxury SUV Referral",
-    "Motorcycle Flip 101",
-  ] },
-  { department: "Real Estate", headlines: [
-    "2BR Downtown Condo",
-    "Suburban Family Home",
-    "Investor Duplex Deal",
-  ] },
-  { department: "Arts & Collectibles", headlines: [
-    "Vintage Comic Collection",
-    "Mid‑Century Art Piece",
-    "Signed Sports Memorabilia",
-  ] },
-  { department: "Luxury Goods", headlines: [
-    "Rolex Submariner Listing",
-    "Hermès Birkin Referral",
-    "Patek Philippe Collector",
-  ] },
-  { department: "Business", headlines: [
-    "SaaS Startup Acquisition",
-    "Local Franchise Sale",
-    "E‑commerce Brand Exit",
-  ] },
+  { label: "Getting Started", path: "/curriculum/getting-started" },
+  { label: "Listing Mastery", path: "/curriculum/listing-mastery" },
+  { label: "Chain Building", path: "/curriculum/chain-building" },
+  { label: "Trust & Reputation", path: "/curriculum/trust-reputation" },
+  { label: "Profit Maximization", path: "/curriculum/profit-maximization" },
+  { label: "Data-Driven Success", path: "/curriculum/data-driven-success" },
 ];
 
 export function AppSidebar() {
   const ids = useMemo(() => SECTIONS.map((s) => s.id), []);
   const activeId = useScrollSpy(ids);
   const { state, open } = useSidebar();
+  const { courses } = useTopCourses();
 
   // Persist state to localStorage for user preference
   useEffect(() => {
@@ -92,10 +70,10 @@ export function AppSidebar() {
                 <SidebarMenuItem key={id}>
                   <SidebarMenuButton asChild className={`touch-target ${activeId === id ? "bg-accent/40 text-[hsl(var(--brand-academic))] ring-1 ring-accent" : "hover:bg-sidebar-accent"}`}>
                     {path ? (
-                      <a href={path} className="flex items-center text-sm sm:text-base">
+                      <Link to={path} className="flex items-center text-sm sm:text-base">
                         <Icon className="mr-2 h-4 w-4 flex-shrink-0" />
                         {state !== "collapsed" && <span>{label}</span>}
-                      </a>
+                      </Link>
                     ) : (
                       <a href={`#${id}`} onClick={onClickScroll(id)} className="flex items-center text-sm sm:text-base">
                         <Icon className="mr-2 h-4 w-4 flex-shrink-0" />
@@ -114,10 +92,10 @@ export function AppSidebar() {
               <SidebarGroupLabel className="text-xs sm:text-sm">Study Guides</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {STUDY_GUIDES.slice(0, 3).map((h, i) => (
+                  {STUDY_GUIDES.slice(0, 3).map((guide, i) => (
                     <SidebarMenuItem key={i}>
                       <SidebarMenuButton asChild className="hover:bg-sidebar-accent/60 text-xs sm:text-sm">
-                        <span className="truncate">{h}</span>
+                        <Link to={guide.path} className="truncate">{guide.label}</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
@@ -125,21 +103,20 @@ export function AppSidebar() {
               </SidebarGroupContent>
             </SidebarGroup>
             <SidebarGroup className="mt-4">
-              <SidebarGroupLabel className="text-xs sm:text-sm">Courses</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-xs sm:text-sm">Recent Courses</SidebarGroupLabel>
               <SidebarGroupContent>
-                {DEPARTMENT_COURSE_PLACEHOLDERS.slice(0, 2).map((d) => (
-                  <div key={d.department} className="mt-2">
-                    <div className="px-2 text-[10px] uppercase tracking-wide text-muted-foreground">{d.department}</div>
-                    <SidebarMenu>
-                      {d.headlines.slice(0, 2).map((h, i) => (
-                        <SidebarMenuItem key={i}>
-                          <SidebarMenuButton asChild className="hover:bg-sidebar-accent/60 text-xs">
-                            <span className="truncate">{h}</span>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </div>
+                {courses.slice(0, 6).map((course) => (
+                  <SidebarMenuItem key={course.id}>
+                    <SidebarMenuButton asChild className="hover:bg-sidebar-accent/60 text-xs">
+                      <Link to={`/listings/${course.id}`} className="truncate">
+                        <div>
+                          <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{course.department}</div>
+                          <div className="truncate">{course.title}</div>
+                          <div className="text-[10px] text-muted-foreground">{course.tuition}</div>
+                        </div>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 ))}
               </SidebarGroupContent>
             </SidebarGroup>
