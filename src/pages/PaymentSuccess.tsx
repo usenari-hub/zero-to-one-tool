@@ -18,8 +18,6 @@ const PaymentSuccess = () => {
   const paymentType = searchParams.get("type") || "payment";
   const listingId = searchParams.get("listingId");
   const sessionId = searchParams.get("session_id"); // Stripe
-  const paymentId = searchParams.get("paymentId"); // PayPal
-  const payerId = searchParams.get("PayerID"); // PayPal
 
   useEffect(() => {
     document.title = "Payment Successful | University of Bacon";
@@ -30,15 +28,7 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const processPayment = async () => {
       try {
-        if (provider === "paypal" && paymentId) {
-          // Capture PayPal payment
-          const { data, error } = await supabase.functions.invoke('capture-paypal-payment', {
-            body: { orderId: paymentId }
-          });
-
-          if (error) throw error;
-          setPaymentDetails(data);
-        } else if (provider === "stripe" && sessionId) {
+        if (provider === "stripe" && sessionId) {
           // Stripe payments are automatically captured
           setPaymentDetails({ provider: "stripe", sessionId });
         }
@@ -59,12 +49,12 @@ const PaymentSuccess = () => {
       }
     };
 
-    if (sessionId || paymentId) {
+    if (sessionId) {
       processPayment();
     } else {
       setProcessing(false);
     }
-  }, [provider, sessionId, paymentId, toast]);
+  }, [provider, sessionId, toast]);
 
   const getPaymentTypeLabel = (type: string) => {
     switch (type) {
@@ -80,7 +70,7 @@ const PaymentSuccess = () => {
   };
 
   const getProviderName = (provider: string) => {
-    return provider === "paypal" ? "PayPal" : "Stripe";
+    return "Stripe";
   };
 
   const handleNavigateHome = () => {
@@ -153,14 +143,6 @@ const PaymentSuccess = () => {
                 </div>
               )}
 
-              {paymentId && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">PayPal Order ID</label>
-                  <div className="mt-1 font-mono text-sm bg-muted p-2 rounded">
-                    {paymentId}
-                  </div>
-                </div>
-              )}
 
               {listingId && (
                 <div>

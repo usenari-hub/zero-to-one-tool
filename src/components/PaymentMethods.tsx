@@ -61,7 +61,7 @@ export const PaymentMethods = () => {
           account_details: newMethod.account_details,
           user_id: (await supabase.auth.getUser()).data.user?.id,
           is_default: paymentMethods.length === 0,
-          is_verified: newMethod.payment_type === 'paypal' || newMethod.payment_type === 'venmo', // Auto-verify email-based methods
+          is_verified: newMethod.payment_type === 'venmo', // Auto-verify email-based methods
           fees: {
             percentage: fees === 0 ? 0 : 2.0,
             fixed: newMethod.payment_type === 'bank_account' ? 5.0 : 0,
@@ -103,7 +103,7 @@ export const PaymentMethods = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'bank_account': return Building2;
-      case 'paypal': return Wallet;
+      
       case 'venmo': return DollarSign;
       case 'stripe_card': return CreditCard;
       default: return CreditCard;
@@ -113,7 +113,7 @@ export const PaymentMethods = () => {
   const getPaymentMethodDescription = (type: string) => {
     switch (type) {
       case 'stripe_card': return 'Credit/Debit Card (via Stripe)';
-      case 'paypal': return 'PayPal Account';
+      
       case 'venmo': return 'Venmo Account';
       case 'bank_account': return 'Bank Account (ACH Transfer)';
       default: return type.replace('_', ' ');
@@ -123,7 +123,7 @@ export const PaymentMethods = () => {
   const getFeeDescription = (type: string) => {
     switch (type) {
       case 'stripe_card': return '2.9% + $0.30 per transaction';
-      case 'paypal': return '2.0% per transaction';
+      
       case 'venmo': return '1.5% per transaction (manual processing)';
       case 'bank_account': return '$5.00 flat fee per transfer';
       default: return 'Fees vary';
@@ -195,7 +195,7 @@ export const PaymentMethods = () => {
                         onChange={(e) => setNewMethod(prev => ({ ...prev, payment_type: e.target.value }))}
                       >
                         <option value="stripe_card">Credit/Debit Card (Stripe)</option>
-                        <option value="paypal">PayPal</option>
+                        
                         <option value="venmo">Venmo</option>
                         <option value="bank_account">Bank Account (ACH)</option>
                       </select>
@@ -214,7 +214,7 @@ export const PaymentMethods = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="account-details">
-                        {newMethod.payment_type === 'paypal' || newMethod.payment_type === 'venmo' 
+                        {newMethod.payment_type === 'venmo' 
                           ? 'Email or Username' 
                           : newMethod.payment_type === 'stripe_card'
                           ? 'Last 4 digits (for reference)'
@@ -223,7 +223,6 @@ export const PaymentMethods = () => {
                       <Input 
                         id="account-details" 
                         placeholder={
-                          newMethod.payment_type === 'paypal' ? 'your-email@example.com' :
                           newMethod.payment_type === 'venmo' ? '@your-venmo-username' :
                           newMethod.payment_type === 'stripe_card' ? '1234 (for reference only)' :
                           'Account number'
@@ -288,7 +287,7 @@ export const PaymentMethods = () => {
                         {getPaymentMethodDescription(method.payment_type)}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {method.payment_type === 'paypal' || method.payment_type === 'venmo' 
+                        {method.payment_type === 'venmo' 
                           ? method.account_details 
                           : `•••• ${method.account_details.slice(-4)}`}
                       </p>

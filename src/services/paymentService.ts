@@ -1,14 +1,8 @@
 import { supabase } from '@/integrations/supabase/client'
 
-// PayPal configuration
-export const PAYPAL_CONFIG = {
-  CLIENT_ID: 'AcJGjyyeMjPeo8OO9xGmKPzTWgDx-m-1x_mkH5v8PGoevBHMeUtjytXVh93IPELR_9mUwvY0IwB07qKj',
-  SANDBOX: true // Set to false for production
-}
-
 export interface PaymentMethod {
   id: string
-  type: 'stripe_card' | 'paypal' | 'venmo' | 'bank_account'
+  type: 'stripe_card' | 'venmo' | 'bank_account'
   name: string
   details: string
   isVerified: boolean
@@ -31,7 +25,7 @@ export interface EscrowTransaction {
   referral_pool: number
   status: 'created' | 'funded' | 'seller_revealed' | 'completed' | 'disputed' | 'refunded'
   stripe_payment_intent_id?: string
-  paypal_order_id?: string
+  
   created_at: string
   funded_at?: string
   completed_at?: string
@@ -183,8 +177,6 @@ export const paymentService = {
 
       // Process actual payout based on method type
       switch (paymentMethod.payment_type) {
-        case 'paypal':
-          return await this.processPayPalPayout(paymentMethod, netAmount, transaction.id)
         case 'venmo':
           return await this.processVenmoPayout(paymentMethod, netAmount, transaction.id)
         case 'bank_account':
@@ -198,53 +190,13 @@ export const paymentService = {
     }
   },
 
-  /**
-   * PayPal payout processing
-   */
-  async processPayPalPayout(paymentMethod: any, amount: number, transactionId: string): Promise<boolean> {
-    try {
-      const { data, error } = await supabase.functions.invoke('process-paypal-payout', {
-        body: {
-          recipient_email: paymentMethod.account_details,
-          amount: amount,
-          currency: 'USD',
-          note: 'University of Bacon earnings payout',
-          transaction_id: transactionId
-        }
-      })
-
-      if (error) throw error
-
-      // Update transaction status
-      await supabase
-        .from('bacon_transactions')
-        .update({
-          payout_status: 'completed',
-          processed_at: new Date().toISOString(),
-          metadata: { ...data, transaction_id: transactionId }
-        })
-        .eq('id', transactionId)
-
-      return true
-    } catch (error) {
-      console.error('PayPal payout error:', error)
-      
-      // Update transaction status to failed
-      await supabase
-        .from('bacon_transactions')
-        .update({ payout_status: 'failed' })
-        .eq('id', transactionId)
-
-      return false
-    }
-  },
 
   /**
    * Venmo payout processing (simulated)
    */
   async processVenmoPayout(paymentMethod: any, amount: number, transactionId: string): Promise<boolean> {
     try {
-      // Note: Venmo doesn't have a direct payout API like PayPal
+      // Note: Venmo doesn't have a direct payout API
       // This would typically require manual processing or third-party service
       
       // For now, mark as pending manual review
@@ -305,13 +257,13 @@ export const paymentService = {
    */
   calculatePayoutFees(amount: number, paymentMethod: any): number {
     const fees = {
-      paypal: { percentage: 2.0, fixed: 0 },
+      
       venmo: { percentage: 1.5, fixed: 0 },
       bank_account: { percentage: 0, fixed: 5 },
       stripe_card: { percentage: 2.9, fixed: 0.30 }
     }
 
-    const methodFees = fees[paymentMethod.payment_type as keyof typeof fees] || fees.paypal
+    const methodFees = fees[paymentMethod.payment_type as keyof typeof fees] || fees.stripe_card
     const percentageFee = amount * (methodFees.percentage / 100)
     return Math.round((percentageFee + methodFees.fixed) * 100) / 100
   },

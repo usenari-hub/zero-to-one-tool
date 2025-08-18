@@ -17,8 +17,6 @@ const PaymentCanceled = () => {
 
   const getProviderName = (provider: string) => {
     switch (provider) {
-      case "paypal":
-        return "PayPal";
       case "stripe":
         return "Stripe";
       default:

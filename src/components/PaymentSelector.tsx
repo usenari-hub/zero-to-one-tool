@@ -63,42 +63,6 @@ export const PaymentSelector = ({
     }
   };
 
-  const handlePayPalPayment = async () => {
-    try {
-      setLoading("paypal");
-      
-      const { data, error } = await supabase.functions.invoke('create-paypal-payment', {
-        body: {
-          amount: amount.toString(),
-          currency: 'USD',
-          description,
-          listingId,
-          paymentType
-        }
-      });
-
-      if (error) throw error;
-
-      // Open PayPal checkout in a new tab
-      if (data.url) {
-        window.open(data.url, '_blank');
-        toast({
-          title: "Redirecting to PayPal",
-          description: "Complete your payment in the new tab that just opened.",
-        });
-        onSuccess?.();
-      }
-    } catch (error) {
-      console.error('PayPal payment error:', error);
-      toast({
-        variant: "destructive",
-        title: "Payment Error",
-        description: error instanceof Error ? error.message : "Failed to create PayPal payment",
-      });
-    } finally {
-      setLoading(null);
-    }
-  };
 
   const formatAmount = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -153,25 +117,6 @@ export const PaymentSelector = ({
             <div className="text-left">
               <div className="font-semibold">Pay with Stripe</div>
               <div className="text-sm opacity-90">Credit card, debit card</div>
-            </div>
-          </Button>
-
-          <Button
-            onClick={handlePayPalPayment}
-            disabled={loading !== null}
-            variant="outline"
-            className="h-14 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white border-none hover:from-blue-600 hover:to-blue-700"
-          >
-            {loading === "paypal" ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.27-.007c-.804 0-1.57-.195-2.11-.543a5.642 5.642 0 0 1-2.13-2.84c-.543-1.398-.543-2.746.271-3.713C17.85-.193 19.183 0 20.53 0c.804 0 1.57.195 2.11.543 1.06.68 1.8 1.83 2.13 2.84.543 1.398.543 2.746-.271 3.713-.814.967-2.147 1.16-3.494 1.16z"/>
-              </svg>
-            )}
-            <div className="text-left">
-              <div className="font-semibold">Pay with PayPal</div>
-              <div className="text-sm opacity-90">PayPal balance, bank account</div>
             </div>
           </Button>
         </div>
