@@ -1,0 +1,65 @@
+-- Insert sample course listings to populate the curriculum section
+INSERT INTO public.listings (
+  id,
+  user_id,
+  item_title,
+  item_description,
+  asking_price,
+  department,
+  location,
+  general_location,
+  status,
+  admin_status,
+  reward_percentage,
+  max_degrees,
+  verification_level,
+  category
+) VALUES 
+(
+  gen_random_uuid(),
+  gen_random_uuid(), -- Will need a real user_id, but this is for demo
+  'MacBook Pro 14" M3 Pro - Like New',
+  'Barely used MacBook Pro with M3 Pro chip, 512GB storage, 18GB RAM. Perfect for students and professionals. Includes original box and charger.',
+  2499.00,
+  'School of Technology',
+  'Campus District',
+  'North Campus',
+  'active',
+  'approved',
+  20.00,
+  6,
+  'sophomore',
+  'Electronics'
+),
+(
+  gen_random_uuid(),
+  gen_random_uuid(),
+  'Honda Civic 2022 - Excellent Condition',
+  'Low mileage Honda Civic with excellent fuel economy. Perfect first car for students. All maintenance records included.',
+  22500.00,
+  'Automotive Academy',
+  'Student Parking',
+  'South Campus',
+  'active',
+  'approved',
+  15.00,
+  6,
+  'junior',
+  'Vehicles'
+),
+(
+  gen_random_uuid(),
+  gen_random_uuid(),
+  'Vintage Gibson Les Paul Guitar',
+  'Beautiful 1970s Gibson Les Paul in excellent condition. A true collector piece for music enthusiasts.',
+  3200.00,
+  'Arts & Collectibles College',
+  'Music Building',
+  'Arts Quarter',
+  'active',
+  'approved',
+  25.00,
+  6,
+  'senior',
+  'Music'
+);
