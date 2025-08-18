@@ -25,8 +25,8 @@ const Privacy = () => {
           <div className="prose prose-lg max-w-none">
             <div className="bg-card rounded-lg p-8 shadow-elegant mb-8">
               <p className="text-sm text-muted-foreground mb-4">
-                <strong>Last Updated:</strong> December 18, 2024<br />
-                <strong>Effective Date:</strong> December 18, 2024
+                <strong>Last Updated:</strong> {new Date().toLocaleDateString()}<br />
+                <strong>Effective Date:</strong> {new Date().toLocaleDateString()}
               </p>
 
               <h2 className="font-display text-2xl mb-4 mt-8">1. INTRODUCTION</h2>

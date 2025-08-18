@@ -20,8 +20,8 @@ const Terms = () => {
       <section className="container py-10 max-w-4xl">
         <div className="prose prose-gray dark:prose-invert max-w-none">
           <p className="text-sm text-muted-foreground mb-6">
-            <strong>Last Updated:</strong> [Current Date]<br/>
-            <strong>Effective Date:</strong> [Current Date]
+            <strong>Last Updated:</strong> {new Date().toLocaleDateString()}<br/>
+            <strong>Effective Date:</strong> {new Date().toLocaleDateString()}
           </p>
 
           <h2 className="font-display text-2xl mb-4">1. ACCEPTANCE OF TERMS</h2>

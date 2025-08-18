@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTopCourses } from "@/hooks/useTopCourses";
+import { useRealTimeStats } from "@/hooks/useRealTimeStats";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -126,7 +127,7 @@ const Index = () => {
     const step = () => {
       current = Math.min(target, current + increment);
       if (target >= 1000000) {
-        el.textContent = `+$${Math.ceil(current).toLocaleString()}`;
+        el.textContent = `$${Math.ceil(current).toLocaleString()}`;
       } else if (target < 10) {
         el.textContent = current.toFixed(1);
       } else {
@@ -164,8 +165,16 @@ const Index = () => {
     });
   };
 
-// Fetch real course data
+// Fetch real course data and stats
 const { courses: topCourses, loading: coursesLoading } = useTopCourses();
+const { 
+  totalBaconEarned, 
+  totalUsers, 
+  totalListings, 
+  averageGPA, 
+  charityFund,
+  loading: statsLoading 
+} = useRealTimeStats();
 const topCoursesApiRef = useRef<CarouselApi | null>(null);
 useEffect(() => {
   const id = setInterval(() => topCoursesApiRef.current?.scrollNext(), 5000);
@@ -401,19 +410,27 @@ return (
         <section ref={statsRef} className="scroll-reveal bg-gradient-to-tr from-accent to-[hsl(var(--accent))] py-8 sm:py-12 lg:py-20">
           <div className="container grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
             <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target="2500000">$0</span>
+              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalBaconEarned}>
+                {statsLoading ? "$0" : `$${totalBaconEarned.toLocaleString()}`}
+              </span>
               <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Total Bacon Earned</span>
             </div>
             <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target="15000">0</span>
-              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Successful Graduations</span>
+              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalListings}>
+                {statsLoading ? "0" : totalListings.toLocaleString()}
+              </span>
+              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Active Courses</span>
             </div>
             <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target="75000">0</span>
+              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalUsers}>
+                {statsLoading ? "0" : totalUsers.toLocaleString()}
+              </span>
               <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Enrolled Students</span>
             </div>
             <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target="4.8">0.0</span>
+              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={averageGPA}>
+                {statsLoading ? "0.0" : averageGPA.toFixed(1)}
+              </span>
               <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Average Student GPA</span>
             </div>
           </div>
@@ -506,15 +523,19 @@ return (
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">$12,847</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
+                      {statsLoading ? "$0" : `$${Math.round(charityFund.totalDonated).toLocaleString()}`}
+                    </div>
                     <div className="text-xs text-muted-foreground">Total Donated</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">3</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">{charityFund.partnersCount}</div>
                     <div className="text-xs text-muted-foreground">Charity Partners</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">156</div>
+                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
+                      {statsLoading ? "0" : charityFund.studentsHelped.toLocaleString()}
+                    </div>
                     <div className="text-xs text-muted-foreground">Students Helped</div>
                   </div>
                 </div>
