@@ -2792,6 +2792,60 @@ export type Database = {
           },
         ]
       }
+      user_verifications: {
+        Row: {
+          code_expires_at: string | null
+          created_at: string
+          email_verified: boolean | null
+          id: string
+          identity_verified: boolean | null
+          last_attempt_at: string | null
+          phone_number: string | null
+          phone_verified: boolean | null
+          stripe_verification_session_id: string | null
+          updated_at: string
+          user_id: string
+          verification_attempts: number | null
+          verification_code: string | null
+          verification_data: Json | null
+          verification_status: string | null
+        }
+        Insert: {
+          code_expires_at?: string | null
+          created_at?: string
+          email_verified?: boolean | null
+          id?: string
+          identity_verified?: boolean | null
+          last_attempt_at?: string | null
+          phone_number?: string | null
+          phone_verified?: boolean | null
+          stripe_verification_session_id?: string | null
+          updated_at?: string
+          user_id: string
+          verification_attempts?: number | null
+          verification_code?: string | null
+          verification_data?: Json | null
+          verification_status?: string | null
+        }
+        Update: {
+          code_expires_at?: string | null
+          created_at?: string
+          email_verified?: boolean | null
+          id?: string
+          identity_verified?: boolean | null
+          last_attempt_at?: string | null
+          phone_number?: string | null
+          phone_verified?: boolean | null
+          stripe_verification_session_id?: string | null
+          updated_at?: string
+          user_id?: string
+          verification_attempts?: number | null
+          verification_code?: string | null
+          verification_data?: Json | null
+          verification_status?: string | null
+        }
+        Relationships: []
+      }
       verification_badges: {
         Row: {
           anonymous_profile_id: string | null
@@ -3146,6 +3200,10 @@ export type Database = {
           user_agent_param?: string
         }
         Returns: Json
+      }
+      user_can_share: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
     }
     Enums: {

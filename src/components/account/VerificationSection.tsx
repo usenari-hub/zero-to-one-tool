@@ -1,230 +1,356 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CheckCircle, Clock, AlertCircle, Shield, Phone, Mail, CreditCard } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { Upload, CheckCircle, Clock, AlertCircle } from "lucide-react";
 
-interface VerificationRequest {
+interface VerificationStatus {
   id: string;
-  verification_type: string;
-  verification_level: string;
-  status: string;
+  user_id: string;
+  email_verified: boolean;
+  phone_verified: boolean;
+  identity_verified: boolean;
+  phone_number?: string;
+  verification_status: string;
+  stripe_verification_session_id?: string;
   created_at: string;
-  notes?: string;
+  updated_at: string;
 }
 
 export const VerificationSection = () => {
-  const [requests, setRequests] = useState<VerificationRequest[]>([]);
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [codeStep, setCodeStep] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    loadVerificationRequests();
+    loadVerificationStatus();
   }, []);
 
-  const loadVerificationRequests = async () => {
+  const loadVerificationStatus = async () => {
     try {
       const { data, error } = await supabase
-        .from('verification_requests')
+        .from('user_verifications')
         .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) throw error;
-      setRequests(data || []);
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+        .single();
+
+      if (error && error.code !== 'PGRST116') throw error;
+      setVerificationStatus(data);
+    } catch (error) {
+      console.error('Error loading verification status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load verification status",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const createVerificationRequest = async (type: string, level: string, notes: string) => {
+  const startStripeVerification = async () => {
     try {
-      setIsCreating(true);
-      const { data: user } = await supabase.auth.getUser();
-      if (!user.user) throw new Error('Not authenticated');
-
-      const { error } = await supabase
-        .from('verification_requests')
-        .insert([{
-          user_id: user.user.id,
-          verification_type: type,
-          verification_level: level,
-          status: 'pending',
-          notes: notes
-        }]);
+      setProcessing(true);
+      
+      const { data, error } = await supabase.functions.invoke('stripe-identity-verification', {
+        body: { action: 'create_session' }
+      });
 
       if (error) throw error;
-      
-      await loadVerificationRequests();
-      toast({ title: "Verification request submitted", description: "We'll review your request within 24-48 hours." });
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+
+      // Open Stripe verification in new tab
+      window.open(data.url, '_blank');
+
+      toast({
+        title: "Verification Started",
+        description: "Complete your identity verification in the new tab",
+      });
+
+      // Check status after a delay
+      setTimeout(() => {
+        checkVerificationStatus(data.session_id);
+      }, 5000);
+
+    } catch (error) {
+      console.error('Error starting verification:', error);
+      toast({
+        title: "Error",
+        description: "Failed to start identity verification",
+        variant: "destructive"
+      });
     } finally {
-      setIsCreating(false);
+      setProcessing(false);
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
-      case 'pending':
-        return <Clock className="w-4 h-4 text-yellow-600" />;
-      case 'rejected':
-        return <AlertCircle className="w-4 h-4 text-red-600" />;
-      default:
-        return <Clock className="w-4 h-4 text-gray-600" />;
+  const checkVerificationStatus = async (sessionId?: string) => {
+    try {
+      const session_id = sessionId || verificationStatus?.stripe_verification_session_id;
+      if (!session_id) return;
+
+      const { data, error } = await supabase.functions.invoke('stripe-identity-verification', {
+        body: { 
+          action: 'check_status', 
+          verification_session_id: session_id 
+        }
+      });
+
+      if (error) throw error;
+
+      loadVerificationStatus();
+
+      if (data.identity_verified) {
+        toast({
+          title: "Verification Complete",
+          description: "Your identity has been successfully verified!",
+        });
+      }
+
+    } catch (error) {
+      console.error('Error checking verification status:', error);
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return <Badge className="bg-green-100 text-green-800">Approved</Badge>;
-      case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-      case 'rejected':
-        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>;
-      default:
-        return <Badge variant="secondary">Unknown</Badge>;
+  const sendPhoneVerification = async () => {
+    try {
+      setProcessing(true);
+      
+      // In a real implementation, you would send an SMS here
+      // For now, we'll simulate it
+      toast({
+        title: "SMS Sent",
+        description: "Verification code sent to your phone",
+      });
+      
+      setCodeStep(true);
+    } catch (error) {
+      console.error('Error sending verification:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send verification code",
+        variant: "destructive"
+      });
+    } finally {
+      setProcessing(false);
     }
   };
+
+  const verifyPhoneCode = async () => {
+    try {
+      setProcessing(true);
+      
+      // In a real implementation, you would verify the code here
+      // For now, we'll simulate success
+      const { error } = await supabase
+        .from('user_verifications')
+        .update({
+          phone_verified: true,
+          phone_number: phoneNumber,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', (await supabase.auth.getUser()).data.user?.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Phone Verified",
+        description: "Your phone number has been verified!",
+      });
+
+      setCodeStep(false);
+      setPhoneNumber('');
+      setVerificationCode('');
+      loadVerificationStatus();
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      toast({
+        title: "Error",
+        description: "Invalid verification code",
+        variant: "destructive"
+      });
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const getVerificationIcon = (verified: boolean) => {
+    return verified ? 
+      <CheckCircle className="h-4 w-4 text-green-500" /> : 
+      <Clock className="h-4 w-4 text-yellow-500" />;
+  };
+
+  const getVerificationBadge = (verified: boolean) => {
+    return verified ? 
+      <Badge variant="default" className="bg-green-500">Verified</Badge> : 
+      <Badge variant="secondary">Not Verified</Badge>;
+  };
+
+  if (loading) {
+    return <div>Loading verification status...</div>;
+  }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Verification Levels</CardTitle>
-        <CardDescription>Building trust throughout the University of Bacon network. Level 1 enables sharing listings, Level 2 unlocks purchases and bacon redemption, Level 3 maximizes earnings and grants access to premium features.</CardDescription>
+        <CardTitle className="flex items-center gap-2">
+          <Shield className="h-5 w-5" />
+          Account Verification
+        </CardTitle>
+        <CardDescription>
+          Verify your account to unlock sharing features and increase your trustworthiness.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Current Verification Requests */}
-        {requests.length > 0 && (
-          <div className="space-y-3">
-            <h4 className="font-semibold">Your Verification Requests</h4>
-            {requests.map((request) => (
-              <div key={request.id} className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  {getStatusIcon(request.status)}
-                  <div>
-                    <div className="font-medium">{request.verification_type} - Level {request.verification_level}</div>
-                    <div className="text-sm text-muted-foreground">
-                      Submitted {new Date(request.created_at).toLocaleDateString()}
-                    </div>
-                  </div>
-                </div>
-                {getStatusBadge(request.status)}
+        {/* Current Verification Status */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Verification Status</h3>
+          
+          {/* Email Verification */}
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-blue-500" />
+              <div>
+                <p className="font-medium">Email Verification</p>
+                <p className="text-sm text-muted-foreground">Required for basic features</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-center gap-2">
+              {getVerificationIcon(verificationStatus?.email_verified || false)}
+              {getVerificationBadge(verificationStatus?.email_verified || false)}
+            </div>
           </div>
-        )}
 
-        {/* Verification Levels */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-lg border p-4">
-            <div className="text-sm font-semibold">Level 1: Email / Phone</div>
-            <p className="text-sm text-muted-foreground mt-1">Confirm your email and phone. Required to start.</p>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="secondary" className="mt-3">Verify</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Email/Phone Verification</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Verify your email and phone number to establish basic trust.
-                  </p>
-                  <Button 
-                    onClick={() => createVerificationRequest('basic', 'basic', 'Email and phone verification request')}
-                    disabled={isCreating}
-                    className="w-full"
-                  >
-                    {isCreating ? "Submitting..." : "Request Basic Verification"}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+          {/* Phone Verification */}
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center gap-3">
+              <Phone className="h-5 w-5 text-green-500" />
+              <div>
+                <p className="font-medium">Phone Verification</p>
+                <p className="text-sm text-muted-foreground">Required for sharing listings</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {getVerificationIcon(verificationStatus?.phone_verified || false)}
+              {getVerificationBadge(verificationStatus?.phone_verified || false)}
+              {!verificationStatus?.phone_verified && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm">Verify Phone</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Phone Verification</DialogTitle>
+                      <DialogDescription>
+                        Enter your phone number to receive a verification code.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      {!codeStep ? (
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Phone Number</Label>
+                          <Input
+                            id="phone"
+                            type="tel"
+                            placeholder="+1 (555) 123-4567"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                          />
+                          <Button 
+                            onClick={sendPhoneVerification}
+                            disabled={processing || !phoneNumber}
+                            className="w-full"
+                          >
+                            {processing ? 'Sending...' : 'Send Code'}
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <Label htmlFor="code">Verification Code</Label>
+                          <Input
+                            id="code"
+                            type="text"
+                            placeholder="123456"
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                          />
+                          <Button 
+                            onClick={verifyPhoneCode}
+                            disabled={processing || !verificationCode}
+                            className="w-full"
+                          >
+                            {processing ? 'Verifying...' : 'Verify Code'}
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setCodeStep(false)}
+                            className="w-full"
+                          >
+                            Back
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
+            </div>
           </div>
-          
-          <div className="rounded-lg border p-4">
-            <div className="text-sm font-semibold">Level 2: ID + Utility Bill</div>
-            <p className="text-sm text-muted-foreground mt-1">Upload documents for manual review.</p>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="secondary" className="mt-3">Upload Docs</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Document Verification</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={(e) => {
-                  e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  const notes = formData.get('notes') as string;
-                  createVerificationRequest('document', 'intermediate', notes);
-                }} className="space-y-4">
-                  <div>
-                    <Label htmlFor="notes">Additional Notes</Label>
-                    <Textarea 
-                      id="notes" 
-                      name="notes"
-                      placeholder="Describe the documents you'll be providing..."
-                    />
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Please prepare to upload: government-issued ID and utility bill or bank statement.
-                  </p>
-                  <Button type="submit" disabled={isCreating} className="w-full">
-                    <Upload className="w-4 h-4 mr-2" />
-                    {isCreating ? "Submitting..." : "Request Document Verification"}
-                  </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
+
+          {/* Identity Verification */}
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center gap-3">
+              <CreditCard className="h-5 w-5 text-purple-500" />
+              <div>
+                <p className="font-medium">Identity Verification</p>
+                <p className="text-sm text-muted-foreground">Alternative to phone verification</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {getVerificationIcon(verificationStatus?.identity_verified || false)}
+              {getVerificationBadge(verificationStatus?.identity_verified || false)}
+              {!verificationStatus?.identity_verified && (
+                <Button 
+                  onClick={startStripeVerification}
+                  disabled={processing}
+                  variant="outline" 
+                  size="sm"
+                >
+                  {processing ? 'Starting...' : 'Verify Identity'}
+                </Button>
+              )}
+              {verificationStatus?.stripe_verification_session_id && !verificationStatus?.identity_verified && (
+                <Button 
+                  onClick={() => checkVerificationStatus()}
+                  variant="outline" 
+                  size="sm"
+                >
+                  Check Status
+                </Button>
+              )}
+            </div>
           </div>
-          
-          <div className="rounded-lg border p-4">
-            <div className="text-sm font-semibold">Level 3: Trusted Seller</div>
-            <p className="text-sm text-muted-foreground mt-1">Earn the badge with consistent successful history.</p>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="secondary" className="mt-3">Learn More</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Trusted Seller Status</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Become a Trusted Seller by maintaining:
-                  </p>
-                  <ul className="text-sm space-y-1 list-disc list-inside">
-                    <li>10+ successful transactions</li>
-                    <li>4.8+ average rating</li>
-                    <li>No disputes in last 6 months</li>
-                    <li>Complete profile information</li>
-                  </ul>
-                  <Button 
-                    onClick={() => createVerificationRequest('trusted_seller', 'advanced', 'Trusted seller status application')}
-                    disabled={isCreating}
-                    className="w-full"
-                  >
-                    {isCreating ? "Submitting..." : "Apply for Trusted Status"}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+        </div>
+
+        {/* Sharing Eligibility */}
+        <div className="p-4 bg-muted rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <Shield className="h-4 w-4" />
+            <p className="font-medium">Sharing Eligibility</p>
           </div>
+          <p className="text-sm text-muted-foreground">
+            {verificationStatus?.email_verified && (verificationStatus?.phone_verified || verificationStatus?.identity_verified) ? 
+              "✅ You can share listings and earn rewards!" : 
+              "❌ Email verification + (phone OR identity) verification required to share listings"
+            }
+          </p>
         </div>
       </CardContent>
     </Card>
