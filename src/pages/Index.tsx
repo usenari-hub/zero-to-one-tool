@@ -325,16 +325,43 @@ return (
         <section id="curriculum" className="scroll-reveal scroll-mt-24 bg-[hsl(var(--brand-academic))] text-background py-8 sm:py-12 md:py-16">
           <div className="container">
             <h2 className="text-center font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl text-accent">Course Curriculum</h2>
-            <p className="text-center opacity-90 italic mt-2 text-sm sm:text-base">Master the three-course sequence to bacon mastery</p>
+            <p className="text-center opacity-90 italic mt-2 text-sm sm:text-base">Real courses from our growing catalog</p>
             <div className="mt-6 sm:mt-8 lg:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {courses.map((c, i) => (
-                <div key={i} className="scroll-reveal text-center rounded-xl bg-white/10 p-4 sm:p-6 backdrop-blur">
-                  <div className="mx-auto mb-3 sm:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-accent text-[hsl(var(--brand-academic))] font-display text-lg sm:text-2xl shadow">{c.num}</div>
-                  <h3 className="font-display text-base sm:text-lg lg:text-xl text-accent">{c.title}</h3>
-                  <p className="mt-1 text-xs sm:text-sm italic opacity-90">{c.code}</p>
-                  <p className="mt-2 opacity-90 text-xs sm:text-sm leading-relaxed">{c.text}</p>
-                </div>
-              ))}
+              {coursesLoading ? (
+                // Loading skeleton
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={`skeleton-${i}`} className="text-center rounded-xl bg-white/10 p-4 sm:p-6 backdrop-blur animate-pulse">
+                    <div className="mx-auto mb-3 sm:mb-4 h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-white/20"></div>
+                    <div className="h-4 bg-white/20 rounded w-3/4 mx-auto mb-2"></div>
+                    <div className="h-3 bg-white/20 rounded w-full mx-auto mb-2"></div>
+                    <div className="h-3 bg-white/20 rounded w-5/6 mx-auto"></div>
+                  </div>
+                ))
+              ) : topCourses.length > 0 ? (
+                topCourses.slice(0, 3).map((course, i) => (
+                  <div key={course.id} className="scroll-reveal text-center rounded-xl bg-white/10 p-4 sm:p-6 backdrop-blur cursor-pointer hover:bg-white/20 transition-colors"
+                       onClick={() => navigate(`/listings/${course.id}`)}>
+                    <div className="mx-auto mb-3 sm:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-accent text-[hsl(var(--brand-academic))] font-display text-lg sm:text-2xl shadow">
+                      {i + 1}
+                    </div>
+                    <h3 className="font-display text-base sm:text-lg lg:text-xl text-accent line-clamp-2">{course.title}</h3>
+                    <p className="mt-1 text-xs sm:text-sm italic opacity-90">{course.department} • {course.location}</p>
+                    <p className="mt-2 opacity-90 text-xs sm:text-sm leading-relaxed">
+                      <span className="font-medium">Tuition:</span> {course.tuition} • <span className="font-medium">Rewards:</span> {course.rewards}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                // Fallback to static courses if no real data
+                courses.map((c, i) => (
+                  <div key={i} className="scroll-reveal text-center rounded-xl bg-white/10 p-4 sm:p-6 backdrop-blur">
+                    <div className="mx-auto mb-3 sm:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-accent text-[hsl(var(--brand-academic))] font-display text-lg sm:text-2xl shadow">{c.num}</div>
+                    <h3 className="font-display text-base sm:text-lg lg:text-xl text-accent">{c.title}</h3>
+                    <p className="mt-1 text-xs sm:text-sm italic opacity-90">{c.code}</p>
+                    <p className="mt-2 opacity-90 text-xs sm:text-sm leading-relaxed">{c.text}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </section>
