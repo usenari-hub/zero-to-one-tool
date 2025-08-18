@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTopCourses } from "@/hooks/useTopCourses";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -163,20 +164,8 @@ const Index = () => {
     });
   };
 
-// Course Catalog placeholders (3 per department)
-const coursePlaceholders = useMemo(() => {
-  return departments.flatMap((dep) =>
-    [1, 2, 3].map((n) => ({
-      department: dep.title,
-      title: dep.title === "School of Technology" && n === 1 ? "2019 MacBook Pro - Mint Condition" : `${dep.title} Listing ${n}`,
-      description: "All the juicy details",
-      tuition: "Your asking price",
-      rewards: "Set 15-25% referral pool",
-      classSize: "1-6 degrees",
-    }))
-  );
-}, []);
-const topCourses = useMemo(() => coursePlaceholders, [coursePlaceholders]);
+// Fetch real course data
+const { courses: topCourses, loading: coursesLoading } = useTopCourses();
 const topCoursesApiRef = useRef<CarouselApi | null>(null);
 useEffect(() => {
   const id = setInterval(() => topCoursesApiRef.current?.scrollNext(), 5000);
@@ -199,17 +188,41 @@ return (
               <CardContent>
                 <Carousel setApi={(api) => (topCoursesApiRef.current = api)} className="relative">
                   <CarouselContent>
-                    {topCourses.map((c, i) => (
-                      <CarouselItem key={i} className="px-1 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                        <div className="rounded-md border bg-card p-2 sm:p-4">
-                          <div className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground">{c.department}</div>
-                          <div className="mt-1 font-display text-xs sm:text-sm text-[hsl(var(--brand-academic))] line-clamp-2">{c.title}</div>
-                          <div className="mt-1 text-[10px] sm:text-xs text-muted-foreground">Anonymous listing • {c.classSize}</div>
-                          <div className="mt-2 text-xs sm:text-sm"><span className="font-medium">Tuition:</span> {c.tuition}</div>
-                          <div className="text-xs sm:text-sm"><span className="font-medium">Rewards:</span> {c.rewards}</div>
+                    {coursesLoading ? (
+                      // Loading skeleton
+                      Array.from({ length: 4 }).map((_, i) => (
+                        <CarouselItem key={`skeleton-${i}`} className="px-1 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                          <div className="rounded-md border bg-card p-2 sm:p-4 animate-pulse">
+                            <div className="h-3 bg-muted rounded w-20 mb-2"></div>
+                            <div className="h-4 bg-muted rounded w-full mb-1"></div>
+                            <div className="h-3 bg-muted rounded w-24 mb-2"></div>
+                            <div className="h-3 bg-muted rounded w-16 mb-1"></div>
+                            <div className="h-3 bg-muted rounded w-20"></div>
+                          </div>
+                        </CarouselItem>
+                      ))
+                    ) : topCourses.length > 0 ? (
+                      topCourses.map((c, i) => (
+                        <CarouselItem key={c.id || i} className="px-1 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                          <div className="rounded-md border bg-card p-2 sm:p-4 cursor-pointer hover:shadow-md transition-shadow"
+                               onClick={() => navigate(`/listings/${c.id}`)}>
+                            <div className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground">{c.department}</div>
+                            <div className="mt-1 font-display text-xs sm:text-sm text-[hsl(var(--brand-academic))] line-clamp-2">{c.title}</div>
+                            <div className="mt-1 text-[10px] sm:text-xs text-muted-foreground">Anonymous listing • {c.classSize}</div>
+                            <div className="mt-2 text-xs sm:text-sm"><span className="font-medium">Tuition:</span> {c.tuition}</div>
+                            <div className="text-xs sm:text-sm"><span className="font-medium">Rewards:</span> {c.rewards}</div>
+                          </div>
+                        </CarouselItem>
+                      ))
+                    ) : (
+                      // No data fallback
+                      <CarouselItem className="px-1 basis-full">
+                        <div className="rounded-md border bg-card p-4 text-center text-muted-foreground">
+                          <p className="text-sm">No courses available at the moment</p>
+                          <p className="text-xs mt-1">Check back soon for new listings!</p>
                         </div>
                       </CarouselItem>
-                    ))}
+                    )}
                   </CarouselContent>
                   <CarouselPrevious className="left-1 sm:left-2 top-1/2 -translate-y-1/2 h-6 w-6 sm:h-8 sm:w-8" />
                   <CarouselNext className="right-1 sm:right-2 top-1/2 -translate-y-1/2 h-6 w-6 sm:h-8 sm:w-8" />
