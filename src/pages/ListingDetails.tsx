@@ -162,7 +162,9 @@ export default function ListingDetailsPage() {
       toast({ title: "Price unavailable", description: "This listing does not have a set price." });
       return;
     }
-    const amountCents = Math.max(50, Math.round(Number(price) * 100));
+    // For high-value items, use $5000 deposit instead of full price
+    const isHighValue = Number(price) > 10000;
+    const amountCents = isHighValue ? 500000 : Math.max(50, Math.round(Number(price) * 100)); // $5000 in cents
 
     recordEvent(listing.id, "buy");
 
@@ -211,7 +213,11 @@ export default function ListingDetailsPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-muted-foreground">{listing.item_description}</p>
+              <div className="prose prose-sm max-w-none">
+                {listing.item_description && (
+                  <div dangerouslySetInnerHTML={{ __html: listing.item_description.replace(/\n/g, '<br/>') }} />
+                )}
+              </div>
 
               {/* Image Gallery */}
               {listing.item_images && Array.isArray(listing.item_images) && listing.item_images.length > 0 && (
@@ -223,9 +229,12 @@ export default function ListingDetailsPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3 rounded-md border">
-                  <div className="text-xs text-muted-foreground">Asking Price</div>
-                  <div className="text-lg font-medium">
+                  <div className="text-xs text-muted-foreground">Full Price</div>
+                  <div className="text-lg font-medium text-muted-foreground line-through">
                     {formatMoney(Number(listing.asking_price ?? 0))}
+                  </div>
+                  <div className="text-xs text-green-600 font-medium">
+                    ${formatMoney(5000).replace('$', '')} deposit to connect
                   </div>
                 </div>
                 <div className="p-3 rounded-md border">
@@ -247,7 +256,7 @@ export default function ListingDetailsPage() {
                 </Button>
                 <Button onClick={handleBuy} className="bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent)/0.9)]">
                   <ShoppingCart className="h-4 w-4 mr-2" />
-                  Purchase
+                  Pay $5,000 Deposit to Connect
                 </Button>
               </div>
             </CardContent>

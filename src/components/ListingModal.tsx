@@ -60,7 +60,11 @@ export function ListingModal({ open, onOpenChange, listing }: { open: boolean; o
             </Carousel>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">{listing?.item_description ?? "No description provided."}</p>
+            <div className="text-sm text-muted-foreground max-h-60 overflow-y-auto prose prose-sm">
+              {listing?.item_description && (
+                <div dangerouslySetInnerHTML={{ __html: listing.item_description.replace(/\n/g, '<br/>') }} />
+              )}
+            </div>
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
               <div>
                 <div className="text-muted-foreground">Asking</div>
