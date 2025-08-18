@@ -614,6 +614,60 @@ export type Database = {
           },
         ]
       }
+      charity_fund: {
+        Row: {
+          allocated_at: string | null
+          charity_allocation: Json
+          disbursed: boolean | null
+          disbursed_at: string | null
+          id: string
+          listing_id: string
+          notes: string | null
+          purchase_id: string
+          unclaimed_amount: number
+          unfilled_degrees: number
+        }
+        Insert: {
+          allocated_at?: string | null
+          charity_allocation: Json
+          disbursed?: boolean | null
+          disbursed_at?: string | null
+          id?: string
+          listing_id: string
+          notes?: string | null
+          purchase_id: string
+          unclaimed_amount: number
+          unfilled_degrees: number
+        }
+        Update: {
+          allocated_at?: string | null
+          charity_allocation?: Json
+          disbursed?: boolean | null
+          disbursed_at?: string | null
+          id?: string
+          listing_id?: string
+          notes?: string | null
+          purchase_id?: string
+          unclaimed_amount?: number
+          unfilled_degrees?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "charity_fund_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "charity_fund_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: true
+            referencedRelation: "purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       click_events: {
         Row: {
           browser: string | null
@@ -782,6 +836,72 @@ export type Database = {
           },
         ]
       }
+      content_violations: {
+        Row: {
+          automatic_action: string | null
+          created_at: string | null
+          filtered_content: string
+          id: string
+          manual_review_required: boolean | null
+          message_id: string | null
+          message_type: string | null
+          original_content: string
+          reviewed: boolean | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string | null
+          user_id: string
+          violation_patterns: string[]
+        }
+        Insert: {
+          automatic_action?: string | null
+          created_at?: string | null
+          filtered_content: string
+          id?: string
+          manual_review_required?: boolean | null
+          message_id?: string | null
+          message_type?: string | null
+          original_content: string
+          reviewed?: boolean | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string | null
+          user_id: string
+          violation_patterns: string[]
+        }
+        Update: {
+          automatic_action?: string | null
+          created_at?: string | null
+          filtered_content?: string
+          id?: string
+          manual_review_required?: boolean | null
+          message_id?: string | null
+          message_type?: string | null
+          original_content?: string
+          reviewed?: boolean | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string | null
+          user_id?: string
+          violation_patterns?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_violations_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_violations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       degree_progression: {
         Row: {
           academic_standing: string | null
@@ -881,6 +1001,58 @@ export type Database = {
             foreignKeyName: "degree_progression_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      direct_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          listing_id: string
+          read_at: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          listing_id: string
+          read_at?: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          listing_id?: string
+          read_at?: string | null
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_messages_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -1272,6 +1444,60 @@ export type Database = {
           },
         ]
       }
+      listing_chat_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          filtered_content: string
+          flagged_reason: string | null
+          id: string
+          listing_id: string
+          message_type: string
+          sender_id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          filtered_content: string
+          flagged_reason?: string | null
+          id?: string
+          listing_id: string
+          message_type: string
+          sender_id: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          filtered_content?: string
+          flagged_reason?: string | null
+          id?: string
+          listing_id?: string
+          message_type?: string
+          sender_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_chat_messages_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_chat_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listing_events: {
         Row: {
           created_at: string
@@ -1554,6 +1780,53 @@ export type Database = {
           verification_data?: Json | null
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          listing_id: string | null
+          provider: string | null
+          reference: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          listing_id?: string | null
+          provider?: string | null
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          listing_id?: string | null
+          provider?: string | null
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_listing_fk"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -2442,6 +2715,83 @@ export type Database = {
         }
         Relationships: []
       }
+      user_reports: {
+        Row: {
+          admin_notes: string | null
+          category: string
+          created_at: string | null
+          description: string
+          id: string
+          listing_id: string | null
+          message_id: string | null
+          reported_user_id: string
+          reporter_id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string | null
+          status: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          category: string
+          created_at?: string | null
+          description: string
+          id?: string
+          listing_id?: string | null
+          message_id?: string | null
+          reported_user_id: string
+          reporter_id: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string | null
+          status?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          category?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          listing_id?: string | null
+          message_id?: string | null
+          reported_user_id?: string
+          reporter_id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reports_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reports_reported_user_id_fkey"
+            columns: ["reported_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reports_reporter_id_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reports_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       verification_badges: {
         Row: {
           anonymous_profile_id: string | null
@@ -2485,6 +2835,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      verification_documents: {
+        Row: {
+          created_at: string
+          file_path: string
+          id: string
+          reviewer_note: string | null
+          status: Database["public"]["Enums"]["review_status"]
+          type: Database["public"]["Enums"]["verification_doc_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_path: string
+          id?: string
+          reviewer_note?: string | null
+          status?: Database["public"]["Enums"]["review_status"]
+          type: Database["public"]["Enums"]["verification_doc_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_path?: string
+          id?: string
+          reviewer_note?: string | null
+          status?: Database["public"]["Enums"]["review_status"]
+          type?: Database["public"]["Enums"]["verification_doc_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       verification_requests: {
         Row: {
@@ -2534,6 +2917,42 @@ export type Database = {
           verification_data?: Json | null
           verification_level?: string | null
           verification_type?: string
+        }
+        Relationships: []
+      }
+      verification_status: {
+        Row: {
+          created_at: string
+          email_verified: boolean
+          id_verified: boolean
+          notes: Json
+          phone_verified: boolean
+          trusted_seller: boolean
+          updated_at: string
+          user_id: string
+          utility_bill_verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          email_verified?: boolean
+          id_verified?: boolean
+          notes?: Json
+          phone_verified?: boolean
+          trusted_seller?: boolean
+          updated_at?: string
+          user_id: string
+          utility_bill_verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          email_verified?: boolean
+          id_verified?: boolean
+          notes?: Json
+          phone_verified?: boolean
+          trusted_seller?: boolean
+          updated_at?: string
+          user_id?: string
+          utility_bill_verified?: boolean
         }
         Relationships: []
       }
@@ -2647,6 +3066,26 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      get_charity_fund_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          charity_breakdown: Json
+          disbursed_amount: number
+          pending_amount: number
+          total_amount: number
+          total_listings: number
+        }[]
+      }
+      get_chat_moderation_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          critical_violations: number
+          flagged_messages: number
+          reports_submitted: number
+          total_messages: number
+          violations_detected: number
+        }[]
+      }
       get_share_analytics: {
         Args: { user_id_param: string }
         Returns: Json
@@ -2702,6 +3141,8 @@ export type Database = {
       }
     }
     Enums: {
+      review_status: "pending" | "approved" | "rejected"
+      verification_doc_type: "id" | "utility_bill"
       verification_level:
         | "none"
         | "professor_verified"
@@ -2834,6 +3275,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      review_status: ["pending", "approved", "rejected"],
+      verification_doc_type: ["id", "utility_bill"],
       verification_level: [
         "none",
         "professor_verified",
