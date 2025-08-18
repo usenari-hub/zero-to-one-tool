@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/components/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { SecurityDashboard } from "@/components/SecurityDashboard";
@@ -1087,8 +1089,26 @@ const EnhancedListingsSection = ({ userId, listings, setListings, statsByListing
 
 // Main Account Component (Enhanced)
 const Account = () => {
+  const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [userId, setUserId] = useState<string | null>(null);
+
+  // Redirect to auth page if not logged in
+  if (!authLoading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
   const [listings, setListings] = useState<Listing[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1159,12 +1179,12 @@ const Account = () => {
     shareLinksCount: 0,
     potentialEarnings: 0
   });
-  const [user, setUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     const fetchUserAndData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      setCurrentUser(user);
       
       if (user) {
         // Fetch real bacon balance from bacon_transactions
