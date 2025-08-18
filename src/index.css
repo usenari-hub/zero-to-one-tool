@@ -377,6 +377,43 @@ All colors MUST be HSL.
   .listing-card {
     @apply p-3;
   }
+
+  /* Optimize modal and dialog positioning */
+  .dialog-content {
+    @apply max-w-[95vw] max-h-[90vh] mx-2;
+  }
+
+  /* Better touch targets */
+  .touch-target {
+    @apply min-h-[48px] min-w-[48px] p-3;
+  }
+
+  /* Improve form readability */
+  .mobile-form input,
+  .mobile-form textarea,
+  .mobile-form select {
+    @apply text-base; /* Prevents zoom on iOS */
+  }
+
+  /* Stack buttons vertically on mobile */
+  .button-group {
+    @apply flex-col space-y-2 space-x-0;
+  }
+
+  /* Optimize navigation spacing */
+  .mobile-nav {
+    @apply space-y-4 p-4;
+  }
+
+  /* Better image handling */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Optimize card layouts */
+  .card-grid {
+    @apply grid-cols-1 gap-4;
+  }
 }
 
 /* iPhone and small screens */
