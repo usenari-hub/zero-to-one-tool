@@ -90,8 +90,6 @@ const Index = () => {
       setDegreeStep((s) => {
         const next = Math.min(s + 1, degreeProgression.length - 1);
         if (next === degreeProgression.length - 1) {
-          // Show honor roll toast after reaching Dean
-          setTimeout(() => toast({ title: "Honor Roll", description: "You've been added to the Honor Roll! 🏆" }), 800);
           // reset after a delay
           setTimeout(() => setDegreeStep(0), 5000);
         }
