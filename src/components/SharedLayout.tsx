@@ -147,10 +147,10 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
           <div className={`
             md:flex md:items-center md:gap-6 md:font-semibold md:text-background md:static md:bg-transparent
             ${mobileOpen 
-              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] border-l border-background/20 shadow-2xl p-4 pt-16 z-[9999] animate-slide-in-right" 
+              ? "fixed top-0 right-0 h-screen w-64 bg-[hsl(var(--brand-academic))] border-l-4 border-background shadow-2xl p-4 pt-16 z-[9999] animate-slide-in-right backdrop-blur-none" 
               : "hidden"
             }
-          `}>
+          `} style={mobileOpen ? { backgroundColor: 'hsl(var(--brand-academic))', zIndex: 9999 } : {}}>
             <ul className="flex flex-col md:flex-row gap-4 md:gap-6 font-semibold text-background">
               <li className="py-2 border-b border-background/20">
                 <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/listings" onClick={() => setMobileOpen(false)}>
