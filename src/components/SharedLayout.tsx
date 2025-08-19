@@ -207,7 +207,7 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
                 }}
                 className="mobile-button"
               >
-                Sign Up
+                Sign In / Sign Up
               </Button>
             )}
 
