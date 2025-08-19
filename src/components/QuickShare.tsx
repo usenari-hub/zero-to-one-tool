@@ -195,59 +195,60 @@ export const QuickShare: React.FC<QuickShareProps> = ({ selectedListing, onClose
           
           return (
             <Card key={platform.id} className="overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`p-3 rounded-full ${platform.color} text-white`}>
-                      <Icon className="h-5 w-5" />
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className={`p-2 rounded-full ${platform.color} text-white flex-shrink-0`}>
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <div>
-                      <h4 className="font-semibold">{platform.name}</h4>
-                      <p className="text-sm text-muted-foreground">{platform.description}</p>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-semibold text-sm">{platform.name}</h4>
+                      <p className="text-xs text-muted-foreground truncate">{platform.description}</p>
                     </div>
                   </div>
                   <Button
                     onClick={() => handleQuickShare(platform.id)}
                     disabled={!selectedListing || isCurrentlySharing}
-                    className={platform.color}
+                    className={`${platform.color} flex-shrink-0 text-xs px-3 py-2 h-auto`}
+                    size="sm"
                   >
                     {isCurrentlySharing ? (
-                      <>Creating Link...</>
+                      <>Creating...</>
                     ) : (
                       <>
-                        <Share2 className="h-4 w-4 mr-1" />
-                        Quick Share
+                        <Share2 className="h-3 w-3 mr-1" />
+                        Share
                       </>
                     )}
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <Users className="h-4 w-4 mx-auto mb-1 text-muted-foreground" />
-                    <div className="text-sm font-medium">{platform.audience}</div>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  <div className="text-center p-2 bg-muted rounded-md">
+                    <Users className="h-3 w-3 mx-auto mb-1 text-muted-foreground" />
+                    <div className="text-xs font-medium truncate">{platform.audience}</div>
                   </div>
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <TrendingUp className="h-4 w-4 mx-auto mb-1 text-muted-foreground" />
-                    <div className="text-xs text-muted-foreground">Avg Reach</div>
-                    <div className="text-sm font-medium">{platform.avgReach}</div>
+                  <div className="text-center p-2 bg-muted rounded-md">
+                    <TrendingUp className="h-3 w-3 mx-auto mb-1 text-muted-foreground" />
+                    <div className="text-xs text-muted-foreground">Reach</div>
+                    <div className="text-xs font-medium">{platform.avgReach}</div>
                   </div>
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <Target className="h-4 w-4 mx-auto mb-1 text-muted-foreground" />
-                    <div className="text-xs text-muted-foreground">Conversion</div>
-                    <div className="text-sm font-medium">{platform.conversionRate}</div>
+                  <div className="text-center p-2 bg-muted rounded-md">
+                    <Target className="h-3 w-3 mx-auto mb-1 text-muted-foreground" />
+                    <div className="text-xs text-muted-foreground">Conv.</div>
+                    <div className="text-xs font-medium">{platform.conversionRate}</div>
                   </div>
                 </div>
 
                 {selectedListing && (
-                  <div className="bg-muted/50 p-3 rounded-lg">
+                  <div className="bg-muted/50 p-2 rounded-md">
                     <div className="text-xs text-muted-foreground mb-1">Preview:</div>
-                    <div className="text-sm">
+                    <div className="text-xs line-clamp-3">
                       {platform.quickTemplate
                         ?.replace(/\[ITEM\]/g, selectedListing.item_title || 'Amazing Course Material')
                         ?.replace(/\[AMOUNT\]/g, String(selectedListing.reward_percentage || 20))
                         ?.replace(/\[CATEGORY\]/g, selectedListing.item_description?.split(' ')[0] || 'academic materials')
-                        .substring(0, 120) + '...'}
+                        .substring(0, 100) + '...'}
                     </div>
                   </div>
                 )}
