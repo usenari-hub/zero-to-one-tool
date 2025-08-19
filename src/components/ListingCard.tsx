@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Eye, Share2, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ShareIntentModal } from "@/components/ShareIntentModal";
+import { QuickShareButton } from "@/components/QuickShareButton";
 import { useState } from "react";
 
 export interface Listing {
@@ -124,10 +125,13 @@ export function ListingCard({ listing, onShare, onBuy, onView, className }: { li
               <Eye className="mr-1 sm:mr-2 h-4 w-4" /> 
               <span className="text-xs sm:text-sm">View</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={handleShareClick} className="touch-target flex-1 sm:flex-initial">
-              <Share2 className="mr-1 sm:mr-2 h-4 w-4" /> 
-              <span className="text-xs sm:text-sm">Share</span>
-            </Button>
+            <QuickShareButton 
+              listingId={listing.id}
+              listingTitle={listing.item_title}
+              size="sm"
+              variant="outline"
+              className="touch-target flex-1 sm:flex-initial text-xs sm:text-sm"
+            />
           </div>
           <Button variant="hero" size="sm" className="touch-target w-full sm:w-auto" onClick={() => onBuy(listing)}>
             <ShoppingCart className="mr-1 sm:mr-2 h-4 w-4" /> 

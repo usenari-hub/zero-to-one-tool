@@ -63,9 +63,8 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('listings')
+        .from('marketplace_listings')
         .select('id, item_title, item_description, asking_price, reward_percentage, category, department, created_at')
-        .eq('status', 'active')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -74,7 +73,7 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
       console.error('Error fetching listings:', error);
       toast({
         title: "Error",
-        description: "Failed to load your listings",
+        description: "Failed to load available listings",
         variant: "destructive"
       });
     } finally {
@@ -145,11 +144,11 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
         {step === 'selectListing' && (
           <div className="space-y-4">
             <div>
-              <Label>Search Your Listings</Label>
+              <Label>Search Available Listings</Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Search your listings..."
+                  placeholder="Search all available listings..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -165,11 +164,11 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
               ) : filteredListings.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="text-muted-foreground">
-                    {searchTerm ? 'No listings match your search' : 'No active listings found'}
+                    {searchTerm ? 'No listings match your search' : 'No active listings available'}
                   </div>
                   {!searchTerm && (
                     <p className="text-sm text-muted-foreground mt-2">
-                      Create some listings first to generate share links
+                      Check back later for new listings to share
                     </p>
                   )}
                 </div>

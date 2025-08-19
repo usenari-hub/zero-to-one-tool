@@ -14,6 +14,7 @@ import { CoursePageWithTracking } from "@/components/CoursePageWithTracking";
 import { ReferralChainBuilder } from "@/components/ReferralChainBuilder";
 import { ListingChatBoard } from "@/components/ListingChatBoard";
 import { DirectMessaging } from "@/components/DirectMessaging";
+import { QuickShareButton } from "@/components/QuickShareButton";
 
 function formatMoney(value?: number | null) {
   if (value == null || isNaN(value)) return "—";
@@ -250,10 +251,11 @@ export default function ListingDetailsPage() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Button onClick={handleShare} variant="outline">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share
-                </Button>
+                <QuickShareButton 
+                  listingId={listing.id}
+                  listingTitle={listing.item_title}
+                  variant="outline"
+                />
                 <Button onClick={handleBuy} className="bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent)/0.9)]">
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   Pay $5,000 Deposit to Connect
