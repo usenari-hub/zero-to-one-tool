@@ -329,10 +329,10 @@ export const ReferralDashboard = () => {
                 />
               ) : (
                 <Tabs defaultValue="social" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="social">Social Media Kit</TabsTrigger>
-                    <TabsTrigger value="email">Email Templates</TabsTrigger>
-                    <TabsTrigger value="quick">Quick Share</TabsTrigger>
+                  <TabsList className="grid w-full grid-cols-3 h-auto">
+                    <TabsTrigger value="social" className="text-xs px-2 py-2">Social Media Kit</TabsTrigger>
+                    <TabsTrigger value="email" className="text-xs px-2 py-2">Email Templates</TabsTrigger>
+                    <TabsTrigger value="quick" className="text-xs px-2 py-2">Quick Share</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="social" className="mt-4">

@@ -178,8 +178,11 @@ export const QuickShare: React.FC<QuickShareProps> = ({ selectedListing, onClose
           <CardContent className="p-6 text-center">
             <Target className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
             <h4 className="font-medium mb-2">No Listing Selected</h4>
-            <p className="text-sm text-muted-foreground">
-              Please select a listing from your Share Links to start quick sharing.
+            <p className="text-sm text-muted-foreground mb-4">
+              You need to create some share links first. Go to the "Share Links" tab and create share links for your listings.
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Once you have share links, they'll appear here for quick sharing.
             </p>
           </CardContent>
         </Card>
