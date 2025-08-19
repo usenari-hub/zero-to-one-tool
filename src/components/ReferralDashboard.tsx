@@ -53,24 +53,47 @@ export const ReferralDashboard = () => {
 
   const loadShareLinks = async () => {
     try {
-      // Use the SharingAPI to get real share links
-      const { SharingAPI } = await import('@/lib/SharingAPI');
-      const shareLinksData = await SharingAPI.getMyShareLinks();
-      setShareLinks(shareLinksData || []);
+      const { data: user } = await supabase.auth.getUser();
+      if (!user.user) return;
+
+      // Query share_links_enhanced with listing details
+      const { data, error } = await supabase
+        .from('share_links_enhanced')
+        .select(`
+          *,
+          listings!inner (
+            item_title,
+            price_min,
+            price_max,
+            reward_percentage
+          )
+        `)
+        .eq('user_id', user.user.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+
+      // Transform data to match expected format
+      const formattedShareLinks = (data || []).map(link => ({
+        id: link.id,
+        listing_id: link.listing_id,
+        tracking_code: link.tracking_code,
+        share_url: link.share_url,
+        platform: link.platform,
+        custom_message: link.custom_message,
+        clicks: link.clicks || 0,
+        conversions: link.conversions || 0,
+        bacon_earned: typeof link.bacon_earned === 'string' ? parseFloat(link.bacon_earned) : (link.bacon_earned || 0),
+        created_at: link.created_at,
+        is_active: link.is_active,
+        // Add listing information
+        listings: link.listings
+      }));
+
+      setShareLinks(formattedShareLinks);
     } catch (error) {
       console.error('Failed to load share links:', error);
-      // Fallback to database query
-      try {
-        const { data, error } = await supabase
-          .from('share_links_enhanced')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        if (error) throw error;
-        setShareLinks(data || []);
-      } catch (fallbackError) {
-        console.error('Fallback query also failed:', fallbackError);
-      }
+      setShareLinks([]);
     }
   };
 
