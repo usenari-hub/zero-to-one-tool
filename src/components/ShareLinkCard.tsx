@@ -183,7 +183,7 @@ export const ShareLinkCard: React.FC<ShareLinkCardProps> = ({
             <div className="text-xs text-muted-foreground">Clicks</div>
           </div>
           <div>
-            <div className="text-xl font-bold">3</div>
+            <div className="text-xl font-bold">1</div>
             <div className="text-xs text-muted-foreground">Shares</div>
           </div>
           <div>
