@@ -442,6 +442,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "anonymous_profiles_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "anonymous_profiles_real_seller_id_fkey"
             columns: ["real_seller_id"]
             isOneToOne: false
@@ -660,6 +667,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "charity_fund_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "charity_fund_purchase_id_fkey"
             columns: ["purchase_id"]
             isOneToOne: true
@@ -777,6 +791,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "contact_lockdown_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "contact_lockdown_seller_id_fkey"
             columns: ["seller_id"]
             isOneToOne: false
@@ -832,6 +853,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_locks_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
         ]
@@ -1040,6 +1068,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -1289,6 +1324,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "fraud_alerts_related_listing_id_fkey"
+            columns: ["related_listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "fraud_alerts_related_purchase_id_fkey"
             columns: ["related_purchase_id"]
             isOneToOne: false
@@ -1362,6 +1404,13 @@ export type Database = {
             columns: ["reported_listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_reports_reported_listing_id_fkey"
+            columns: ["reported_listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -1490,6 +1539,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "listing_chat_messages_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "listing_chat_messages_sender_id_fkey"
             columns: ["sender_id"]
             isOneToOne: false
@@ -1526,6 +1582,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_events_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -1826,6 +1889,13 @@ export type Database = {
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "payments_listing_fk"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -1949,6 +2019,13 @@ export type Database = {
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "purchases_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
         ]
       }
       referral_chains: {
@@ -2005,6 +2082,13 @@ export type Database = {
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "referral_chains_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
         ]
       }
       referrals: {
@@ -2038,6 +2122,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
         ]
@@ -2141,6 +2232,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_conversions_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -2420,6 +2518,13 @@ export type Database = {
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "share_links_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
         ]
       }
       share_links_enhanced: {
@@ -2520,6 +2625,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "share_links_enhanced_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -2767,6 +2879,13 @@ export type Database = {
             columns: ["listing_id"]
             isOneToOne: false
             referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reports_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
             referencedColumns: ["id"]
           },
           {
@@ -3083,7 +3202,78 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      marketplace_listings: {
+        Row: {
+          asking_price: number | null
+          category: string | null
+          created_at: string | null
+          department: string | null
+          ends_at: string | null
+          general_location: string | null
+          id: string | null
+          item_description: string | null
+          item_images: Json | null
+          item_title: string | null
+          location: string | null
+          max_degrees: number | null
+          price_max: number | null
+          price_min: number | null
+          priority_score: number | null
+          reward_percentage: number | null
+          status: string | null
+          updated_at: string | null
+          verification_level:
+            | Database["public"]["Enums"]["verification_level"]
+            | null
+        }
+        Insert: {
+          asking_price?: number | null
+          category?: string | null
+          created_at?: string | null
+          department?: string | null
+          ends_at?: string | null
+          general_location?: string | null
+          id?: string | null
+          item_description?: string | null
+          item_images?: Json | null
+          item_title?: string | null
+          location?: string | null
+          max_degrees?: number | null
+          price_max?: number | null
+          price_min?: number | null
+          priority_score?: number | null
+          reward_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+          verification_level?:
+            | Database["public"]["Enums"]["verification_level"]
+            | null
+        }
+        Update: {
+          asking_price?: number | null
+          category?: string | null
+          created_at?: string | null
+          department?: string | null
+          ends_at?: string | null
+          general_location?: string | null
+          id?: string | null
+          item_description?: string | null
+          item_images?: Json | null
+          item_title?: string | null
+          location?: string | null
+          max_degrees?: number | null
+          price_max?: number | null
+          price_min?: number | null
+          priority_score?: number | null
+          reward_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+          verification_level?:
+            | Database["public"]["Enums"]["verification_level"]
+            | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_ban_user: {
