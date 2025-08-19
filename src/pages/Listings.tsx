@@ -31,8 +31,8 @@ export default function ListingsPage() {
   const fetchListings = useCallback(async () => {
     setLoading(true);
   const { data, error } = await supabase
-    .from("listings")
-    .select("id,item_title,item_description,asking_price,reward_percentage,max_degrees,general_location,seller_rating,created_at,ends_at,verification_level,item_images,department")
+    .from("marketplace_listings")
+    .select("id,item_title,item_description,asking_price,reward_percentage,max_degrees,general_location,created_at,ends_at,verification_level,item_images,department")
     .order("created_at", { ascending: false });
     if (error) {
       toast({ title: "Failed to load listings", description: error.message });
