@@ -140,14 +140,14 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
           
           {/* Mobile Menu Overlay */}
           {mobileOpen && (
-            <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={() => setMobileOpen(false)} />
+            <div className="fixed inset-0 z-[90] bg-black/50 md:hidden" onClick={() => setMobileOpen(false)} />
           )}
           
           {/* Navigation Menu */}
           <div className={`
             md:flex md:items-center md:gap-6 md:font-semibold md:text-background md:static md:bg-transparent
             ${mobileOpen 
-              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] p-4 pt-16 z-[100] animate-slide-in-right" 
+              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] shadow-2xl p-4 pt-16 z-[100] animate-slide-in-right" 
               : "hidden"
             }
           `}>
@@ -175,10 +175,13 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
               <Button 
                 variant="secondary" 
                 size="sm" 
-                onClick={() => setAuthModalOpen(true)}
+                onClick={() => {
+                  setAuthTab("signup");
+                  setAuthModalOpen(true);
+                }}
                 className="mobile-button"
               >
-                Sign In
+                Sign Up
               </Button>
             )}
 
@@ -197,18 +200,6 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
               )}
             </Button>
             
-            <div className="md:hidden">
-              <Select onValueChange={(val) => navigate(val)}>
-                <SelectTrigger className="w-20 sm:w-24 bg-background/90 text-foreground text-xs">
-                  <SelectValue placeholder="Menu" />
-                </SelectTrigger>
-                <SelectContent className="z-50 bg-background border shadow-lg">
-                  {sections.map((s) => (
-                    <SelectItem key={s.id} value={s.path}>{s.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
             
             <button 
               className="md:hidden text-background text-xl sm:text-2xl touch-target flex items-center justify-center" 
