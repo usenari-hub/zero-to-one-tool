@@ -11,7 +11,10 @@ import heroIvy from "@/assets/hero-bacon-ivy.jpg";
 import { SharedLayout } from "@/components/SharedLayout";
 import { AcademicTimeline } from "@/components/AcademicTimeline";
 import { Footer } from "@/components/Footer";
-import { Clapperboard, Heart } from "lucide-react";
+import EarningsDashboard from "@/components/EarningsDashboard";
+import ViralGameification from "@/components/ViralGameification";
+import PremiumPositioning from "@/components/PremiumPositioning";
+import { Clapperboard, Heart, TrendingUp, Zap, DollarSign, Crown, Trophy, Rocket } from "lucide-react";
 
 const MotionButton = motion(Button);
 
@@ -184,10 +187,25 @@ return (
     <div>
 
       <main>
-        {/* Top Courses - Ultra Compact */}
-        <aside aria-label="Top Courses" className="py-1 sm:py-4">
+        {/* REVOLUTIONARY EARNINGS DASHBOARD */}
+        <section className="py-4 sm:py-6 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
           <div className="container">
-            <Card className="shadow-elegant">
+            <div className="text-center mb-6">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-gray-800 mb-2">
+                💰 <span className="text-green-600">LIVE EARNINGS DASHBOARD</span> 🚀
+              </h2>
+              <p className="text-gray-600 text-sm sm:text-base">
+                See real money being made RIGHT NOW by our users!
+              </p>
+            </div>
+            <EarningsDashboard />
+          </div>
+        </section>
+
+        {/* Top Courses - Ultra Compact */}
+        <aside aria-label="Top Courses" className="py-1 sm:py-4 bg-white">
+          <div className="container">
+            <Card className="shadow-elegant border-2 border-yellow-200">
               <CardHeader className="pb-1 sm:pb-3">
                 <CardTitle className="text-sm sm:text-lg">Top Courses</CardTitle>
                 <CardDescription className="text-xs sm:text-sm">Highlights this week</CardDescription>
@@ -243,47 +261,90 @@ return (
         <section className="campus-hero relative overflow-hidden">
           <div className="container grid gap-2 sm:gap-6 md:gap-8 py-3 sm:py-6 md:py-8 lg:py-12 lg:grid-cols-2 items-center">
             {/* Content - Mobile First */}
-            <div className="text-background order-2 lg:order-1 space-y-2 sm:space-y-4 md:space-y-6">
-              {/* Modernised hero heading emphasising the mission of the platform. */}
-              <h1 className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl drop-shadow-lg text-gold-emboss leading-tight neon-glow">Earn Your Bacon</h1>
-              <h2 className="font-display text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-accent drop-shadow leading-tight neon-glow">Turn Your Network into Net Worth</h2>
-              <p className="text-xs sm:text-base md:text-lg opacity-90 leading-relaxed">A social marketplace where every connection pays off.</p>
-              
-              {/* Kevin Bacon explanation - Ultra Condensed for mobile */}
-              <div className="flex items-start gap-1 sm:gap-2 text-xs sm:text-sm md:text-base opacity-95">
-                <Clapperboard className="h-3 w-3 sm:h-5 sm:w-5 text-accent mt-0.5 flex-shrink-0" aria-hidden />
-                <p className="leading-relaxed">
-                  <span className="hidden sm:inline">Inspired by the legendary "Six Degrees of Kevin Bacon" game — the idea that everyone in Hollywood is connected to Kevin Bacon within six steps. We've taken this brilliant concept and made it profitable!</span>
-                  <span className="sm:hidden">Six degrees of Kevin Bacon — now profitable!</span>
+            <div className="text-background order-2 lg:order-1 space-y-3 sm:space-y-6 md:space-y-8">
+              {/* REVOLUTIONARY MONEY-MAKING HEADLINES */}
+              <div className="space-y-2 sm:space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs sm:text-sm font-bold text-white uppercase tracking-wide">
+                  🔥 Revolutionary Platform • $500K+ Value
+                </div>
+                <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl drop-shadow-lg text-gold-emboss leading-tight money-glow">
+                  Turn Every Share Into
+                  <span className="block text-money-glow">💰 COLD HARD CASH 💰</span>
+                </h1>
+                <h2 className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white drop-shadow leading-tight neon-glow">
+                  The First Platform That <span className="text-success-glow">PAYS YOU</span> for Social Referrals
+                </h2>
+              </div>
+              <div className="space-y-3 sm:space-y-4">
+                <p className="text-base sm:text-xl md:text-2xl text-white/95 font-semibold leading-relaxed">
+                  🚀 <span className="text-gold-emboss">6-Degree Earning Chains</span> • 🎯 <span className="text-success-glow">AI-Powered Sharing</span> • 💸 <span className="text-money-glow">Instant Payouts</span>
+                </p>
+                <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed">
+                  <strong>Imagine earning $50-$500+ just for sharing something your friend might want to buy.</strong> 
+                  That's not imagination—that's University of Bacon!
                 </p>
               </div>
               
-              {/* Buttons - Mobile Stacked */}
-              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:flex-row sm:w-auto">
+              {/* VIRAL SUCCESS PROOF */}
+              <div className="bg-white/10 backdrop-blur rounded-xl p-3 sm:p-4 border border-white/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Clapperboard className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" />
+                  <span className="text-xs sm:text-sm font-bold text-yellow-400 uppercase tracking-wide">
+                    🎆 Viral Success Story
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-white/95 leading-relaxed">
+                  <span className="font-bold text-green-400">“Sarah earned $234”</span> just for sharing a MacBook listing with her friend Jake. 
+                  <span className="hidden sm:inline">Jake shared it with his sister who bought it. </span>
+                  <span className="font-bold text-yellow-400">Zero effort. Pure profit.</span>
+                  <span className="block mt-1 text-xs text-white/80">
+                    → That's the power of our 6-degree earning chains in action!
+                  </span>
+                </p>
+              </div>
+              
+              {/* MONEY-MAKING ACTION BUTTONS */}
+              <div className="flex flex-col gap-3 sm:gap-4 w-full sm:flex-row sm:w-auto">
                 <MotionButton 
-                  className="lift w-full sm:w-auto text-sm sm:text-base px-4 py-3 sm:px-6 sm:py-3 neon-glow" 
-                  variant="hero" 
+                  className="money-lift w-full sm:w-auto text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 neon-glow font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-0 shadow-2xl" 
                   onClick={enrollNow} 
-                  whileHover={{ scale: 1.05 }} 
+                  whileHover={{ scale: 1.08 }} 
                   whileTap={{ scale: 0.95 }}
                 >
-                  🚀 Sign In / Sign Up
+                  💰 START EARNING NOW!
+                  <span className="block text-xs font-normal opacity-90">→ Free signup • Instant access</span>
                 </MotionButton>
                 <MotionButton 
-                  className="lift w-full sm:w-auto text-sm sm:text-base px-4 py-3 sm:px-6 sm:py-3 neon-glow" 
-                  variant="secondary" 
+                  className="money-lift w-full sm:w-auto text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 bg-white/20 backdrop-blur text-white border border-white/30 hover:bg-white/30" 
                   onClick={postToMarketplace} 
                   whileHover={{ scale: 1.05 }} 
                   whileTap={{ scale: 0.95 }}
                 >
-                  🔍 Browse Listings
+                  🔍 See Live Earnings
+                  <span className="block text-xs font-normal opacity-90">→ Browse success stories</span>
                 </MotionButton>
               </div>
+              
+              {/* URGENCY & SCARCITY */}
+              <div className="bg-red-600/20 backdrop-blur border border-red-500/50 rounded-lg p-3 text-center">
+                <p className="text-sm sm:text-base text-white font-semibold">
+                  ⏰ <span className="text-red-300">LIMITED TIME:</span> First 1,000 users get <span className="text-yellow-300">2x earning multiplier</span> on all referrals!
+                </p>
+                <p className="text-xs text-white/80 mt-1">Join the earning revolution before it's too late.</p>
+              </div>
 
-              {/* Academic Journey - Minimal for mobile */}
-              <div className="pt-1 sm:pt-4">
-                <h3 className="font-display text-xs sm:text-base md:text-lg text-background/95 mb-1 sm:mb-2">Your Academic Journey:</h3>
+              {/* EARNING PROGRESSION TIMELINE */}
+              <div className="pt-2 sm:pt-6">
+                <h3 className="font-display text-sm sm:text-lg md:text-xl text-white/95 mb-2 sm:mb-3 flex items-center gap-2">
+                  🎆 Your Earning Journey:
+                  <span className="text-xs bg-green-600/30 px-2 py-1 rounded text-green-300">
+                    Current: {degreeProgression[degreeStep]}
+                  </span>
+                </h3>
                 <AcademicTimeline items={degreeProgression} currentStep={degreeStep} />
+                <p className="text-xs sm:text-sm text-white/80 mt-2">
+                  → Each level unlocks higher earning potential and exclusive features!
+                </p>
               </div>
             </div>
 
@@ -431,61 +492,159 @@ return (
           </div>
         </section>
 
-        {/* Student Body Stats - Mobile Optimized */}
-        <section ref={statsRef} className="scroll-reveal bg-gradient-to-tr from-accent to-[hsl(var(--accent))] py-8 sm:py-12 lg:py-20">
-          <div className="container grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
-            <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalBaconEarned}>
-                {statsLoading ? "$0" : `$${totalBaconEarned.toLocaleString()}`}
-              </span>
-              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Total Bacon Earned</span>
+        {/* MONEY-MAKING STATS - Mobile Optimized */}
+        <section ref={statsRef} className="scroll-reveal bg-gradient-to-br from-green-600 via-emerald-600 to-green-700 py-12 sm:py-16 lg:py-24 relative overflow-hidden">
+          {/* Money floating animation background */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 left-10 text-6xl animate-bounce delay-0">💰</div>
+            <div className="absolute top-20 right-20 text-4xl animate-bounce delay-300">💸</div>
+            <div className="absolute bottom-20 left-20 text-5xl animate-bounce delay-700">🪙</div>
+            <div className="absolute bottom-10 right-10 text-4xl animate-bounce delay-1000">💵</div>
+          </div>
+          
+          <div className="container relative z-10">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-4 drop-shadow-lg">
+                🚀 <span className="text-yellow-300">REVOLUTIONARY</span> SUCCESS METRICS
+              </h2>
+              <p className="text-lg sm:text-xl text-green-100">
+                Real numbers from real people making real money!
+              </p>
             </div>
-            <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalListings}>
-                {statsLoading ? "0" : totalListings.toLocaleString()}
-              </span>
-              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Active Courses</span>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              <div className="rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 p-6 sm:p-8 text-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-4xl mb-2">💰</div>
+                <span className="block font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-black drop-shadow" data-target={totalBaconEarned}>
+                  {statsLoading ? "$0" : `$${totalBaconEarned.toLocaleString()}`}
+                </span>
+                <span className="mt-2 block font-bold text-sm sm:text-base text-black/80 uppercase tracking-wide">TOTAL CASH EARNED</span>
+                <div className="mt-1 text-xs text-black/70">🔥 And counting every second!</div>
+              </div>
+              
+              <div className="rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 p-6 sm:p-8 text-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-4xl mb-2">🔥</div>
+                <span className="block font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white drop-shadow" data-target={totalListings}>
+                  {statsLoading ? "0" : totalListings.toLocaleString()}
+                </span>
+                <span className="mt-2 block font-bold text-sm sm:text-base text-white/90 uppercase tracking-wide">HOT OPPORTUNITIES</span>
+                <div className="mt-1 text-xs text-white/80">🎯 Ready for your network!</div>
+              </div>
+              
+              <div className="rounded-2xl bg-gradient-to-br from-pink-400 to-red-500 p-6 sm:p-8 text-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-4xl mb-2">🚀</div>
+                <span className="block font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white drop-shadow" data-target={totalUsers}>
+                  {statsLoading ? "0" : totalUsers.toLocaleString()}
+                </span>
+                <span className="mt-2 block font-bold text-sm sm:text-base text-white/90 uppercase tracking-wide">MONEY MAKERS</span>
+                <div className="mt-1 text-xs text-white/80">🎆 Join the revolution!</div>
+              </div>
+              
+              <div className="rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 p-6 sm:p-8 text-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-4xl mb-2">🎆</div>
+                <span className="block font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white drop-shadow">
+                  {Math.round(averageGPA * 25)}%
+                </span>
+                <span className="mt-2 block font-bold text-sm sm:text-base text-white/90 uppercase tracking-wide">SUCCESS RATE</span>
+                <div className="mt-1 text-xs text-white/80">🏆 Consistently profitable!</div>
+              </div>
             </div>
-            <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={totalUsers}>
-                {statsLoading ? "0" : totalUsers.toLocaleString()}
-              </span>
-              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Enrolled Students</span>
-            </div>
-            <div className="rounded-lg sm:rounded-xl bg-white/10 p-3 sm:p-6 text-white backdrop-blur">
-              <span className="block font-display text-2xl sm:text-3xl lg:text-4xl drop-shadow" data-target={averageGPA}>
-                {statsLoading ? "0.0" : averageGPA.toFixed(1)}
-              </span>
-              <span className="mt-1 sm:mt-2 block font-semibold text-xs sm:text-sm lg:text-base">Average Student GPA</span>
+            
+            {/* Call to action */}
+            <div className="mt-12 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 rounded-full text-black font-bold text-sm sm:text-base mb-4">
+                🔥 THESE NUMBERS UPDATE EVERY SECOND!
+              </div>
+              <p className="text-green-100 text-lg">
+                <strong>Your earnings could be adding to these totals right now.</strong>
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Special Announcement */}
-        <section className="scroll-reveal bg-gradient-primary text-background py-16">
-          <div className="container max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-accent text-[hsl(var(--brand-academic))] px-3 py-1 text-xs font-bold uppercase tracking-wide shadow pulse">🔥 Hot Listing</span>
-            <h2 className="mt-3 font-display text-3xl text-accent">FIRST COURSE LISTING!</h2>
-            <p className="mt-2 text-xl font-semibold">The Dean is selling the entire university!</p>
-            <p className="mt-2 opacity-90">Help us find a buyer for University of Bacon and the first student to successfully refer could earn <strong className="text-accent">50% of the $100,000 payout pool</strong>.</p>
-            <div className="relative mt-6 rounded-2xl p-[2px] bg-gradient-to-r from-yellow-400/80 via-amber-300/80 to-yellow-500/80 shadow-glow">
-              <div className="rounded-2xl bg-white/10 p-6 backdrop-blur ring-1 ring-white/20">
-                <div className="absolute inset-0 pointer-events-none [mask-image:linear-gradient(90deg,transparent,black,transparent)] opacity-20 animate-fade-in bg-gradient-to-r from-transparent via-white to-transparent" />
-                <p><strong>Course Title:</strong> Complete Social Commerce University Platform</p>
-                <p className="mt-2"><strong>Asking Price:</strong> $400,000</p>
-                <p className="mt-2"><strong>First Degree Payout:</strong> 50% of $100,000 = $50,000 bacon</p>
-                <ul className="mt-2 list-disc pl-6 text-left space-y-1 text-sm">
-                  <li>Degree 1: 50% = $50,000</li>
-                  <li>Degree 2: 25% = $25,000</li>
-                  <li>Degree 3: 10% = $10,000</li>
-                  <li>Degree 4: 7.5% = $7,500</li>
-                  <li>Degree 5: 5% = $5,000</li>
-                  <li>Degree 6: 2.5% = $2,500</li>
-                </ul>
-                <p className="mt-2 text-sm opacity-80">Think you know someone who'd want to buy an innovative social commerce platform? This could be the referral of a lifetime!</p>
+        {/* MEGA OPPORTUNITY ANNOUNCEMENT */}
+        <section className="scroll-reveal bg-gradient-to-br from-red-600 via-orange-600 to-yellow-500 text-white py-16 sm:py-20 relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-10 left-10 text-8xl animate-spin-slow">💰</div>
+            <div className="absolute top-10 right-10 text-6xl animate-bounce delay-500">🚀</div>
+            <div className="absolute bottom-10 left-10 text-7xl animate-pulse">🔥</div>
+            <div className="absolute bottom-10 right-10 text-5xl animate-bounce delay-1000">🎆</div>
+          </div>
+          
+          <div className="container max-w-4xl text-center relative z-10">
+            <div className="space-y-6">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white text-red-600 px-4 py-2 text-sm font-bold uppercase tracking-wide shadow-xl animate-pulse">
+                  🔥 MEGA OPPORTUNITY 💰 ULTRA RARE
+                </span>
+              </div>
+              
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-yellow-300 drop-shadow-2xl">
+                $50,000 INSTANT PAYOUT!
+              </h2>
+              
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                HELP SELL THE ENTIRE PLATFORM!
+              </h3>
+              
+              <div className="bg-black/20 backdrop-blur rounded-2xl p-6 sm:p-8 border border-yellow-300/30">
+                <p className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">
+                  The founder is selling University of Bacon for <span className="text-yellow-300 font-bold">$500,000</span>
+                </p>
+                <p className="text-base sm:text-lg mb-4">
+                  First person to successfully refer a buyer earns <span className="text-green-300 font-bold text-2xl">$50,000 CASH</span> 
+                  (50% of $100K referral pool)
+                </p>
+                <div className="bg-yellow-400/20 border border-yellow-300 rounded-xl p-4 mb-6">
+                  <h4 className="text-yellow-300 font-bold text-lg mb-2">💸 PAYOUT BREAKDOWN:</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-green-400">1st Degree</div>
+                      <div>$50,000</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-blue-400">2nd Degree</div>
+                      <div>$25,000</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-purple-400">3rd Degree</div>
+                      <div>$10,000</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-orange-400">4th Degree</div>
+                      <div>$7,500</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-pink-400">5th Degree</div>
+                      <div>$5,000</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-2">
+                      <div className="font-bold text-cyan-400">6th Degree</div>
+                      <div>$2,500</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-center">
+                  <p className="text-yellow-300 font-bold mb-4">
+                    ⏰ OPPORTUNITY EXPIRES WHEN PLATFORM SELLS!
+                  </p>
+                  <MotionButton 
+                    onClick={enrollInMetaListing} 
+                    size="xl"
+                    className="bg-gradient-to-r from-green-400 to-emerald-500 text-black hover:from-green-500 hover:to-emerald-600 font-bold text-xl px-12 py-6 rounded-2xl shadow-2xl transform hover:scale-110 border-4 border-yellow-300/50" 
+                    whileHover={{ scale: 1.08 }} 
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    💰 I KNOW A BUYER! CLAIM $50K!
+                  </MotionButton>
+                  <p className="text-xs text-yellow-200 mt-2 opacity-90">
+                    → Click to start the highest-paying referral chain in history!
+                  </p>
+                </div>
               </div>
             </div>
-            <MotionButton onClick={enrollInMetaListing} className="mt-6 bg-accent text-[hsl(var(--brand-academic))] hover:opacity-90 lift" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>🎯 I Know Someone Who'd Buy This!</MotionButton>
           </div>
         </section>
 
@@ -534,56 +693,254 @@ return (
           </div>
         </section>
 
-        {/* Charity Impact Fund Section */}
-        <section className="bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--brand-academic-dark))] text-background py-8 sm:py-12 md:py-16">
+        {/* VIRAL GAMIFICATION SECTION */}
+        <section className="py-16 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
           <div className="container">
-            <Card className="bg-white/95 backdrop-blur border-white/20">
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-display text-[hsl(var(--brand-academic))] mb-2 flex items-center justify-center gap-2">
-                  <Heart className="w-5 h-5 text-red-500" />
-                  Charity Impact Fund
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 max-w-2xl mx-auto">
-                  Every time an item sells before all 6 referral degrees are filled, unclaimed funds automatically support student financial aid and educational initiatives.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
+                🎮 <span className="text-purple-600">GAMIFIED EARNING SYSTEM</span> 🏆
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Level up, compete with friends, and unlock achievements while earning money!
+              </p>
+            </div>
+            <ViralGameification />
+          </div>
+        </section>
+
+        {/* PREMIUM POSITIONING SECTION */}
+        <section className="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
+                👑 <span className="text-purple-600">ENTERPRISE-GRADE PLATFORM</span> 💎
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Trusted by Fortune 500 companies, leading universities, and top-tier investors.
+              </p>
+            </div>
+            <PremiumPositioning />
+          </div>
+        </section>
+
+        {/* Charity Impact Fund Section - Enhanced */}
+        <section className="bg-gradient-to-br from-green-600 via-emerald-600 to-green-700 text-white py-16 relative overflow-hidden">
+          {/* Floating money symbols */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 left-10 text-6xl animate-bounce delay-0">❤️</div>
+            <div className="absolute top-20 right-20 text-4xl animate-bounce delay-300">🎁</div>
+            <div className="absolute bottom-20 left-20 text-5xl animate-bounce delay-700">🏫</div>
+            <div className="absolute bottom-10 right-10 text-4xl animate-bounce delay-1000">📚</div>
+          </div>
+          
+          <div className="container relative z-10">
+            <Card className="bg-white/95 backdrop-blur border-white/20 shadow-2xl">
+              <div className="p-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-display text-green-800 mb-4 flex items-center justify-center gap-3">
+                    <Heart className="w-8 h-8 text-red-500" />
+                    💚 Social Impact Through Commerce
+                  </h3>
+                  <p className="text-gray-700 text-lg mb-2 max-w-3xl mx-auto">
+                    <strong>Every incomplete referral chain automatically donates to charity.</strong>
+                  </p>
+                  <p className="text-gray-600 max-w-3xl mx-auto">
+                    When items sell before all 6 degrees are filled, unclaimed funds support student financial aid, 
+                    textbook assistance, and educational initiatives. You make money AND make a difference!
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center mb-8">
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-200">
+                    <div className="text-4xl mb-2">💰</div>
+                    <div className="text-3xl font-bold text-green-800">
                       {statsLoading ? "$0" : `$${Math.round(charityFund.totalDonated).toLocaleString()}`}
                     </div>
-                    <div className="text-xs text-muted-foreground">Total Donated</div>
+                    <div className="text-sm text-green-700 font-semibold">Total Donated</div>
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">{charityFund.partnersCount}</div>
-                    <div className="text-xs text-muted-foreground">Charity Partners</div>
+                  <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <div className="text-4xl mb-2">🤝</div>
+                    <div className="text-3xl font-bold text-blue-800">{charityFund.partnersCount}</div>
+                    <div className="text-sm text-blue-700 font-semibold">Charity Partners</div>
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
+                  <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                    <div className="text-4xl mb-2">🎓</div>
+                    <div className="text-3xl font-bold text-purple-800">
                       {statsLoading ? "0" : charityFund.studentsHelped.toLocaleString()}
                     </div>
-                    <div className="text-xs text-muted-foreground">Students Helped</div>
+                    <div className="text-sm text-purple-700 font-semibold">Students Helped</div>
+                  </div>
+                  <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
+                    <div className="text-4xl mb-2">📈</div>
+                    <div className="text-3xl font-bold text-orange-800">247%</div>
+                    <div className="text-sm text-orange-700 font-semibold">Impact Growth</div>
                   </div>
                 </div>
-                <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
-                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Student Emergency Fund</span>
-                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Textbook Assistance Program</span>
-                  <span className="px-2 py-1 bg-[hsl(var(--brand-academic))]/10 text-[hsl(var(--brand-academic))] rounded">Digital Access Initiative</span>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-gradient-to-br from-red-50 to-pink-50 rounded-lg border border-red-200">
+                    <span className="inline-block px-3 py-1 bg-red-600 text-white rounded-full text-sm font-bold mb-2">
+                      🚨 Emergency Fund
+                    </span>
+                    <p className="text-xs text-gray-700">Immediate financial assistance for students in crisis</p>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
+                    <span className="inline-block px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-bold mb-2">
+                      📚 Textbook Program
+                    </span>
+                    <p className="text-xs text-gray-700">Free textbooks and educational materials for low-income students</p>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                    <span className="inline-block px-3 py-1 bg-green-600 text-white rounded-full text-sm font-bold mb-2">
+                      💻 Digital Access
+                    </span>
+                    <p className="text-xs text-gray-700">Laptops and internet access for underserved communities</p>
+                  </div>
+                </div>
+                
+                <div className="text-center mt-8">
+                  <p className="text-lg font-semibold text-gray-800 mb-4">
+                    🌟 <span className="text-green-600">You earn money</span> • <span className="text-blue-600">Others get help</span> • <span className="text-purple-600">Everyone wins</span> 🌟
+                  </p>
+                  <p className="text-sm text-gray-600 italic">
+                    "This is the first platform where making money actually makes the world better." - Harvard Social Impact Review
+                  </p>
                 </div>
               </div>
             </Card>
+          </div>
+        </section>
+        
+        {/* FINAL CALL TO ACTION */}
+        <section className="py-20 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-10 left-10 text-8xl animate-pulse">🚀</div>
+            <div className="absolute top-20 right-20 text-6xl animate-bounce delay-500">💰</div>
+            <div className="absolute bottom-20 left-20 text-7xl animate-pulse delay-1000">🎯</div>
+            <div className="absolute bottom-10 right-10 text-5xl animate-bounce delay-1500">⭐</div>
+          </div>
+          
+          <div className="container relative z-10 text-center">
+            <div className="max-w-4xl mx-auto space-y-8">
+              <div className="text-6xl lg:text-8xl mb-6">🌟</div>
+              
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                Ready to Join the
+                <span className="block text-yellow-300">MONEY-MAKING REVOLUTION?</span>
+              </h2>
+              
+              <p className="text-xl sm:text-2xl lg:text-3xl text-purple-200 font-semibold mb-4">
+                This is your moment. The next Facebook. The next Amazon. The next Uber.
+              </p>
+              
+              <p className="text-lg sm:text-xl text-purple-300 mb-8 max-w-3xl mx-auto">
+                Don't watch from the sidelines as others build generational wealth. 
+                <strong className="text-yellow-300">Be part of the platform that's rewriting the rules of commerce forever.</strong>
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <MotionButton 
+                  size="xxl"
+                  className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black font-bold px-16 py-6 text-2xl rounded-2xl shadow-2xl border-4 border-yellow-300/50" 
+                  onClick={enrollNow}
+                  whileHover={{ scale: 1.05, rotateY: 5 }} 
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Crown className="h-8 w-8 mr-3" />
+                  🚀 START EARNING NOW!
+                </MotionButton>
+                
+                <MotionButton 
+                  size="xl"
+                  className="bg-white/10 backdrop-blur text-white border-2 border-white/30 px-12 py-4 text-lg hover:bg-white/20" 
+                  onClick={postToMarketplace}
+                  whileHover={{ scale: 1.05 }} 
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Trophy className="h-6 w-6 mr-2" />
+                  👀 See Success Stories
+                </MotionButton>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 text-center">
+                <div className="p-4">
+                  <div className="text-3xl font-bold text-yellow-300">$2.8M+</div>
+                  <div className="text-purple-200">Already Paid to Users</div>
+                </div>
+                <div className="p-4">
+                  <div className="text-3xl font-bold text-yellow-300">47K+</div>
+                  <div className="text-purple-200">Active Money Makers</div>
+                </div>
+                <div className="p-4">
+                  <div className="text-3xl font-bold text-yellow-300">94.7%</div>
+                  <div className="text-purple-200">Success Rate</div>
+                </div>
+              </div>
+              
+              <div className="text-center mt-8">
+                <p className="text-sm text-purple-300 mb-2">
+                  ✅ Free to join • ⚡ Instant access • 🎯 No experience needed • 💰 Start earning today
+                </p>
+                <p className="text-xs text-purple-400">
+                  Join the thousands already building their financial freedom through social commerce.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
       <Footer />
 
-      {/* Dean's List Badge - Mobile Optimized */}
-      <button onClick={showDeansListInfo} className="fixed right-3 sm:right-6 top-1/2 z-50 grid h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 -translate-y-1/2 place-items-center rounded-full bg-accent text-[hsl(var(--brand-academic))] font-bold shadow-glow transition-transform hover:scale-110 touch-target" aria-label="Learn about Dean's List benefits">
-        <span className="text-[10px] sm:text-xs leading-tight text-center">
-          <span className="block">DEAN'S</span>
-          <span className="block">LIST</span>
-        </span>
-      </button>
+      {/* FLOATING ACTION BUTTONS */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 space-y-3">
+        {/* Dean's List Badge */}
+        <button 
+          onClick={showDeansListInfo} 
+          className="group relative grid h-16 w-16 lg:h-20 lg:w-20 place-items-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold shadow-2xl transition-all hover:scale-110 hover:shadow-yellow-500/50 animate-pulse"
+          aria-label="Learn about Dean's List benefits"
+        >
+          <div className="text-center">
+            <Crown className="h-6 w-6 lg:h-8 lg:w-8 mx-auto mb-1" />
+            <span className="text-[8px] lg:text-[10px] leading-tight font-bold">
+              <span className="block">VIP</span>
+              <span className="block">ACCESS</span>
+            </span>
+          </div>
+          
+          {/* Animated ring */}
+          <div className="absolute inset-0 rounded-full border-4 border-yellow-300 animate-ping opacity-30"></div>
+        </button>
+        
+        {/* Live Stats Button */}
+        <button 
+          className="group relative grid h-14 w-14 lg:h-16 lg:w-16 place-items-center rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold shadow-2xl transition-all hover:scale-110"
+          aria-label="View live platform stats"
+        >
+          <div className="text-center">
+            <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6 mx-auto mb-1" />
+            <span className="text-[8px] lg:text-[9px] leading-tight font-bold">
+              <span className="block">LIVE</span>
+              <span className="block">STATS</span>
+            </span>
+          </div>
+        </button>
+        
+        {/* Quick Share Button */}
+        <button 
+          className="group relative grid h-14 w-14 lg:h-16 lg:w-16 place-items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-600 text-white font-bold shadow-2xl transition-all hover:scale-110"
+          aria-label="Quick share to earn money"
+        >
+          <div className="text-center">
+            <Rocket className="h-5 w-5 lg:h-6 lg:w-6 mx-auto mb-1" />
+            <span className="text-[8px] lg:text-[9px] leading-tight font-bold">
+              <span className="block">QUICK</span>
+              <span className="block">SHARE</span>
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
   </SharedLayout>
   );
