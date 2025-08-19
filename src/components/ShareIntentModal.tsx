@@ -49,7 +49,7 @@ export const ShareIntentModal: React.FC<ShareIntentModalProps> = ({
   if (!course) return null;
 
   const shareText = `Check out this course: ${course.item_title || course.title}`;
-  const shareUrl = `https://bacon-university.com/courses/${course.id}`;
+  const shareUrl = `https://earnyourbacon.online/courses/${course.id}?ref=${course.tracking_code || 'SHARE'}`;
 
   const handleShare = async (platform: string) => {
     if (!canShare) {

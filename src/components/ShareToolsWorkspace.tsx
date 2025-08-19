@@ -47,9 +47,9 @@ export const ShareToolsWorkspace: React.FC<ShareToolsWorkspaceProps> = ({
 
 Perfect for any students or professionals in my network. It's in great condition, and the seller has excellent reviews.
 
-If you know someone who might be interested, I can earn a small referral fee through University of Bacon - it's a cool platform that rewards networking!
+If you know someone who might be interested, I can earn a small referral fee through University of Bacon Social Ecommerce Platform - it's a cool platform that rewards networking!
 
-Check it out: ${shareLink.shareUrl}
+Check it out: https://earnyourbacon.online/listing/${shareLink.course.id}?ref=${shareLink.trackingCode}
 
 #UniversityOfBacon #StudentDeals`);
   
@@ -88,7 +88,8 @@ Check it out: ${shareLink.shareUrl}
   ];
 
   const handleCopyTrackingLink = () => {
-    navigator.clipboard.writeText(shareLink.shareUrl);
+    const fullUrl = `https://earnyourbacon.online/listing/${shareLink.course.id}?ref=${shareLink.trackingCode}`;
+    navigator.clipboard.writeText(fullUrl);
   };
 
   const handlePostNow = () => {
@@ -155,7 +156,7 @@ Check it out: ${shareLink.shareUrl}
               <div className="space-y-2">
                 <Label>🔗 Your Tracking Link:</Label>
                 <div className="flex gap-2">
-                  <Input value={shareLink.shareUrl} readOnly className="flex-1" />
+                  <Input value={`https://earnyourbacon.online/listing/${shareLink.course.id}?ref=${shareLink.trackingCode}`} readOnly className="flex-1" />
                   <Button size="sm" onClick={handleCopyTrackingLink}>
                     <Copy className="w-4 h-4" />
                   </Button>
@@ -166,7 +167,7 @@ Check it out: ${shareLink.shareUrl}
 
           {/* Platform Tabs */}
           <Tabs value={selectedPlatform} onValueChange={setSelectedPlatform}>
-            <TabsList className="grid grid-cols-6 w-full mb-6">
+            <TabsList className="grid grid-cols-4 lg:grid-cols-8 w-full mb-6">
               {platforms.map((platform) => (
                 <TabsTrigger key={platform.id} value={platform.id} className="text-xs">
                   {platform.icon} {platform.name}
@@ -187,7 +188,7 @@ Check it out: ${shareLink.shareUrl}
                         key={key}
                         variant="outline"
                         className="h-auto p-3 text-left"
-                        onClick={() => setContent(template + '\n\n' + shareLink.shareUrl)}
+                        onClick={() => setContent(template + '\n\n' + `https://earnyourbacon.online/listing/${shareLink.course.id}?ref=${shareLink.trackingCode}`)}
                       >
                         <div>
                           <div className="font-medium capitalize">{key === 'custom' ? '✏️ Custom' : 
@@ -296,7 +297,8 @@ Check it out: ${shareLink.shareUrl}
                         variant="outline" 
                         className="w-full justify-start" 
                         onClick={() => {
-                          navigator.clipboard.writeText(shareLink.shareUrl);
+                          const fullUrl = `https://earnyourbacon.online/listing/${shareLink.course.id}?ref=${shareLink.trackingCode}`;
+                          navigator.clipboard.writeText(fullUrl);
                           toast({ title: "Link Copied!", description: "Share link copied to clipboard" });
                         }}
                       >
