@@ -91,6 +91,7 @@ export const ReferralDashboard = () => {
       }));
 
       setShareLinks(formattedShareLinks);
+      console.log('Loaded share links:', formattedShareLinks.length, formattedShareLinks);
     } catch (error) {
       console.error('Failed to load share links:', error);
       setShareLinks([]);
