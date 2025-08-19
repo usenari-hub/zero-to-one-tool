@@ -11,6 +11,7 @@ import { ShareAnalyticsDashboard } from "@/components/ShareAnalyticsDashboard";
 import { SocialMediaKit } from "@/components/SocialMediaKit";
 import { EmailTemplates } from "@/components/EmailTemplates";
 import { QuickShare } from "@/components/QuickShare";
+import { CreateShareLinkModal } from "@/components/CreateShareLinkModal";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { RealTimeAnalytics } from "@/services/realTimeAnalytics";
@@ -20,6 +21,7 @@ export const ReferralDashboard = () => {
   const [shareLinks, setShareLinks] = useState([]);
   const [selectedShareLink, setSelectedShareLink] = useState(null);
   const [showShareTools, setShowShareTools] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [analyticsData, setAnalyticsData] = useState(null);
   const [stats, setStats] = useState({
@@ -43,6 +45,10 @@ export const ReferralDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchShareLinks = async () => {
+    await loadShareLinks();
   };
 
   const loadShareLinks = async () => {
@@ -274,8 +280,7 @@ export const ReferralDashboard = () => {
               <ShareLinksDashboard
                 shareLinks={shareLinks}
                 onCreateNew={() => {
-                  // Handle creating new share link
-                  toast({ title: "Create New Link", description: "Feature coming soon!" });
+                  setShowCreateModal(true);
                 }}
                 onOpenTools={(shareLink) => {
                   setSelectedShareLink(shareLink);
@@ -402,6 +407,16 @@ export const ReferralDashboard = () => {
           </div>
         </div>
       )}
+
+      {/* Create Share Link Modal */}
+      <CreateShareLinkModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onShareLinkCreated={() => {
+          fetchShareLinks();
+          setShowCreateModal(false);
+        }}
+      />
     </div>
   );
 };
