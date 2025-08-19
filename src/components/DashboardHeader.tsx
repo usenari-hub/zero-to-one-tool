@@ -21,15 +21,18 @@ interface DashboardHeaderProps {
 export const DashboardHeader = ({ 
   userName = "Student", 
   userLevel = "Freshman",
-  stats = {
-    totalEarnings: 1250,
-    activeListings: 3,
-    referralChains: 8,
-    recentActivity: 2
-  },
+  stats,
   className = ""
 }: DashboardHeaderProps) => {
-  const [notifications] = useState(3);
+  const [notifications] = useState(0);
+
+  // Use real stats or provide sensible defaults
+  const displayStats = stats || {
+    totalEarnings: 0,
+    activeListings: 0,
+    referralChains: 0,
+    recentActivity: 0
+  };
 
   const getLevelColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -116,7 +119,7 @@ export const DashboardHeader = ({
                 <div>
                   <p className="text-sm text-[hsl(var(--muted-foreground))]">Total Earnings</p>
                   <p className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
-                    ${stats.totalEarnings.toLocaleString()}
+                    ${displayStats.totalEarnings.toLocaleString()}
                   </p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-[hsl(var(--primary))]/10 flex items-center justify-center">
@@ -130,7 +133,7 @@ export const DashboardHeader = ({
                 <div>
                   <p className="text-sm text-[hsl(var(--muted-foreground))]">Active Listings</p>
                   <p className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
-                    {stats.activeListings}
+                    {displayStats.activeListings}
                   </p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-[hsl(var(--accent))]/10 flex items-center justify-center">
@@ -144,7 +147,7 @@ export const DashboardHeader = ({
                 <div>
                   <p className="text-sm text-[hsl(var(--muted-foreground))]">Active Chains</p>
                   <p className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
-                    {stats.referralChains}
+                    {displayStats.referralChains}
                   </p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-[hsl(var(--secondary))]/10 flex items-center justify-center">
@@ -158,7 +161,7 @@ export const DashboardHeader = ({
                 <div>
                   <p className="text-sm text-[hsl(var(--muted-foreground))]">Recent Activity</p>
                   <p className="text-2xl font-bold text-[hsl(var(--brand-academic))]">
-                    {stats.recentActivity}
+                    {displayStats.recentActivity}
                   </p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] flex items-center justify-center">
