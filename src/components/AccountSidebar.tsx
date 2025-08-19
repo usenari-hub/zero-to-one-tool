@@ -63,7 +63,7 @@ export const AccountSidebar: React.FC<AccountSidebarProps> = ({ activeTab, onTab
   ];
 
   return (
-    <Sidebar className="w-64 border-r">
+    <Sidebar className="w-64 border-r hidden lg:block">
       <SidebarContent className="p-4">
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-[hsl(var(--brand-academic))]">Account</h2>

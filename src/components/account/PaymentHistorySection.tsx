@@ -36,44 +36,74 @@ export const PaymentHistorySection = () => {
         <CardDescription>Records of bacon earned through successful referrals.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Listing</TableHead>
-              <TableHead>Reference</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8">Loading payment history...</TableCell>
+                <TableHead>Date</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Listing</TableHead>
+                <TableHead>Reference</TableHead>
               </TableRow>
-            ) : payments.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No transactions found</TableCell>
-              </TableRow>
-            ) : (
-              payments.map((p) => (
-                <TableRow key={p.id}>
-                  <TableCell>{new Date(p.created_at).toLocaleDateString()}</TableCell>
-                  <TableCell className="font-semibold">${p.amount}</TableCell>
-                  <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      p.payout_status === 'completed' ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent'
-                    }`}>
-                      {p.payout_status}
-                    </span>
-                  </TableCell>
-                  <TableCell>{p.description || 'Transaction'}</TableCell>
-                  <TableCell className="text-muted-foreground font-mono text-sm">{p.id.slice(0, 8)}</TableCell>
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8">Loading payment history...</TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ) : payments.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No transactions found</TableCell>
+                </TableRow>
+              ) : (
+                payments.map((p) => (
+                  <TableRow key={p.id}>
+                    <TableCell>{new Date(p.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell className="font-semibold">${p.amount}</TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        p.payout_status === 'completed' ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent'
+                      }`}>
+                        {p.payout_status}
+                      </span>
+                    </TableCell>
+                    <TableCell>{p.description || 'Transaction'}</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-sm">{p.id.slice(0, 8)}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="md:hidden space-y-3">
+          {loading ? (
+            <div className="text-center py-8">Loading payment history...</div>
+          ) : payments.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">No transactions found</div>
+          ) : (
+            payments.map((p) => (
+              <div key={p.id} className="bg-gray-50 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="font-semibold text-lg">${p.amount}</div>
+                    <div className="text-sm text-gray-600">{new Date(p.created_at).toLocaleDateString()}</div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    p.payout_status === 'completed' ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent'
+                  }`}>
+                    {p.payout_status}
+                  </span>
+                </div>
+                <div className="text-sm">{p.description || 'Transaction'}</div>
+                <div className="text-xs text-gray-500 font-mono">ID: {p.id.slice(0, 8)}</div>
+              </div>
+            ))
+          )}
+        </div>
       </CardContent>
     </Card>
   );

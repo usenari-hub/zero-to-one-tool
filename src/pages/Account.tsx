@@ -1360,36 +1360,99 @@ const Account = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full flex bg-background">
-        <AccountSidebar activeTab={activeTab} onTabChange={setActiveTab} />
-        
-        <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center border-b bg-background px-2 sm:px-4">
-            <SidebarTrigger />
-            <div className="flex flex-1 items-center justify-between ml-2 sm:ml-4">
-              <h1 className="font-display text-base sm:text-lg text-[hsl(var(--brand-academic))] truncate">
+      <div className="min-h-screen w-full bg-background">
+        {/* Desktop Layout */}
+        <div className="hidden lg:flex min-h-screen w-full">
+          <AccountSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+          
+          <div className="flex-1 flex flex-col">
+            <header className="h-14 flex items-center border-b bg-background px-2 sm:px-4">
+              <SidebarTrigger />
+              <div className="flex flex-1 items-center justify-between ml-2 sm:ml-4">
+                <h1 className="font-display text-base sm:text-lg text-[hsl(var(--brand-academic))] truncate">
+                  Account Dashboard
+                </h1>
+                <nav className="hidden sm:flex items-center space-x-6 text-sm font-medium">
+                  <a href="/listings" className="text-muted-foreground hover:text-foreground">Browse</a>
+                  <a href="/" className="text-muted-foreground hover:text-foreground">Home</a>
+                </nav>
+              </div>
+            </header>
+
+            <main className="flex-1">
+              <section className="bg-[hsl(var(--brand-academic))] text-background py-4 sm:py-8 md:py-12">
+                <div className="container px-4 sm:px-6">
+                  <h1 className="font-display text-xl sm:text-2xl md:text-3xl text-accent">
+                    {getTabTitle(activeTab)}
+                  </h1>
+                  <p className="mt-2 opacity-90 italic text-sm sm:text-base">
+                    {getTabDescription(activeTab)}
+                  </p>
+                </div>
+              </section>
+
+              <section className="container px-4 sm:px-6 py-4 sm:py-8">
+                {renderContent()}
+              </section>
+            </main>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="lg:hidden min-h-screen w-full">
+          <header className="bg-background border-b p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="font-display text-lg text-[hsl(var(--brand-academic))]">
                 Account Dashboard
               </h1>
-              <nav className="hidden sm:flex items-center space-x-6 text-sm font-medium">
+              <nav className="flex items-center space-x-4 text-sm">
                 <a href="/listings" className="text-muted-foreground hover:text-foreground">Browse</a>
                 <a href="/" className="text-muted-foreground hover:text-foreground">Home</a>
               </nav>
             </div>
+
+            {/* Mobile Tab Navigation */}
+            <div className="overflow-x-auto -mx-4 px-4">
+              <div className="flex space-x-2 min-w-max pb-2">
+                {[
+                  { id: "dashboard", label: "Dashboard", icon: "📊" },
+                  { id: "bacon-bank", label: "Bacon Bank", icon: "🏦" },
+                  { id: "payment-methods", label: "Payment", icon: "💳" },
+                  { id: "payment-history", label: "History", icon: "📋" },
+                  { id: "verification", label: "Verify", icon: "✅" },
+                  { id: "messages", label: "Messages", icon: "💬" },
+                  { id: "security", label: "Security", icon: "🔒" }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg whitespace-nowrap transition-all text-sm ${
+                      activeTab === tab.id
+                        ? 'bg-[hsl(var(--brand-academic))] text-white'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 border'
+                    }`}
+                  >
+                    <span className="text-base">{tab.icon}</span>
+                    <span className="font-medium">{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </header>
 
           <main className="flex-1">
-            <section className="bg-[hsl(var(--brand-academic))] text-background py-4 sm:py-8 md:py-12">
-              <div className="container px-4 sm:px-6">
-                <h1 className="font-display text-xl sm:text-2xl md:text-3xl text-accent">
+            <section className="bg-[hsl(var(--brand-academic))] text-background py-6">
+              <div className="px-4">
+                <h1 className="font-display text-xl text-accent">
                   {getTabTitle(activeTab)}
                 </h1>
-                <p className="mt-2 opacity-90 italic text-sm sm:text-base">
+                <p className="mt-2 opacity-90 italic text-sm">
                   {getTabDescription(activeTab)}
                 </p>
               </div>
             </section>
 
-            <section className="container px-4 sm:px-6 py-4 sm:py-8">
+            <section className="px-4 py-4">
               {renderContent()}
             </section>
           </main>
