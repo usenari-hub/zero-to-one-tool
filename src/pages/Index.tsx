@@ -185,14 +185,14 @@ return (
 
       <main>
         {/* Top Courses - Ultra Compact */}
-        <aside aria-label="Top Courses" className="container py-1 sm:py-4">
-          <div className="w-full">
+        <aside aria-label="Top Courses" className="py-1 sm:py-4">
+          <div className="container">
             <Card className="shadow-elegant">
               <CardHeader className="pb-1 sm:pb-3">
                 <CardTitle className="text-sm sm:text-lg">Top Courses</CardTitle>
                 <CardDescription className="text-xs sm:text-sm">Highlights this week</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-2 sm:px-6">
                 <Carousel setApi={(api) => (topCoursesApiRef.current = api)} className="relative">
                   <CarouselContent>
                     {coursesLoading ? (

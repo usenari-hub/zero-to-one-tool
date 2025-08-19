@@ -1287,41 +1287,41 @@ const Account = () => {
                 <CardDescription>Your earnings, listings, and referral performance</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">🥓</div>
-                    <div className="text-2xl font-bold">${balance.toFixed(2)}</div>
-                    <div className="text-sm text-muted-foreground">Bacon Balance</div>
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3">
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">🥓</div>
+                    <div className="text-lg sm:text-2xl font-bold">${balance.toFixed(2)}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Bacon Balance</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">📝</div>
-                    <div className="text-2xl font-bold">{listings.length}</div>
-                    <div className="text-sm text-muted-foreground">Active Listings</div>
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">📝</div>
+                    <div className="text-lg sm:text-2xl font-bold">{listings.length}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Active Listings</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">🔗</div>
-                    <div className="text-2xl font-bold">{stats.totalReferrals}</div>
-                    <div className="text-sm text-muted-foreground">Total Referrals</div>
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">🔗</div>
+                    <div className="text-lg sm:text-2xl font-bold">{stats.totalReferrals}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Total Referrals</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">🔗</div>
-                    <div className="text-2xl font-bold">{stats.shareLinksCount}</div>
-                    <div className="text-sm text-muted-foreground">Share Links</div>
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">🔗</div>
+                    <div className="text-lg sm:text-2xl font-bold">{stats.shareLinksCount}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Share Links</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">📈</div>
-                    <div className="text-2xl font-bold">{stats.conversionRate}%</div>
-                    <div className="text-sm text-muted-foreground">Conversion Rate</div>
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">📈</div>
+                    <div className="text-lg sm:text-2xl font-bold">{stats.conversionRate}%</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Conversion Rate</div>
                   </div>
                   
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl mb-2">🎯</div>
-                    <div className="text-2xl font-bold">{stats.avgDegree.toFixed(1)}</div>
-                    <div className="text-sm text-muted-foreground">Avg Degree</div>
+                  <div className="text-center p-3 sm:p-4 border rounded-lg">
+                    <div className="text-xl sm:text-2xl mb-2">🎯</div>
+                    <div className="text-lg sm:text-2xl font-bold">{stats.avgDegree.toFixed(1)}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Avg Degree</div>
                   </div>
                   
                 </div>
@@ -1364,13 +1364,13 @@ const Account = () => {
         <AccountSidebar activeTab={activeTab} onTabChange={setActiveTab} />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center border-b bg-background px-4">
+          <header className="h-14 flex items-center border-b bg-background px-2 sm:px-4">
             <SidebarTrigger />
-            <div className="flex flex-1 items-center justify-between ml-4">
-              <h1 className="font-display text-lg text-[hsl(var(--brand-academic))]">
+            <div className="flex flex-1 items-center justify-between ml-2 sm:ml-4">
+              <h1 className="font-display text-base sm:text-lg text-[hsl(var(--brand-academic))] truncate">
                 Account Dashboard
               </h1>
-              <nav className="flex items-center space-x-6 text-sm font-medium">
+              <nav className="hidden sm:flex items-center space-x-6 text-sm font-medium">
                 <a href="/listings" className="text-muted-foreground hover:text-foreground">Browse</a>
                 <a href="/" className="text-muted-foreground hover:text-foreground">Home</a>
               </nav>
@@ -1378,18 +1378,18 @@ const Account = () => {
           </header>
 
           <main className="flex-1">
-            <section className="bg-[hsl(var(--brand-academic))] text-background py-8 md:py-12">
-              <div className="container">
-                <h1 className="font-display text-2xl md:text-3xl text-accent">
+            <section className="bg-[hsl(var(--brand-academic))] text-background py-4 sm:py-8 md:py-12">
+              <div className="container px-4 sm:px-6">
+                <h1 className="font-display text-xl sm:text-2xl md:text-3xl text-accent">
                   {getTabTitle(activeTab)}
                 </h1>
-                <p className="mt-2 opacity-90 italic">
+                <p className="mt-2 opacity-90 italic text-sm sm:text-base">
                   {getTabDescription(activeTab)}
                 </p>
               </div>
             </section>
 
-            <section className="container py-8">
+            <section className="container px-4 sm:px-6 py-4 sm:py-8">
               {renderContent()}
             </section>
           </main>
