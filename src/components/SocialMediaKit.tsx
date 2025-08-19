@@ -121,8 +121,14 @@ export const SocialMediaKit: React.FC<SocialMediaKitProps> = ({ selectedListing,
       return;
     }
 
+    console.log('SocialMediaKit: Starting share process for platform:', platform);
+    console.log('SocialMediaKit: Selected listing:', selectedListing);
+
     try {
+      console.log('SocialMediaKit: Creating share link...');
       const shareLink = await createShareLink(selectedListing.id, platform, customMessage);
+      console.log('SocialMediaKit: Share link created successfully:', shareLink);
+      
       const content = generateContent();
       
       // Generate platform-specific share URL
@@ -282,7 +288,7 @@ export const SocialMediaKit: React.FC<SocialMediaKitProps> = ({ selectedListing,
             <div className="bg-muted p-3 rounded-md text-sm whitespace-pre-wrap">
               {generateContent() || 'Select a listing to see preview...'}
             </div>
-            <div className="flex gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-3">
               <Button 
                 variant="outline" 
                 size="sm"
