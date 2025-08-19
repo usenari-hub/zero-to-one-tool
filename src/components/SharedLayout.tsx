@@ -147,17 +147,43 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
           <div className={`
             md:flex md:items-center md:gap-6 md:font-semibold md:text-background md:static md:bg-transparent
             ${mobileOpen 
-              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] shadow-2xl p-4 pt-16 z-[100] animate-slide-in-right" 
+              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] border-l border-background/20 shadow-2xl p-4 pt-16 z-[9999] animate-slide-in-right" 
               : "hidden"
             }
           `}>
-            <ul className="flex flex-col md:flex-row gap-3 md:gap-6 font-semibold text-background">
-              <li><Link className="mobile-nav-item md:story-link" to="/listings" onClick={() => setMobileOpen(false)}>Listings</Link></li>
-              <li><Link className="mobile-nav-item md:story-link" to="/study-guides" onClick={() => setMobileOpen(false)}>Study Guides</Link></li>
-              <li><Link className="mobile-nav-item md:story-link" to="/admissions" onClick={() => setMobileOpen(false)}>Admissions</Link></li>
-              <li><Link className="mobile-nav-item md:story-link" to="/alumni" onClick={() => setMobileOpen(false)}>Alumni</Link></li>
-              {user && <li><Link className="mobile-nav-item md:story-link" to="/account" onClick={() => setMobileOpen(false)}>Account</Link></li>}
-              <li><Link className="mobile-nav-item md:story-link" to="/terms" onClick={() => setMobileOpen(false)}>Terms</Link></li>
+            <ul className="flex flex-col md:flex-row gap-4 md:gap-6 font-semibold text-background">
+              <li className="py-2 border-b border-background/20">
+                <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/listings" onClick={() => setMobileOpen(false)}>
+                  Listings
+                </Link>
+              </li>
+              <li className="py-2 border-b border-background/20">
+                <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/study-guides" onClick={() => setMobileOpen(false)}>
+                  Study Guides
+                </Link>
+              </li>
+              <li className="py-2 border-b border-background/20">
+                <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/admissions" onClick={() => setMobileOpen(false)}>
+                  Admissions
+                </Link>
+              </li>
+              <li className="py-2 border-b border-background/20">
+                <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/alumni" onClick={() => setMobileOpen(false)}>
+                  Alumni
+                </Link>
+              </li>
+              {user && (
+                <li className="py-2 border-b border-background/20">
+                  <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/account" onClick={() => setMobileOpen(false)}>
+                    Account
+                  </Link>
+                </li>
+              )}
+              <li className="py-2">
+                <Link className="block py-2 px-2 hover:bg-background/10 rounded mobile-nav-item md:story-link" to="/terms" onClick={() => setMobileOpen(false)}>
+                  Terms
+                </Link>
+              </li>
             </ul>
           </div>
           
