@@ -147,7 +147,7 @@ export function SharedLayout({ children, showSidebar = true }: SharedLayoutProps
           <div className={`
             md:flex md:items-center md:gap-6 md:font-semibold md:text-background md:static md:bg-transparent
             ${mobileOpen 
-              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] p-4 pt-16 z-50 animate-slide-in-right" 
+              ? "fixed top-0 right-0 h-full w-64 bg-[hsl(var(--brand-academic))] p-4 pt-16 z-[100] animate-slide-in-right" 
               : "hidden"
             }
           `}>
