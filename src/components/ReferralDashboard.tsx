@@ -306,9 +306,28 @@ export const ReferralDashboard = () => {
                 onCreateNew={() => {
                   setShowCreateModal(true);
                 }}
-                onOpenTools={(shareLink) => {
-                  setSelectedShareLink(shareLink);
-                  setShowShareTools(true);
+                onOpenTools={(shareLinkId) => {
+                  const shareLink = shareLinks.find(link => link.id === shareLinkId);
+                  if (shareLink) {
+                    // Transform the share link data to match ShareToolsWorkspace expectations
+                    const transformedShareLink = {
+                      id: shareLink.id,
+                      trackingCode: shareLink.tracking_code,
+                      shareUrl: shareLink.share_url,
+                      course: {
+                        id: shareLink.listing_id || shareLink.id,
+                        title: shareLink.listings?.item_title || 'Course Item',
+                        image: '/placeholder-course.jpg',
+                        department: 'General Studies',
+                        priceRange: shareLink.listings?.price_min && shareLink.listings?.price_max 
+                          ? `$${shareLink.listings.price_min} - $${shareLink.listings.price_max}`
+                          : 'Contact for pricing',
+                        baconPotential: Math.round((shareLink.listings?.reward_percentage || 20) * 100 / 100)
+                      }
+                    };
+                    setSelectedShareLink(transformedShareLink);
+                    setShowShareTools(true);
+                  }
                 }}
                 onViewAnalytics={async (shareLink: any) => {
                   try {

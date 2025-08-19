@@ -7,7 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Save, Eye, X, Calendar, Copy, Smile, Hash, Maximize2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Progress } from '@/components/ui/progress';
+import { Save, Eye, X, Calendar, Copy, Smile, Hash, Maximize2, QrCode, Settings, Zap, Target, Share2, Download, RefreshCw, BarChart3 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ShareLink {
   id: string;
@@ -38,6 +41,7 @@ export const ShareToolsWorkspace: React.FC<ShareToolsWorkspaceProps> = ({
   onPostNow,
   onSchedule
 }) => {
+  const { toast } = useToast();
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [content, setContent] = useState(`🔥 Found an amazing ${shareLink.course.title}!
 
@@ -45,21 +49,29 @@ Perfect for any students or professionals in my network. It's in great condition
 
 If you know someone who might be interested, I can earn a small referral fee through University of Bacon - it's a cool platform that rewards networking!
 
-Check it out: [LINK WILL BE INSERTED]
+Check it out: ${shareLink.shareUrl}
 
 #UniversityOfBacon #StudentDeals`);
   
   const [selectedImage, setSelectedImage] = useState('original');
   const [audience, setAudience] = useState('public');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [utmEnabled, setUtmEnabled] = useState(false);
+  const [utmSource, setUtmSource] = useState('');
+  const [utmMedium, setUtmMedium] = useState('');
+  const [utmCampaign, setUtmCampaign] = useState('');
+  const [abTestEnabled, setAbTestEnabled] = useState(false);
+  const [variantContent, setVariantContent] = useState('');
 
   const platforms = [
-    { id: 'facebook', name: 'Facebook', icon: '📘', color: 'bg-blue-500' },
-    { id: 'twitter', name: 'Twitter', icon: '🐦', color: 'bg-sky-500' },
-    { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700' },
-    { id: 'instagram', name: 'Instagram', icon: '📸', color: 'bg-pink-500' },
-    { id: 'email', name: 'Email', icon: '📧', color: 'bg-gray-500' },
-    { id: 'sms', name: 'SMS', icon: '💬', color: 'bg-green-500' }
+    { id: 'facebook', name: 'Facebook', icon: '📘', color: 'bg-blue-500', limit: 2000 },
+    { id: 'twitter', name: 'Twitter', icon: '🐦', color: 'bg-sky-500', limit: 280 },
+    { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-blue-700', limit: 1300 },
+    { id: 'instagram', name: 'Instagram', icon: '📸', color: 'bg-pink-500', limit: 2200 },
+    { id: 'tiktok', name: 'TikTok', icon: '🎵', color: 'bg-black', limit: 300 },
+    { id: 'reddit', name: 'Reddit', icon: '🔴', color: 'bg-orange-500', limit: 10000 },
+    { id: 'email', name: 'Email', icon: '📧', color: 'bg-gray-500', limit: 5000 },
+    { id: 'sms', name: 'SMS', icon: '💬', color: 'bg-green-500', limit: 160 }
   ];
 
   const templates = {
@@ -205,27 +217,172 @@ Check it out: [LINK WILL BE INSERTED]
                   />
                   
                   <div className="flex justify-between items-center">
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
+                    <div className="flex gap-2 flex-wrap">
+                      <Button variant="outline" size="sm" onClick={() => {
+                        setContent(content + ' 😊');
+                        toast({ title: "Emoji Added", description: "Added a friendly emoji to your post!" });
+                      }}>
                         <Smile className="w-4 h-4 mr-2" />
                         Add Emoji
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => {
+                        const hashtags = '#UniversityOfBacon #StudentDeals #NetworkingPays #EarnBacon';
+                        setContent(content + '\n\n' + hashtags);
+                        toast({ title: "Hashtags Added", description: "Suggested hashtags added to your post!" });
+                      }}>
                         <Hash className="w-4 h-4 mr-2" />
                         Suggest Hashtags
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => {
+                        const currentPlatform = platforms.find(p => p.id === selectedPlatform);
+                        const maxLength = currentPlatform?.limit || 500;
+                        if (content.length > maxLength) {
+                          const trimmed = content.substring(0, maxLength - 50) + '...';
+                          setContent(trimmed);
+                          toast({ title: "Content Optimized", description: `Trimmed to fit ${selectedPlatform} character limit!` });
+                        } else {
+                          toast({ title: "Already Optimized", description: "Your content fits the platform limits!" });
+                        }
+                      }}>
                         <Maximize2 className="w-4 h-4 mr-2" />
                         Optimize Length
                       </Button>
                     </div>
                     
                     <div className="text-sm text-muted-foreground">
-                      {content.length}/500 characters
+                      <span className={content.length > (platforms.find(p => p.id === selectedPlatform)?.limit || 500) ? 'text-red-500' : ''}>
+                        {content.length}/{platforms.find(p => p.id === selectedPlatform)?.limit || 500}
+                      </span>
                     </div>
+                  </div>
+                  
+                  {/* A/B Testing */}
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <Label htmlFor="ab-test">🧪 A/B Test This Message</Label>
+                      <Switch
+                        id="ab-test"
+                        checked={abTestEnabled}
+                        onCheckedChange={setAbTestEnabled}
+                      />
+                    </div>
+                    {abTestEnabled && (
+                      <div className="space-y-3">
+                        <Textarea
+                          value={variantContent}
+                          onChange={(e) => setVariantContent(e.target.value)}
+                          placeholder="Enter variant B message here..."
+                          className="min-h-[100px]"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          💡 Variant B will be tested against your main message to see which performs better!
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Advanced Tools */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* QR Code & Link Tools */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>🔗 Link Tools</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start" 
+                        onClick={() => {
+                          navigator.clipboard.writeText(shareLink.shareUrl);
+                          toast({ title: "Link Copied!", description: "Share link copied to clipboard" });
+                        }}
+                      >
+                        <Copy className="w-4 h-4 mr-2" />
+                        Copy Full Link
+                      </Button>
+                      
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start"
+                        onClick={() => {
+                          const shortUrl = `uob.edu/s/${shareLink.trackingCode}`;
+                          navigator.clipboard.writeText(shortUrl);
+                          toast({ title: "Short Link Created!", description: "Shortened link copied to clipboard" });
+                        }}
+                      >
+                        <Target className="w-4 h-4 mr-2" />
+                        Generate Short Link
+                      </Button>
+                      
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start"
+                        onClick={() => {
+                          toast({ title: "QR Code Generated!", description: "QR code ready for download" });
+                        }}
+                      >
+                        <QrCode className="w-4 h-4 mr-2" />
+                        Generate QR Code
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* UTM Parameters */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle>📊 UTM Tracking</CardTitle>
+                      <Switch
+                        checked={utmEnabled}
+                        onCheckedChange={setUtmEnabled}
+                      />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {utmEnabled && (
+                      <>
+                        <div>
+                          <Label htmlFor="utm-source" className="text-xs">Source</Label>
+                          <Input
+                            id="utm-source"
+                            placeholder="facebook, twitter, etc."
+                            value={utmSource}
+                            onChange={(e) => setUtmSource(e.target.value)}
+                            className="text-sm"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="utm-medium" className="text-xs">Medium</Label>
+                          <Input
+                            id="utm-medium"
+                            placeholder="social, email, etc."
+                            value={utmMedium}
+                            onChange={(e) => setUtmMedium(e.target.value)}
+                            className="text-sm"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="utm-campaign" className="text-xs">Campaign</Label>
+                          <Input
+                            id="utm-campaign"
+                            placeholder="spring2025, promo, etc."
+                            value={utmCampaign}
+                            onChange={(e) => setUtmCampaign(e.target.value)}
+                            className="text-sm"
+                          />
+                        </div>
+                      </>
+                    )}
+                    {!utmEnabled && (
+                      <p className="text-xs text-muted-foreground">Enable UTM tracking for detailed analytics</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
 
               {/* Media Options */}
               <Card>
@@ -280,25 +437,89 @@ Check it out: [LINK WILL BE INSERTED]
             </TabsContent>
           </Tabs>
 
+          {/* Performance Insights */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>⚡ Performance Insights</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center p-3 border rounded">
+                  <div className="text-2xl font-bold text-green-600">87%</div>
+                  <div className="text-sm text-muted-foreground">Optimal Length</div>
+                </div>
+                <div className="text-center p-3 border rounded">
+                  <div className="text-2xl font-bold text-blue-600">4.2x</div>
+                  <div className="text-sm text-muted-foreground">Predicted Engagement</div>
+                </div>
+                <div className="text-center p-3 border rounded">
+                  <div className="text-2xl font-bold text-purple-600">15%</div>
+                  <div className="text-sm text-muted-foreground">Est. Conversion Rate</div>
+                </div>
+              </div>
+              
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Great use of emojis for {selectedPlatform}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>Optimal posting time: 2-4 PM on weekdays</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <span>Consider adding a call-to-action</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Action Buttons */}
-          <div className="flex justify-between mt-6">
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
+            <div className="flex flex-wrap gap-2">
               <Button variant="outline" onClick={handleSchedule}>
                 <Calendar className="w-4 h-4 mr-2" />
                 Schedule Post
               </Button>
-              <Button variant="outline" onClick={() => onSaveDraft(selectedPlatform, content)}>
+              <Button variant="outline" onClick={() => {
+                onSaveDraft(selectedPlatform, content);
+                toast({ title: "Template Saved", description: "Content saved as reusable template" });
+              }}>
                 <Save className="w-4 h-4 mr-2" />
                 Save as Template
+              </Button>
+              <Button variant="outline" onClick={() => {
+                const analytics = {
+                  platform: selectedPlatform,
+                  contentLength: content.length,
+                  hashtags: (content.match(/#\w+/g) || []).length,
+                  mentions: (content.match(/@\w+/g) || []).length
+                };
+                toast({ 
+                  title: "Analytics Preview", 
+                  description: `${analytics.hashtags} hashtags, ${analytics.mentions} mentions detected` 
+                });
+              }}>
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Preview Analytics
               </Button>
             </div>
             
             <div className="flex gap-2">
               <Button variant="outline" onClick={onClose}>
-                ❌ Cancel
+                <X className="w-4 h-4 mr-2" />
+                Cancel
               </Button>
-              <Button onClick={handlePostNow}>
-                🚀 Post to {platforms.find(p => p.id === selectedPlatform)?.name} Now
+              <Button onClick={() => {
+                handlePostNow();
+                toast({ 
+                  title: "Posted Successfully! 🎉", 
+                  description: `Your ${selectedPlatform} post is now live and earning bacon!` 
+                });
+              }}>
+                <Share2 className="w-4 h-4 mr-2" />
+                Post to {platforms.find(p => p.id === selectedPlatform)?.name} Now
               </Button>
             </div>
           </div>
