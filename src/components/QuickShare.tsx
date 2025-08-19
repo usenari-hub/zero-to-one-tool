@@ -69,11 +69,17 @@ export const QuickShare: React.FC<QuickShareProps> = ({ selectedListing, onClose
       return;
     }
 
+    console.log('QuickShare: Starting share process for platform:', platform);
+    console.log('QuickShare: Selected listing:', selectedListing);
+
     setIsSharing(platform);
 
     try {
       // Create share link with tracking
+      console.log('QuickShare: Creating share link...');
       const shareLink = await createShareLink(selectedListing.id, platform);
+      console.log('QuickShare: Share link created successfully:', shareLink);
+      
       
       const platformData = quickSharePlatforms.find(p => p.id === platform);
       const content = platformData?.quickTemplate
@@ -138,10 +144,13 @@ export const QuickShare: React.FC<QuickShareProps> = ({ selectedListing, onClose
         }
       }
     } catch (error) {
-      console.error('Error creating quick share:', error);
+      console.error('QuickShare: Detailed error creating share:', error);
+      console.error('QuickShare: Error type:', typeof error);
+      console.error('QuickShare: Error message:', error instanceof Error ? error.message : String(error));
+      
       toast({ 
         title: "Share Error", 
-        description: "Failed to create share link. Please try again.",
+        description: `Failed to create share link: ${error instanceof Error ? error.message : 'Unknown error'}`,
         variant: "destructive"
       });
     } finally {

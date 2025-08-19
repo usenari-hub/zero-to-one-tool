@@ -63,12 +63,25 @@ export const viralSharingService = {
           platform: platform,
           custom_message: customMessage,
           target_audience: targetAudience,
-          expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
+          expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
+          is_active: true,
+          clicks: 0,
+          unique_clicks: 0,
+          conversions: 0,
+          bacon_earned: 0
         })
         .select()
         .single()
 
-      if (error) throw error
+      if (error) {
+        console.error('Database error creating share link:', error)
+        throw new Error(`Failed to create share link: ${error.message}`)
+      }
+      
+      if (!data) {
+        throw new Error('No data returned from share link creation')
+      }
+      
       return data
     } catch (error) {
       console.error('Error creating share link:', error)
@@ -101,7 +114,7 @@ export const viralSharingService = {
       }
 
       // Record analytics
-      await supabase
+      const { error: analyticsError } = await supabase
         .from('share_link_analytics')
         .insert({
           share_link_id: shareLink.id,
@@ -112,6 +125,11 @@ export const viralSharingService = {
           device_type: this.getDeviceType(),
           event_timestamp: new Date().toISOString()
         })
+
+      if (analyticsError) {
+        console.warn('Failed to record analytics:', analyticsError)
+        // Continue execution even if analytics fails
+      }
 
       // Update click count
       await supabase
