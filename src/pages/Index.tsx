@@ -140,7 +140,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const enrollNow = () => {
-    navigate("/admissions");
+    navigate("/auth");
   };
 
   const postToMarketplace = () => {
@@ -267,7 +267,7 @@ return (
                   whileHover={{ scale: 1.05 }} 
                   whileTap={{ scale: 0.95 }}
                 >
-                  🚀 Get Started Now
+                  🚀 Sign In / Sign Up
                 </MotionButton>
                 <MotionButton 
                   className="lift w-full sm:w-auto text-sm sm:text-base px-4 py-3 sm:px-6 sm:py-3 neon-glow" 
