@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function Auth() {
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn, signUp, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,6 +26,10 @@ export default function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Password reset state
+  const [resetEmail, setResetEmail] = useState("");
+  const [showResetForm, setShowResetForm] = useState(false);
 
   useEffect(() => {
     // Redirect authenticated users to home
@@ -111,6 +115,32 @@ export default function Auth() {
     }
   };
 
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetEmail) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await resetPassword(resetEmail);
+      
+      if (error) {
+        toast.error(`Password reset failed: ${error.message}`);
+      } else {
+        toast.success("Password reset email sent! Check your inbox.");
+        setShowResetForm(false);
+        setResetEmail("");
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error('Password reset error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (user) {
     return null; // Will redirect
   }
@@ -186,6 +216,16 @@ export default function Auth() {
                   >
                     {isLoading ? "Signing In..." : "Sign In"}
                   </Button>
+                  
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => setShowResetForm(true)}
+                      className="text-sm text-[hsl(var(--brand-academic))] hover:underline"
+                    >
+                      Forgot your password?
+                    </button>
+                  </div>
                 </form>
               </TabsContent>
               
@@ -264,6 +304,47 @@ export default function Auth() {
                 </form>
               </TabsContent>
             </Tabs>
+            
+            {/* Password Reset Form */}
+            {showResetForm && (
+              <div className="mt-6 p-4 border rounded-lg bg-muted/30">
+                <h3 className="font-medium text-[hsl(var(--brand-academic))] mb-4">
+                  Reset Password
+                </h3>
+                <form onSubmit={handlePasswordReset} className="space-y-4">
+                  <div>
+                    <Label htmlFor="resetEmail">Email Address</Label>
+                    <Input
+                      id="resetEmail"
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      type="submit" 
+                      className="flex-1" 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Sending..." : "Send Reset Email"}
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowResetForm(false);
+                        setResetEmail("");
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            )}
             
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
