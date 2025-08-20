@@ -28,6 +28,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCanceled from "./pages/PaymentCanceled";
 import ListingDetailsPage from "./pages/ListingDetails";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admissions" element={<Admissions />} />
         <Route path="/study-guides" element={<StudyGuides />} />
         <Route path="/study-guides/getting-started" element={<GettingStarted />} />
