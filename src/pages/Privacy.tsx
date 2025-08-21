@@ -25,8 +25,8 @@ const Privacy = () => {
           <div className="prose prose-lg max-w-none">
             <div className="bg-card rounded-lg p-8 shadow-elegant mb-8">
               <p className="text-sm text-muted-foreground mb-4">
-                <strong>Last Updated:</strong> {new Date().toLocaleDateString()}<br />
-                <strong>Effective Date:</strong> {new Date().toLocaleDateString()}
+                <strong>Last Updated:</strong> 8/21/2025<br />
+                <strong>Effective Date:</strong> 8/21/2025
               </p>
 
               <h2 className="font-display text-2xl mb-4 mt-8">1. INTRODUCTION</h2>
@@ -352,17 +352,17 @@ const Privacy = () => {
               
               <h3 className="font-display text-xl mb-3">13.1 Privacy Questions</h3>
               <ul>
-                <li><strong>Email:</strong> privacy@earnyourbacon.online</li>
-                <li><strong>Address:</strong> [Company Address]</li>
-                <li><strong>Phone:</strong> [Company Phone]</li>
-                <li><strong>Response Time:</strong> Within 5 business days</li>
+                <li>Email: privacy@earnyourbacon.online</li>
+                <li>Address: [Company Address]</li>
+                <li>Phone: [Company Phone]</li>
+                <li>Response Time: Within 5 business days</li>
               </ul>
 
               <h3 className="font-display text-xl mb-3">13.2 Data Protection Officer</h3>
               <ul>
-                <li><strong>Email:</strong> dpo@earnyourbacon.online</li>
-                <li><strong>Responsibilities:</strong> GDPR compliance, privacy impact assessments</li>
-                <li><strong>Contact for:</strong> Data protection concerns, privacy complaints</li>
+                <li>Email: dpo@earnyourbacon.online</li>
+                <li>Responsibilities: GDPR compliance, privacy impact assessments</li>
+                <li>Contact for: Data protection concerns, privacy complaints</li>
               </ul>
 
               <h3 className="font-display text-xl mb-3">13.3 Regulatory Complaints</h3>
@@ -373,59 +373,73 @@ const Privacy = () => {
                 <li>Other jurisdictions: Contact applicable privacy regulators</li>
               </ul>
 
-              <div className="mt-12 p-6 bg-muted/50 rounded-lg">
-                <h2 className="font-display text-xl mb-4 text-[hsl(var(--brand-academic))]">IMPORTANT NOTICES</h2>
-                
-                <div className="space-y-4">
+              {/* Important Notices Section */}
+              <div className="mt-12 grid md:grid-cols-2 gap-6">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl">🔒</span>
+                    <div className="text-2xl">🔒</div>
                     <div>
-                      <h3 className="font-semibold">DATA SECURITY</h3>
-                      <p className="text-sm text-muted-foreground">Your personal and financial information is protected using bank-level encryption and security measures. We never store complete payment information on our servers.</p>
+                      <h4 className="font-semibold text-primary mb-2">DATA SECURITY</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Your personal and financial information is protected using bank-level encryption and security measures. We never store complete payment information on our servers.
+                      </p>
                     </div>
                   </div>
-                  
+                </div>
+
+                <div className="bg-secondary/5 border border-secondary/20 rounded-lg p-6">
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl">💰</span>
+                    <div className="text-2xl">💰</div>
                     <div>
-                      <h3 className="font-semibold">FINANCIAL PRIVACY</h3>
-                      <p className="text-sm text-muted-foreground">Your bacon earnings and transaction history are kept confidential. We only share aggregated, anonymized financial data for platform analytics.</p>
+                      <h4 className="font-semibold text-secondary mb-2">FINANCIAL PRIVACY</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Your bacon earnings and transaction history are kept confidential. We only share aggregated, anonymized financial data for platform analytics.
+                      </p>
                     </div>
                   </div>
-                  
+                </div>
+
+                <div className="bg-accent/5 border border-accent/20 rounded-lg p-6">
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl">🌐</span>
+                    <div className="text-2xl">🌐</div>
                     <div>
-                      <h3 className="font-semibold">INTERNATIONAL USERS</h3>
-                      <p className="text-sm text-muted-foreground">By using University of Bacon, international users consent to data processing in the United States under appropriate safeguards and protections.</p>
+                      <h4 className="font-semibold text-accent mb-2">INTERNATIONAL USERS</h4>
+                      <p className="text-sm text-muted-foreground">
+                        By using University of Bacon, international users consent to data processing in the United States under appropriate safeguards and protections.
+                      </p>
                     </div>
                   </div>
-                  
+                </div>
+
+                <div className="bg-muted/5 border border-muted/20 rounded-lg p-6">
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl">📧</span>
+                    <div className="text-2xl">📧</div>
                     <div>
-                      <h3 className="font-semibold">COMMUNICATION PREFERENCES</h3>
-                      <p className="text-sm text-muted-foreground">You can opt out of marketing communications but will continue to receive transactional emails necessary for platform operation.</p>
+                      <h4 className="font-semibold text-foreground mb-2">COMMUNICATION PREFERENCES</h4>
+                      <p className="text-sm text-muted-foreground">
+                        You can opt out of marketing communications but will continue to receive transactional emails necessary for platform operation.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 text-center">
-                <p className="text-sm text-muted-foreground">
-                  This Privacy Policy is effective as of December 18, 2024 and applies to all users of the University of Bacon platform. For questions about this policy, contact us at privacy@earnyourbacon.online.
+              <div className="mt-8 text-center text-sm text-muted-foreground">
+                <p>
+                  This Privacy Policy is effective as of December 18, 2024 and applies to all users of the University of Bacon platform. 
+                  For questions about this policy, contact us at support@earnyourbacon.online.
                 </p>
               </div>
             </div>
-          </div>
-          
-          <div className="text-center mt-8">
-            <a 
-              href="/" 
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[hsl(var(--brand-academic))] to-[hsl(var(--primary))] text-white rounded-lg hover:shadow-lg transition-all duration-300"
-            >
-              Return to Campus
-            </a>
+
+            <div className="text-center mt-8">
+              <a
+                href="/"
+                className="inline-flex items-center text-primary hover:text-primary-foreground transition-colors duration-200"
+              >
+                ← Return to Campus
+              </a>
+            </div>
           </div>
         </div>
       </div>
